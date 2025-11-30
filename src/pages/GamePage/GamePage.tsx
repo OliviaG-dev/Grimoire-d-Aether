@@ -1,4 +1,5 @@
 import React from 'react';
+import './GamePage.css';
 
 const GamePage: React.FC = () => {
   return (

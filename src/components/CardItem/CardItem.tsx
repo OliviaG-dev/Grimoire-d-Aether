@@ -1,4 +1,5 @@
 import React from "react";
+import './CardItem.css';
 
 interface CardItemProps {
   id: string;
@@ -29,3 +30,4 @@ const CardItem: React.FC<CardItemProps> = ({
 };
 
 export default CardItem;
+

@@ -1,0 +1,23 @@
+.card-item {
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.card-item h3 {
+  margin-top: 0;
+}
+
+.card-item img {
+  max-width: 100%;
+  height: auto;
+  margin: 1rem 0;
+}
+
+.card-item .keywords {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+

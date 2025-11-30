@@ -1,11 +1,14 @@
-import './App.css'
+import "./App.css";
+import Home from "./pages/Home/Home";
+import Navigation from "./components/Navigation/Navigation";
 
 function App() {
   return (
     <div className="app">
-      <h1>Grimoire d'Áether</h1>
+      <Navigation currentPath="/" />
+      <Home />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

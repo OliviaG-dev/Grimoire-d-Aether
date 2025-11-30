@@ -1,4 +1,5 @@
 import React from 'react';
+import './CardPage.css';
 
 const CardPage: React.FC = () => {
   return (
