@@ -1,15 +1,28 @@
 import React from "react";
 import "./Home.css";
 import logo from "../../assets/logo.png";
+import Navigation from "../../components/Navigation/Navigation";
 
 const Home: React.FC = () => {
   return (
     <div className="home-page">
       <div className="home-container">
         <header className="home-top">
-          <img src={logo} alt="Grimoire d'Áether" className="home-logo" />
-          <h1 className="home-title">Le Grimoire d'Áether</h1>
+          <div className="home-header-left">
+            <img src={logo} alt="Grimoire d'Áether" className="home-logo" />
+            <h1 className="home-title">Le Grimoire d'Áether</h1>
+          </div>
         </header>
+
+        <Navigation currentPath="/" />
+
+        <div className="home-poetic-section">
+          <p className="home-poetic-header">
+            « Ouvrir un grimoire, c'est franchir un seuil. Entre ses pages
+            s'entrelacent savoirs anciens, murmures d'âme et éclats d'intuition.
+            »
+          </p>
+        </div>
 
         <main className="home-main">
           <section className="home-section">
@@ -36,14 +49,6 @@ const Home: React.FC = () => {
               Il s'enrichit au fil du temps et s'ouvre à chaque inspiration,
               devenant un compagnon d'étude et un guide pour approfondir ton
               intuition.
-            </p>
-          </section>
-
-          <section className="home-section home-section-poetic">
-            <p className="home-poetic">
-              « Ouvrir un grimoire, c'est franchir un seuil. Entre ses pages
-              s'entrelacent savoirs anciens, murmures d'âme et éclats
-              d'intuition. »
             </p>
           </section>
         </main>

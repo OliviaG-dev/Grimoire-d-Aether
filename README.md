@@ -1,73 +1,338 @@
-# React + TypeScript + Vite
+# 🔮 Grimoire d'Áether
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<div align="center">
 
-Currently, two official plugins are available:
+**Wiki ésotérique statique dédié aux cartes divinatoires**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+*Un sanctuaire pour explorer, comprendre et approfondir les mystères des oracles*
 
-## React Compiler
+[![React](https://img.shields.io/badge/React-19.2.0-61DAFB?logo=react)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?logo=typescript)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-7.2.4-646CFF?logo=vite)](https://vitejs.dev/)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+</div>
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📖 À Propos
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+**Grimoire d'Áether** est une encyclopédie personnelle élégante et mystique dédiée aux cartes divinatoires (Tarots, Oracles, jeux mystiques). 
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Le site présente chaque jeu et carte avec une fiche complète incluant mots-clés, symboles, énergies, significations et images. Accessible en lecture pour tous, il dispose d'un système d'administration intégré permettant d'ajouter et modifier le contenu sans backend.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### ✨ Objectifs
+
+- 📚 Créer une encyclopédie personnelle élégante et mystique
+- ✏️ Facile à mettre à jour grâce au panneau admin
+- 🚀 Ultra simple à déployer (Netlify, GitHub Pages, Vercel)
+- 🎨 Interface moderne avec design harmonieux
+
+---
+
+## 🎯 Fonctionnalités
+
+### 📁 Gestion des Jeux
+
+Chaque jeu possède :
+- **Nom** et **ID** unique
+- **Type** (Tarot/Oracle/Autre)
+- **Auteur** et **année**
+- **Thématique**
+- **Image de couverture**
+- **Description** complète
+
+### 🃏 Fiches de Cartes
+
+Chaque carte contient :
+- **ID** et **jeu associé**
+- **Nom** et **image**
+- **Mots-clés** (keywords)
+- **Signification** générale
+- **Interprétation** amour / travail
+- **Énergies** (chakras, éléments…)
+- **Symboles**
+
+### 🔍 Navigation et Recherche
+
+- Liste de tous les jeux
+- Liste filtrée des cartes par jeu
+- Fiche détaillée de chaque carte
+- Recherche textuelle (à venir)
+- Navigation façon "wiki"
+
+### 🛠️ Administration intégrée
+
+Depuis `/admin` (via Decap CMS) :
+- Créer/modifier des jeux
+- Créer/modifier des cartes
+- Uploader des images
+- Génération automatique des fichiers JSON
+
+**Aucun backend requis** - Toute modification est directement envoyée dans le dépôt GitHub.
+
+---
+
+## 🏗️ Architecture Technique
+
+### ⚛️ Front-end : React + TypeScript
+
+- Framework moderne et performant
+- Pages organisées avec React Router (à implémenter)
+- JSON chargés statiquement
+- Interface personnalisée avec design mystique
+
+### 📚 Données : JSON statiques
+
+Les données sont stockées dans :
+```
+src/data/
+├── games/
+│   └── *.json       # Fichiers JSON pour chaque jeu
+└── cards/
+    └── *.json       # Fichiers JSON pour chaque carte
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 🖼️ Images : dossier statique
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Les images sont stockées dans :
 ```
+public/images/uploads/
+```
+
+Les URLs sont directes : `/images/uploads/nom.jpg`
+
+### 🔐 Admin : Decap CMS (ex-Netlify CMS)
+
+Permet :
+- Login sécurisé (via GitHub + Netlify Identity)
+- Interface admin prête à l'emploi
+- Édition en ligne des JSON
+- Upload d'images
+- Preview instantané
+
+**Aucun backend requis** - Toute modification est directement envoyée dans le dépôt GitHub.
+
+### ☁️ Hébergement : Netlify (recommandé)
+
+- Déploiement instantané du site statique
+- Login admin via Netlify Identity
+- Git Gateway pour l'édition depuis le CMS
+- Idéal pour Decap CMS
+
+---
+
+## 📁 Structure du Projet
+
+```
+grimoire-daether/
+├── public/
+│   └── images/
+│       └── uploads/          # Images uploadées
+├── src/
+│   ├── assets/
+│   │   └── logo.png          # Logo du projet
+│   ├── components/
+│   │   ├── CardItem/         # Composant d'affichage d'une carte
+│   │   │   ├── CardItem.tsx
+│   │   │   └── CardItem.css
+│   │   └── Navigation/       # Composant de navigation
+│   │       ├── Navigation.tsx
+│   │       └── Navigation.css
+│   ├── data/
+│   │   ├── games/            # JSON des jeux
+│   │   └── cards/            # JSON des cartes
+│   ├── pages/
+│   │   ├── Home/             # Page d'accueil
+│   │   │   ├── Home.tsx
+│   │   │   └── Home.css
+│   │   ├── CardPage/         # Page d'une carte
+│   │   │   ├── CardPage.tsx
+│   │   │   └── CardPage.css
+│   │   └── GamePage/         # Page d'un jeu
+│   │       ├── GamePage.tsx
+│   │       └── GamePage.css
+│   ├── App.tsx               # Composant principal
+│   ├── App.css
+│   ├── main.tsx              # Point d'entrée
+│   └── index.css             # Styles globaux
+├── index.html
+├── package.json
+├── tsconfig.json
+└── README.md
+```
+
+---
+
+## 🚀 Installation
+
+### Prérequis
+
+- **Node.js** 18+ et **npm**
+- **Git** pour cloner le projet
+
+### Installation des dépendances
+
+```bash
+npm install
+```
+
+### Démarrage du serveur de développement
+
+```bash
+npm run dev
+```
+
+Le site sera accessible sur `http://localhost:5173`
+
+### Build de production
+
+```bash
+npm run build
+```
+
+Les fichiers optimisés seront générés dans le dossier `dist/`
+
+---
+
+## 🎨 Design
+
+### Palette de couleurs
+
+Le projet utilise une palette de couleurs bleue mystique :
+
+- **Fond principal** : `#0a0f1a` à `#1a1f2e`
+- **Accents bleus** : `rgba(59, 130, 246, ...)` et `rgba(96, 165, 250, ...)`
+- **Texte** : Tons de bleu clair (`#e0f2fe`, `#dbeafe`, `#bfdbfe`)
+- **Effets lumineux** : Ombres et lueurs bleues pour l'ambiance mystique
+
+### Caractéristiques visuelles
+
+- Design épuré et élégant
+- Animations subtiles et fluides
+- Effets de lumière animés en arrière-plan
+- Navigation fixe avec points lumineux et effets de pulsation
+- Typographie soignée avec polices serif pour les titres
+- Layout vertical centré optimisé pour une hauteur de 100vh
+- Effets de lueur et d'ombre pour créer une atmosphère mystique
+
+---
+
+## 📝 Structure des Données
+
+### Format JSON d'un Jeu
+
+```json
+{
+  "id": "tarot-marseille",
+  "name": "Tarot de Marseille",
+  "type": "Tarot",
+  "author": "Anonyme",
+  "year": "1760",
+  "theme": "Traditionnel",
+  "coverImage": "/images/uploads/tarot-marseille-cover.jpg",
+  "description": "Le tarot de Marseille est l'un des plus anciens..."
+}
+```
+
+### Format JSON d'une Carte
+
+```json
+{
+  "id": "majeur-1",
+  "gameId": "tarot-marseille",
+  "name": "Le Bateleur",
+  "image": "/images/uploads/le-bateleur.jpg",
+  "keywords": ["début", "volonté", "création"],
+  "meaning": "La carte du Bateleur représente...",
+  "love": "En amour, cette carte indique...",
+  "work": "Au travail, le Bateleur suggère...",
+  "energies": {
+    "elements": ["Feu"],
+    "chakras": ["Manipura"]
+  },
+  "symbols": ["chapeau", "table", "bâton"]
+}
+```
+
+---
+
+## 🔧 Configuration
+
+### Variables d'environnement
+
+Pour le système d'administration avec Decap CMS, vous devrez configurer :
+
+```env
+# .env.local
+GATSBY_API_URL=https://api.github.com
+GATSBY_REPO_OWNER=votre-username
+GATSBY_REPO_NAME=grimoire-daether
+```
+
+### Configuration Decap CMS
+
+Créez un fichier `public/admin/config.yml` pour configurer le CMS (à faire lors de l'intégration).
+
+---
+
+## 📦 Technologies Utilisées
+
+- **React 19.2.0** - Bibliothèque UI
+- **TypeScript 5.9.3** - Typage statique
+- **Vite 7.2.4** - Build tool moderne
+- **Decap CMS** (à intégrer) - Système d'administration
+
+---
+
+## 🚀 Déploiement
+
+### Netlify (Recommandé)
+
+1. Connectez votre dépôt GitHub à Netlify
+2. Configurez le build :
+   - **Build command** : `npm run build`
+   - **Publish directory** : `dist`
+3. Activez **Netlify Identity** pour l'admin
+4. Activez **Git Gateway** dans Identity settings
+5. Déployez !
+
+### GitHub Pages
+
+```bash
+npm run build
+# Copiez le contenu de dist/ dans la branche gh-pages
+```
+
+### Vercel
+
+```bash
+npm install -g vercel
+vercel
+```
+
+---
+
+## 📄 Licence
+
+Ce projet est personnel et privé.
+
+---
+
+## 👤 Auteur
+
+Projet créé pour construire un grimoire personnel dédié aux cartes divinatoires.
+
+---
+
+## 🌟 Caractéristiques Clés
+
+- ✨ **Design mystique et élégant** - Interface harmonieuse inspirée des grimoires
+- 📚 **Encyclopédie complète** - Fiches détaillées pour chaque jeu et carte
+- 🔐 **Admin intégré** - Édition du contenu sans backend
+- 🚀 **Déploiement simple** - Site statique facile à héberger
+- 📱 **Responsive** - Adapté à tous les écrans
+- 🎨 **Animations subtiles** - Effets visuels pour une expérience immersive
+
+---
+
+*"Ouvrir un grimoire, c'est franchir un seuil. Entre ses pages s'entrelacent savoirs anciens, murmures d'âme et éclats d'intuition."*
