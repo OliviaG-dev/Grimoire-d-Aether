@@ -14,10 +14,12 @@
       box-sizing: border-box;
     }
     
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    html, body {
       margin: 0;
       padding: 0;
+      width: 100%;
+      height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
       background: linear-gradient(
         180deg,
         #0a0a1a 0%,
@@ -25,8 +27,8 @@
         #1f1b2e 50%,
         #2a1f3a 75%,
         #1a1526 100%
-      );
-      color: #e0f2fe;
+      ) !important;
+      color: #e0f2fe !important;
       min-height: 100vh;
       position: relative;
       overflow-x: hidden;
@@ -55,272 +57,17 @@
       z-index: 0;
     }
     
-    /* ============================================
-       DECAP CMS - Personnalisation complète
-       ============================================ */
-    
-    /* Container principal */
-    .nc-root {
-      background: transparent !important;
-      position: relative;
-      z-index: 1;
-    }
-    
-    /* Sidebar gauche */
-    .nc-sidebar,
-    [class*="nc-sidebar"],
-    [data-testid="sidebar"] {
-      background: linear-gradient(180deg, #1a1526 0%, #1f1b2e 100%) !important;
-      border-right: 2px solid rgba(139, 92, 246, 0.3) !important;
-      box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5), 0 0 30px rgba(139, 92, 246, 0.1) !important;
-    }
-    
-    /* Header de la sidebar */
-    .nc-sidebar-header,
-    [class*="nc-sidebar-header"] {
-      background: rgba(139, 92, 246, 0.1) !important;
-      border-bottom: 1px solid rgba(139, 92, 246, 0.3) !important;
-      padding: 1.5rem !important;
-    }
-    
-    .nc-sidebar-header h1,
-    .nc-sidebar-header [class*="title"] {
-      color: #c4b5fd !important;
-      font-family: "Georgia", serif !important;
-      font-size: 1.5rem !important;
-      text-shadow: 0 0 10px rgba(196, 181, 253, 0.5) !important;
-      margin: 0 !important;
-    }
-    
-    /* Navigation de la sidebar */
-    .nc-collection-menu,
-    [class*="collection-menu"] {
-      padding: 1rem 0 !important;
-    }
-    
-    /* Liens de la sidebar */
-    .nc-sidebar-link,
-    [class*="sidebar-link"],
-    .nc-collection-menu a,
-    [class*="collection-menu"] a {
-      color: #ddd6fe !important;
-      padding: 0.75rem 1.5rem !important;
-      margin: 0.25rem 0 !important;
-      border-radius: 6px !important;
-      transition: all 0.3s ease !important;
-      text-decoration: none !important;
-      display: block !important;
-      position: relative !important;
-    }
-    
-    .nc-sidebar-link:hover,
-    [class*="sidebar-link"]:hover,
-    .nc-collection-menu a:hover {
-      background: rgba(139, 92, 246, 0.2) !important;
-      color: #c4b5fd !important;
-      transform: translateX(5px) !important;
-      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3) !important;
-    }
-    
-    .nc-sidebar-link.active,
-    [class*="sidebar-link"].active,
-    .nc-collection-menu a.active {
-      background: linear-gradient(90deg, rgba(139, 92, 246, 0.3) 0%, rgba(167, 139, 250, 0.2) 100%) !important;
-      color: #c4b5fd !important;
-      border-left: 3px solid #a78bfa !important;
-      box-shadow: 0 0 20px rgba(139, 92, 246, 0.4) !important;
-    }
-    
-    /* Zone de contenu principal */
-    .nc-workflow-main,
-    .nc-workflow-container,
-    [class*="workflow"],
-    [class*="editor"] {
-      background: transparent !important;
-      color: #e0f2fe !important;
-    }
-    
-    /* Header du contenu */
-    .nc-workflow-header,
-    [class*="workflow-header"],
-    [class*="editor-header"] {
-      background: rgba(26, 21, 38, 0.8) !important;
-      backdrop-filter: blur(10px) !important;
-      border-bottom: 2px solid rgba(217, 119, 6, 0.3) !important;
-      padding: 1.5rem 2rem !important;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
-    }
-    
-    .nc-workflow-header h1,
-    [class*="workflow-header"] h1,
-    [class*="editor-header"] h1 {
-      color: #c4b5fd !important;
-      font-family: "Georgia", serif !important;
-      font-size: 1.75rem !important;
-      text-shadow: 0 0 10px rgba(196, 181, 253, 0.5) !important;
-      margin: 0 !important;
-    }
-    
-    /* Boutons */
-    button,
-    .nc-button,
-    [class*="button"],
-    [class*="btn"] {
-      background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%) !important;
-      color: white !important;
-      border: none !important;
-      border-radius: 8px !important;
-      padding: 0.75rem 1.5rem !important;
-      font-weight: 600 !important;
-      cursor: pointer !important;
-      transition: all 0.3s ease !important;
-      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3) !important;
-    }
-    
-    button:hover,
-    .nc-button:hover,
-    [class*="button"]:hover {
-      transform: translateY(-2px) !important;
-      box-shadow: 0 6px 25px rgba(139, 92, 246, 0.5) !important;
-      background: linear-gradient(135deg, #a78bfa 0%, #c4b5fd 100%) !important;
-    }
-    
-    button:active,
-    .nc-button:active {
-      transform: translateY(0) !important;
-    }
-    
-    /* Boutons secondaires */
-    button[class*="secondary"],
-    .nc-button-secondary {
-      background: transparent !important;
-      border: 2px solid rgba(139, 92, 246, 0.5) !important;
-      color: #c4b5fd !important;
-    }
-    
-    button[class*="secondary"]:hover {
-      background: rgba(139, 92, 246, 0.2) !important;
-      border-color: rgba(139, 92, 246, 0.8) !important;
-    }
-    
-    /* Formulaires */
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    textarea,
-    select,
-    [class*="input"],
-    [class*="field"] {
-      background: rgba(26, 21, 38, 0.6) !important;
-      border: 2px solid rgba(139, 92, 246, 0.3) !important;
-      border-radius: 8px !important;
-      color: #e0f2fe !important;
-      padding: 0.75rem 1rem !important;
-      font-size: 1rem !important;
-      transition: all 0.3s ease !important;
-    }
-    
-    input[type="text"]:focus,
-    input[type="email"]:focus,
-    input[type="password"]:focus,
-    textarea:focus,
-    select:focus,
-    [class*="input"]:focus,
-    [class*="field"]:focus {
-      outline: none !important;
-      border-color: rgba(139, 92, 246, 0.8) !important;
-      box-shadow: 0 0 20px rgba(139, 92, 246, 0.4) !important;
-      background: rgba(26, 21, 38, 0.8) !important;
-    }
-    
-    input::placeholder,
-    textarea::placeholder {
-      color: #94a3b8 !important;
-      opacity: 0.7 !important;
-    }
-    
-    /* Labels */
-    label,
-    [class*="label"] {
-      color: #c4b5fd !important;
-      font-weight: 600 !important;
-      margin-bottom: 0.5rem !important;
-      display: block !important;
-    }
-    
-    /* Cartes/Containers */
-    .nc-card,
-    [class*="card"],
-    [class*="panel"] {
-      background: rgba(26, 21, 38, 0.6) !important;
-      backdrop-filter: blur(10px) !important;
-      border: 1px solid rgba(139, 92, 246, 0.3) !important;
-      border-radius: 10px !important;
-      padding: 1.5rem !important;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(139, 92, 246, 0.1) !important;
-      margin-bottom: 1.5rem !important;
-    }
-    
-    /* Liste des entrées */
-    .nc-list,
-    [class*="list"],
-    [class*="entries"] {
-      background: transparent !important;
-    }
-    
-    .nc-list-item,
-    [class*="list-item"],
-    [class*="entry"] {
-      background: rgba(26, 21, 38, 0.6) !important;
-      border: 1px solid rgba(139, 92, 246, 0.3) !important;
-      border-radius: 8px !important;
-      padding: 1rem 1.5rem !important;
-      margin-bottom: 1rem !important;
-      transition: all 0.3s ease !important;
-      cursor: pointer !important;
-    }
-    
-    .nc-list-item:hover,
-    [class*="list-item"]:hover,
-    [class*="entry"]:hover {
-      background: rgba(139, 92, 246, 0.2) !important;
-      border-color: rgba(139, 92, 246, 0.6) !important;
-      transform: translateX(5px) !important;
-      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3) !important;
-    }
-    
-    /* Textes */
-    p, span, div {
+    /* Styles de base pour tout le contenu */
+    body * {
       color: #ddd6fe !important;
     }
     
-    h1, h2, h3, h4, h5, h6 {
+    body h1, body h2, body h3, body h4, body h5, body h6 {
       color: #c4b5fd !important;
       font-family: "Georgia", serif !important;
     }
     
-    /* Scrollbars personnalisées */
-    ::-webkit-scrollbar {
-      width: 10px;
-      height: 10px;
-    }
-    
-    ::-webkit-scrollbar-track {
-      background: rgba(26, 21, 38, 0.5);
-      border-radius: 5px;
-    }
-    
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(180deg, #8b5cf6 0%, #a78bfa 100%);
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
-    }
-    
-    ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(180deg, #a78bfa 0%, #c4b5fd 100%);
-    }
-    
-    /* Indicateur de statut (masqué quand Decap CMS charge) */
+    /* Indicateur de statut */
     #status-indicator {
       position: fixed;
       top: 20px;
@@ -383,7 +130,7 @@
   </style>
 </head>
 <body>
-  <!-- Indicateur de statut (visible avant que Decap CMS charge) -->
+  <!-- Indicateur de statut -->
   <div id="status-indicator" class="disconnected">
     <h3>🔐 Statut de connexion</h3>
     <p id="status-text">Vérification...</p>
@@ -392,7 +139,7 @@
     </button>
   </div>
   
-  <!-- Netlify Identity Widget (nécessaire pour gérer les tokens d'invitation) -->
+  <!-- Netlify Identity Widget -->
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   
   <!-- Script Decap CMS -->
@@ -419,7 +166,6 @@
         statusText.innerHTML = message || `Connecté en tant que :<br><strong>${user?.email || 'Utilisateur'}</strong>`;
         loginBtn.style.display = 'none';
         
-        // Masquer après 3 secondes si Decap CMS est chargé
         setTimeout(function() {
           if (window.CMS) {
             statusIndicator.style.opacity = '0';
@@ -436,11 +182,10 @@
       }
     }
     
-    // Initialiser Netlify Identity pour gérer les tokens d'invitation
+    // Initialiser Netlify Identity
     if (window.netlifyIdentity) {
       netlifyIdentity.init();
       
-      // Vérifier le statut de connexion au chargement
       netlifyIdentity.on('init', function(user) {
         if (user) {
           updateStatus(true, user, `Connecté en tant que :<br><strong>${user.email}</strong>`);
@@ -449,11 +194,9 @@
         }
       });
       
-      // Vérifier si un token d'invitation est présent
       const hash = window.location.hash;
       if (hash && hash.includes('invite_token=')) {
         statusText.innerHTML = 'Token d\'invitation détecté. Ouverture du formulaire...';
-        // Ouvrir automatiquement le widget pour accepter l'invitation
         netlifyIdentity.on('init', function() {
           setTimeout(function() {
             netlifyIdentity.open('invite');
@@ -462,21 +205,17 @@
         });
       }
       
-      // Rediriger après connexion réussie
       netlifyIdentity.on('login', function(user) {
         updateStatus(true, user, 'Connexion réussie ! Redirection...');
-        // Recharger la page pour que Decap CMS se connecte
         setTimeout(function() {
           window.location.reload();
         }, 1500);
       });
       
-      // Gérer la déconnexion
       netlifyIdentity.on('logout', function() {
         updateStatus(false, null, 'Déconnecté. Veuillez vous reconnecter.');
       });
       
-      // Vérifier immédiatement si l'utilisateur est déjà connecté
       setTimeout(function() {
         if (window.netlifyIdentity) {
           const currentUser = netlifyIdentity.currentUser();
@@ -491,7 +230,7 @@
       statusText.innerHTML = 'Erreur : Netlify Identity n\'est pas chargé. Rechargez la page.';
     }
     
-    // Masquer l'indicateur quand Decap CMS charge complètement
+    // Masquer l'indicateur quand Decap CMS charge
     setTimeout(function() {
       if (window.CMS) {
         statusIndicator.style.opacity = '0';
@@ -502,66 +241,140 @@
       }
     }, 5000);
     
-    // Appliquer des styles supplémentaires après le chargement de Decap CMS
-    function applyCustomStyles() {
+    // ============================================
+    // APPLIQUER LE THÈME MYSTIQUE APRÈS CHARGEMENT
+    // ============================================
+    
+    function applyMysticalTheme() {
+      // Créer et injecter les styles
+      const styleId = 'grimoire-mystical-theme';
+      if (document.getElementById(styleId)) {
+        document.getElementById(styleId).remove();
+      }
+      
       const style = document.createElement('style');
+      style.id = styleId;
       style.textContent = `
-        /* Styles supplémentaires pour Decap CMS après chargement */
+        /* ============================================
+           THÈME MYSTIQUE - GRIMOIRE D'ÁETHER
+           Styles appliqués après chargement de Decap CMS
+           ============================================ */
         
-        /* Cibler tous les éléments de Decap CMS */
+        /* Fond général */
+        html, body, #root, [id^="root"] {
+          background: linear-gradient(
+            180deg,
+            #0a0a1a 0%,
+            #1a1526 25%,
+            #1f1b2e 50%,
+            #2a1f3a 75%,
+            #1a1526 100%
+          ) !important;
+          color: #e0f2fe !important;
+        }
+        
+        /* Container principal Decap CMS */
+        [class*="nc-root"],
+        [id*="nc-root"],
         #nc-root,
-        [id^="nc-root"],
-        [class*="nc-root"] {
+        .nc-root {
           background: transparent !important;
         }
         
-        /* Sidebar et navigation */
+        /* Sidebar */
         aside,
         nav,
-        [role="navigation"] {
+        [role="navigation"],
+        [class*="sidebar"],
+        [class*="Sidebar"] {
           background: linear-gradient(180deg, #1a1526 0%, #1f1b2e 100%) !important;
+          border-right: 2px solid rgba(139, 92, 246, 0.3) !important;
+          box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5), 0 0 30px rgba(139, 92, 246, 0.1) !important;
+        }
+        
+        /* Zone principale */
+        main,
+        [role="main"],
+        [class*="main"],
+        [class*="content"],
+        [class*="workflow"],
+        [class*="editor"] {
+          background: transparent !important;
         }
         
         /* Tous les textes */
-        body * {
+        body, body *, 
+        p, span, div, li, td, th {
           color: #ddd6fe !important;
         }
         
         /* Tous les titres */
         h1, h2, h3, h4, h5, h6 {
           color: #c4b5fd !important;
-          font-family: "Georgia", serif !important;
+          font-family: "Georgia", "Times New Roman", serif !important;
+          text-shadow: 0 0 10px rgba(196, 181, 253, 0.3) !important;
         }
         
-        /* Tous les boutons */
-        button {
+        /* Boutons */
+        button,
+        [role="button"],
+        [type="button"],
+        [class*="button"],
+        [class*="Button"],
+        [class*="btn"] {
           background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%) !important;
           color: white !important;
           border: none !important;
           border-radius: 8px !important;
+          padding: 0.75rem 1.5rem !important;
+          font-weight: 600 !important;
+          cursor: pointer !important;
+          transition: all 0.3s ease !important;
           box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3) !important;
         }
         
-        button:hover {
+        button:hover,
+        [role="button"]:hover,
+        [class*="button"]:hover {
           transform: translateY(-2px) !important;
           box-shadow: 0 6px 25px rgba(139, 92, 246, 0.5) !important;
+          background: linear-gradient(135deg, #a78bfa 0%, #c4b5fd 100%) !important;
         }
         
-        /* Tous les inputs */
-        input, textarea, select {
+        /* Inputs et formulaires */
+        input,
+        textarea,
+        select {
           background: rgba(26, 21, 38, 0.6) !important;
           border: 2px solid rgba(139, 92, 246, 0.3) !important;
-          color: #e0f2fe !important;
           border-radius: 8px !important;
+          color: #e0f2fe !important;
+          padding: 0.75rem 1rem !important;
         }
         
-        input:focus, textarea:focus, select:focus {
+        input:focus,
+        textarea:focus,
+        select:focus {
+          outline: none !important;
           border-color: rgba(139, 92, 246, 0.8) !important;
           box-shadow: 0 0 20px rgba(139, 92, 246, 0.4) !important;
+          background: rgba(26, 21, 38, 0.8) !important;
+        }
+        
+        input::placeholder,
+        textarea::placeholder {
+          color: #94a3b8 !important;
+          opacity: 0.7 !important;
+        }
+        
+        /* Labels */
+        label {
+          color: #c4b5fd !important;
+          font-weight: 600 !important;
         }
         
         /* Liens */
-        a {
+        a, a:visited, a:link {
           color: #c4b5fd !important;
           transition: all 0.3s ease !important;
         }
@@ -571,21 +384,132 @@
           text-shadow: 0 0 10px rgba(196, 181, 253, 0.5) !important;
         }
         
-        /* Cartes et containers */
+        /* Cartes et panels */
         [class*="card"],
+        [class*="Card"],
         [class*="panel"],
+        [class*="Panel"],
         [class*="container"] {
           background: rgba(26, 21, 38, 0.6) !important;
+          backdrop-filter: blur(10px) !important;
           border: 1px solid rgba(139, 92, 246, 0.3) !important;
           border-radius: 10px !important;
           box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(139, 92, 246, 0.1) !important;
         }
+        
+        /* Listes d'éléments */
+        [class*="list"],
+        [class*="List"],
+        [class*="item"],
+        [class*="Item"],
+        [class*="entry"],
+        [class*="Entry"] {
+          background: rgba(26, 21, 38, 0.6) !important;
+          border: 1px solid rgba(139, 92, 246, 0.3) !important;
+          border-radius: 8px !important;
+          transition: all 0.3s ease !important;
+        }
+        
+        [class*="list"]:hover,
+        [class*="item"]:hover,
+        [class*="entry"]:hover {
+          background: rgba(139, 92, 246, 0.2) !important;
+          border-color: rgba(139, 92, 246, 0.6) !important;
+          transform: translateX(5px) !important;
+          box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3) !important;
+        }
+        
+        /* Headers */
+        header,
+        [role="banner"],
+        [class*="header"],
+        [class*="Header"] {
+          background: rgba(26, 21, 38, 0.8) !important;
+          backdrop-filter: blur(10px) !important;
+          border-bottom: 2px solid rgba(217, 119, 6, 0.3) !important;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        /* Scrollbars */
+        ::-webkit-scrollbar {
+          width: 12px;
+          height: 12px;
+        }
+        
+        ::-webkit-scrollbar-track {
+          background: rgba(26, 21, 38, 0.5);
+          border-radius: 6px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+          background: linear-gradient(180deg, #8b5cf6 0%, #a78bfa 100%);
+          border-radius: 6px;
+          box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+          background: linear-gradient(180deg, #a78bfa 0%, #c4b5fd 100%);
+        }
+        
+        /* Tables */
+        table {
+          background: rgba(26, 21, 38, 0.6) !important;
+          border: 1px solid rgba(139, 92, 246, 0.3) !important;
+        }
+        
+        th {
+          background: rgba(139, 92, 246, 0.2) !important;
+          color: #c4b5fd !important;
+        }
+        
+        td {
+          border-color: rgba(139, 92, 246, 0.2) !important;
+        }
       `;
+      
       document.head.appendChild(style);
+      
+      // Appliquer également les styles directement aux éléments
+      setTimeout(function() {
+        // Forcer le style sur le body
+        document.body.style.background = 'linear-gradient(180deg, #0a0a1a 0%, #1a1526 25%, #1f1b2e 50%, #2a1f3a 75%, #1a1526 100%)';
+        document.body.style.color = '#e0f2fe';
+        
+        // Appliquer aux éléments principaux
+        const allElements = document.querySelectorAll('*');
+        allElements.forEach(el => {
+          if (!el.id || el.id !== 'status-indicator') {
+            const tagName = el.tagName.toLowerCase();
+            if (['p', 'span', 'div', 'li'].includes(tagName)) {
+              el.style.color = '#ddd6fe';
+            }
+            if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(tagName)) {
+              el.style.color = '#c4b5fd';
+              el.style.fontFamily = '"Georgia", serif';
+            }
+          }
+        });
+      }, 100);
     }
     
-    // Appliquer les styles après un court délai
-    setTimeout(applyCustomStyles, 2000);
+    // Appliquer le thème plusieurs fois pour s'assurer qu'il est bien appliqué
+    setTimeout(applyMysticalTheme, 1000);
+    setTimeout(applyMysticalTheme, 3000);
+    setTimeout(applyMysticalTheme, 5000);
+    
+    // Observer les changements du DOM pour réappliquer les styles
+    const observer = new MutationObserver(function(mutations) {
+      applyMysticalTheme();
+    });
+    
+    // Démarrer l'observation après un délai
+    setTimeout(function() {
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: false
+      });
+    }, 2000);
   </script>
 </body>
 </html>
