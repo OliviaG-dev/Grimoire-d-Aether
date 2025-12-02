@@ -21,7 +21,34 @@
   </style>
 </head>
 <body>
+  <!-- Netlify Identity Widget (nécessaire pour gérer les tokens d'invitation) -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  
   <!-- Script Decap CMS -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  
+  <script>
+    // Initialiser Netlify Identity pour gérer les tokens d'invitation
+    if (window.netlifyIdentity) {
+      netlifyIdentity.init();
+      
+      // Vérifier si un token d'invitation est présent
+      const hash = window.location.hash;
+      if (hash && hash.includes('invite_token=')) {
+        // Ouvrir automatiquement le widget pour accepter l'invitation
+        netlifyIdentity.on('init', function() {
+          setTimeout(function() {
+            netlifyIdentity.open('invite');
+          }, 1000);
+        });
+      }
+      
+      // Rediriger après connexion réussie
+      netlifyIdentity.on('login', function() {
+        // Recharger la page pour que Decap CMS se connecte
+        window.location.reload();
+      });
+    }
+  </script>
 </body>
 </html>

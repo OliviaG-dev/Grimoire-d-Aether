@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accepter l'invitation - Grimoire d'Áether</title>
+  
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg, #0a0a1a 0%, #1a1526 100%);
+      color: #e0f2fe;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .container {
+      text-align: center;
+      padding: 2rem;
+      max-width: 500px;
+    }
+    
+    h1 {
+      color: #c4b5fd;
+      margin-bottom: 1rem;
+    }
+    
+    .message {
+      color: #ddd6fe;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    
+    .link {
+      color: #a78bfa;
+      text-decoration: underline;
+      font-size: 1.1rem;
+    }
+    
+    .link:hover {
+      color: #c4b5fd;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔮 Accepter l'invitation</h1>
+    <p class="message">
+      Vous allez être redirigé vers la page d'administration pour créer votre mot de passe.
+    </p>
+    <p class="message">
+      Si la redirection ne fonctionne pas, <a href="/admin/" class="link">cliquez ici</a>.
+    </p>
+  </div>
+  
+  <script>
+    // Rediriger vers /admin avec le hash (token)
+    const hash = window.location.hash;
+    const targetUrl = '/admin/' + (hash || '');
+    
+    // Redirection immédiate
+    setTimeout(function() {
+      window.location.href = targetUrl;
+    }, 1000);
+  </script>
+  
+  <!-- Netlify Identity Widget pour gérer le token -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    if (window.netlifyIdentity) {
+      netlifyIdentity.init();
+    }
+  </script>
+</body>
+</html>
+

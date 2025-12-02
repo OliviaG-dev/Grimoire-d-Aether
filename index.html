@@ -21,9 +21,9 @@
         const hash = window.location.hash;
         
         if (hash) {
-          // Token d'invitation : rediriger vers la page d'acceptation
+          // Token d'invitation : rediriger vers /admin avec le widget Netlify Identity
           if (hash.includes('invite_token=')) {
-            window.location.replace('/accept-invite.html' + hash);
+            window.location.replace('/admin' + hash);
             return;
           }
           
