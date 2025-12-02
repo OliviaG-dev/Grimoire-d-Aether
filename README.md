@@ -4,7 +4,7 @@
 
 **Wiki ésotérique statique dédié aux cartes divinatoires**
 
-*Un sanctuaire pour explorer, comprendre et approfondir les mystères des oracles*
+_Un sanctuaire pour explorer, comprendre et approfondir les mystères des oracles_
 
 [![React](https://img.shields.io/badge/React-19.2.0-61DAFB?logo=react)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?logo=typescript)](https://www.typescriptlang.org/)
@@ -16,7 +16,7 @@
 
 ## 📖 À Propos
 
-**Grimoire d'Áether** est une encyclopédie personnelle élégante et mystique dédiée aux cartes divinatoires (Tarots, Oracles, jeux mystiques). 
+**Grimoire d'Áether** est une encyclopédie personnelle élégante et mystique dédiée aux cartes divinatoires (Tarots, Oracles, jeux mystiques).
 
 Le site présente chaque jeu et carte avec une fiche complète incluant mots-clés, symboles, énergies, significations et images. Accessible en lecture pour tous, il dispose d'un système d'administration intégré permettant d'ajouter et modifier le contenu sans backend.
 
@@ -34,6 +34,7 @@ Le site présente chaque jeu et carte avec une fiche complète incluant mots-cl�
 ### 📁 Gestion des Jeux
 
 Chaque jeu possède :
+
 - **Nom** et **ID** unique
 - **Type** (Tarot/Oracle/Autre)
 - **Auteur** et **année**
@@ -44,6 +45,7 @@ Chaque jeu possède :
 ### 🃏 Fiches de Cartes
 
 Chaque carte contient :
+
 - **ID** et **jeu associé**
 - **Nom** et **image**
 - **Mots-clés** (keywords)
@@ -63,6 +65,7 @@ Chaque carte contient :
 ### 🛠️ Administration intégrée
 
 Depuis `/admin` (via Decap CMS) :
+
 - Créer/modifier des jeux
 - Créer/modifier des cartes
 - Uploader des images
@@ -84,6 +87,7 @@ Depuis `/admin` (via Decap CMS) :
 ### 📚 Données : JSON statiques
 
 Les données sont stockées dans :
+
 ```
 src/data/
 ├── games/
@@ -95,6 +99,7 @@ src/data/
 ### 🖼️ Images : dossier statique
 
 Les images sont stockées dans :
+
 ```
 public/images/uploads/
 ```
@@ -104,6 +109,7 @@ Les URLs sont directes : `/images/uploads/nom.jpg`
 ### 🔐 Admin : Decap CMS (ex-Netlify CMS)
 
 Permet :
+
 - Login sécurisé (via GitHub + Netlify Identity)
 - Interface admin prête à l'emploi
 - Édition en ligne des JSON
@@ -271,7 +277,23 @@ GATSBY_REPO_NAME=grimoire-daether
 
 ### Configuration Decap CMS
 
-Créez un fichier `public/admin/config.yml` pour configurer le CMS (à faire lors de l'intégration).
+Les fichiers de base pour l'authentification sont déjà en place :
+
+- `public/admin/index.html` - Interface d'administration
+- `public/admin/config.yml` - Configuration du CMS
+
+📖 **Guides disponibles :**
+
+- **[SETUP_NETLIFY.md](./SETUP_NETLIFY.md)** - Guide complet de configuration Netlify
+- **[DOCUMENTATION_DECAP_CMS.md](./DOCUMENTATION_DECAP_CMS.md)** - Documentation complète sur Decap CMS (ce que c'est, avantages, inconvénients)
+- **[QUICK_START.md](./QUICK_START.md)** - Guide de démarrage rapide
+
+**Instructions détaillées :**
+
+- Le déploiement sur Netlify
+- L'activation de Netlify Identity
+- La configuration de Git Gateway
+- La création de votre compte administrateur
 
 ---
 
@@ -288,13 +310,18 @@ Créez un fichier `public/admin/config.yml` pour configurer le CMS (à faire lor
 
 ### Netlify (Recommandé)
 
+⚠️ **Pour une configuration complète et détaillée**, consultez le guide : **[SETUP_NETLIFY.md](./SETUP_NETLIFY.md)**
+
+**Résumé rapide :**
+
 1. Connectez votre dépôt GitHub à Netlify
 2. Configurez le build :
    - **Build command** : `npm run build`
    - **Publish directory** : `dist`
 3. Activez **Netlify Identity** pour l'admin
 4. Activez **Git Gateway** dans Identity settings
-5. Déployez !
+5. Créez votre compte administrateur via invitation
+6. Accédez à `/admin` pour gérer le contenu
 
 ### GitHub Pages
 
@@ -335,4 +362,4 @@ Projet créé pour construire un grimoire personnel dédié aux cartes divinatoi
 
 ---
 
-*"Ouvrir un grimoire, c'est franchir un seuil. Entre ses pages s'entrelacent savoirs anciens, murmures d'âme et éclats d'intuition."*
+_"Ouvrir un grimoire, c'est franchir un seuil. Entre ses pages s'entrelacent savoirs anciens, murmures d'âme et éclats d'intuition."_

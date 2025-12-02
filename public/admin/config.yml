@@ -1,0 +1,40 @@
+# 🔮 Configuration Decap CMS - Grimoire d'Áether
+# Configuration pour l'authentification et la gestion du contenu
+
+backend:
+  name: git-gateway
+  branch: main # ou 'master' selon votre branche par défaut
+
+  # Configuration pour Netlify Identity
+  # À activer sur Netlify après le déploiement
+
+# Configuration des médias (images)
+media_folder: "public/images/uploads" # Dossier où les images seront stockées
+public_folder: "/images/uploads" # Chemin public pour accéder aux images
+
+# Site URL (sera mis à jour après le déploiement sur Netlify)
+# site_url: https://votre-site.netlify.app
+
+# Afficher les URLs dans le CMS
+display_url: "http://localhost:5173" # Pour le développement local
+
+# Localisation
+locale: "fr"
+
+# Collections de contenu
+# ⚠️ Pour l'instant, configuration minimale pour tester l'authentification
+# Les collections complètes (games, cards) seront ajoutées dans la Phase 2
+
+collections:
+  # Collection de test (optionnelle, à supprimer plus tard)
+  - name: "test"
+    label: "Test"
+    folder: "src/data/test"
+    create: true
+    extension: "json"
+    format: "json"
+    fields:
+      - { label: "Nom", name: "name", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+# Note: Les collections complètes pour les jeux et cartes
+# seront configurées dans la Semaine 2, une fois l'authentification validée.

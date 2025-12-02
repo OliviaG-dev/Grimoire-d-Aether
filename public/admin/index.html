@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grimoire d'Áether – Administration</title>
+  
+  <!-- Decap CMS -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #1a1f2e;
+      color: #e0f2fe;
+    }
+    
+    /* Style pour correspondre au thème mystique du site */
+    .nc-root {
+      background: #0a0f1a;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    // Initialisation manuelle de Decap CMS
+    window.CMS_MANUAL_INIT = true;
+    
+    // Initialiser le CMS après le chargement
+    if (window.CMS) {
+      CMS.init();
+    } else {
+      console.error('Decap CMS n\'a pas été chargé correctement');
+    }
+  </script>
+</body>
+</html>
