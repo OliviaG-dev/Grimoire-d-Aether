@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Accepter l'invitation - Grimoire d'Áether</title>
   
-  <!-- Netlify Identity Widget -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -38,12 +35,31 @@
       line-height: 1.6;
     }
     
-    #netlify-identity-widget {
+    .loading {
+      color: #c4b5fd;
       margin: 2rem 0;
     }
     
-    .loading {
-      color: #c4b5fd;
+    .button {
+      background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+    }
+    
+    .error {
+      color: #f87171;
+      margin-top: 1rem;
     }
   </style>
 </head>
@@ -52,51 +68,100 @@
     <h1>🔮 Accepter l'invitation</h1>
     <p class="message">Veuillez créer votre mot de passe pour accéder au Grimoire d'Áether.</p>
     
-    <!-- Le widget Netlify Identity s'affichera ici -->
-    <div id="netlify-identity-widget"></div>
+    <p class="loading" id="status-message">Chargement du formulaire...</p>
     
-    <p class="loading" id="status-message">Chargement...</p>
+    <button class="button" id="open-widget-btn">
+      Ouvrir le formulaire d'invitation
+    </button>
+    
+    <p class="error" id="error-message" style="display: none;"></p>
+    
+    <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 2rem;">
+      Si le formulaire ne s'ouvre pas automatiquement, cliquez sur le bouton ci-dessus.
+    </p>
   </div>
   
+  <!-- Netlify Identity Widget - chargé à la fin du body -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  
   <script>
-    // Initialiser le widget Netlify Identity
-    if (window.netlifyIdentity) {
-      netlifyIdentity.init();
+    // Fonction pour initialiser le widget
+    function initNetlifyIdentity() {
+      // Vérifier que le widget est chargé
+      if (typeof netlifyIdentity === 'undefined') {
+        setTimeout(initNetlifyIdentity, 100);
+        return;
+      }
       
-      // Gérer les événements
+      // Initialiser le widget avec l'URL du site
+      netlifyIdentity.init({
+        APIUrl: 'https://grimoire-d-aether.netlify.app/.netlify/identity'
+      });
+      
+      // Attendre que le widget soit initialisé
       netlifyIdentity.on('init', function(user) {
         document.getElementById('status-message').textContent = 'Prêt à accepter l\'invitation...';
         
         if (user) {
           // Si l'utilisateur est déjà connecté, rediriger vers /admin
           window.location.href = '/admin/';
+          return;
+        }
+        
+        // Toujours afficher le bouton
+        document.getElementById('open-widget-btn').style.display = 'inline-block';
+        
+        // Vérifier le token dans l'URL
+        const hash = window.location.hash;
+        if (hash && hash.includes('invite_token=')) {
+          // Ouvrir automatiquement le widget pour accepter l'invitation
+          setTimeout(function() {
+            try {
+              netlifyIdentity.open('invite');
+              document.getElementById('status-message').textContent = 'Le formulaire devrait s\'ouvrir automatiquement...';
+            } catch (e) {
+              console.error('Erreur lors de l\'ouverture du widget:', e);
+              document.getElementById('status-message').textContent = 'Cliquez sur le bouton ci-dessous pour ouvrir le formulaire.';
+            }
+          }, 500);
+        } else {
+          document.getElementById('status-message').textContent = 'Aucun token d\'invitation détecté. Cliquez sur le bouton ci-dessous.';
         }
       });
       
+      // Gérer la connexion réussie
       netlifyIdentity.on('login', function(user) {
         // Rediriger vers /admin après connexion réussie
         window.location.href = '/admin/';
       });
       
+      // Gérer les erreurs
       netlifyIdentity.on('error', function(err) {
-        document.getElementById('status-message').textContent = 'Erreur: ' + (err.message || 'Une erreur est survenue');
+        console.error('Erreur Netlify Identity:', err);
+        document.getElementById('status-message').style.display = 'none';
+        document.getElementById('error-message').style.display = 'block';
+        document.getElementById('error-message').textContent = 'Erreur: ' + (err.message || 'Une erreur est survenue lors du chargement du formulaire.');
+        document.getElementById('open-widget-btn').style.display = 'inline-block';
       });
       
-      // Vérifier le token dans l'URL et ouvrir le widget automatiquement
-      const hash = window.location.hash;
-      if (hash && hash.includes('invite_token=')) {
-        // Ouvrir automatiquement le widget pour accepter l'invitation après un court délai
-        setTimeout(function() {
+      // Bouton pour ouvrir le widget manuellement
+      document.getElementById('open-widget-btn').addEventListener('click', function() {
+        document.getElementById('status-message').textContent = 'Ouverture du formulaire...';
+        const hash = window.location.hash;
+        if (hash && hash.includes('invite_token=')) {
           netlifyIdentity.open('invite');
-        }, 500);
-      } else {
-        // Pas de token, ouvrir le widget de connexion
-        setTimeout(function() {
+        } else {
           netlifyIdentity.open('login');
-        }, 500);
-      }
+        }
+      });
+    }
+    
+    // Démarrer l'initialisation quand le DOM est prêt
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initNetlifyIdentity);
     } else {
-      document.getElementById('status-message').textContent = 'Erreur: Impossible de charger Netlify Identity';
+      // DOM déjà chargé
+      initNetlifyIdentity();
     }
   </script>
 </body>
