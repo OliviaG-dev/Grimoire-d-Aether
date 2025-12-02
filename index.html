@@ -10,5 +10,20 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Script pour rediriger les tokens Netlify Identity vers /admin -->
+    <script>
+      // Vérifier si un token de récupération Netlify Identity est présent dans l'URL
+      (function() {
+        const hash = window.location.hash;
+        
+        // Vérifier les tokens Netlify Identity (recovery_token, invite_token, etc.)
+        if (hash && (hash.includes('recovery_token=') || hash.includes('invite_token=') || hash.includes('confirmation_token='))) {
+          // Rediriger vers /admin avec le token
+          const adminUrl = '/admin' + hash;
+          window.location.replace(adminUrl);
+        }
+      })();
+    </script>
   </body>
 </html>
