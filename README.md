@@ -285,6 +285,7 @@ Les fichiers de base pour l'authentification sont déjà en place :
 📖 **Guides disponibles :**
 
 - **[SETUP_NETLIFY.md](./SETUP_NETLIFY.md)** - Guide complet de configuration Netlify
+- **[DEPANNAGE_IDENTITY.md](./DEPANNAGE_IDENTITY.md)** - Dépannage : Problèmes avec Netlify Identity (invitations, connexion)
 - **[DOCUMENTATION_DECAP_CMS.md](./DOCUMENTATION_DECAP_CMS.md)** - Documentation complète sur Decap CMS (ce que c'est, avantages, inconvénients)
 - **[QUICK_START.md](./QUICK_START.md)** - Guide de démarrage rapide
 

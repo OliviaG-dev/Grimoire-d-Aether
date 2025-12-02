@@ -90,12 +90,30 @@ https://votre-site-123456.netlify.app
 3. Cliquez sur le lien **"Accept the invite"**
 4. Vous serez redirigé vers Netlify pour créer un mot de passe
 
+⚠️ **Problème ?** Si le lien vous renvoie vers votre site au lieu de la page de connexion :
+
+- Consultez le guide de dépannage : **[DEPANNAGE_IDENTITY.md](./DEPANNAGE_IDENTITY.md)**
+- Ou utilisez la méthode alternative ci-dessous ⬇️
+
 ### 3.3 Créer votre mot de passe
+
+**Méthode A : Via l'email d'invitation (si le lien fonctionne)**
 
 1. Entrez un **mot de passe sécurisé** (minimum 8 caractères)
 2. Confirmez le mot de passe
 3. Cliquez sur **"Set password and log in"**
 4. Vous êtes maintenant connecté !
+
+**Méthode B : Alternative (si le lien d'invitation ne fonctionne pas)**
+
+1. Dans Netlify Dashboard → **"Identity"** → **"Settings and usage"**
+2. Changez temporairement **"Registration preferences"** à **"Open"**
+3. Allez sur `https://votre-site.netlify.app/admin`
+4. Cliquez sur **"Login"** puis **"Sign up"**
+5. Créez votre compte avec votre email et un mot de passe
+6. Une fois connecté, retournez dans Netlify et remettez **"Invite only"** si vous préférez
+
+📖 **Guide complet de dépannage** : Voir [DEPANNAGE_IDENTITY.md](./DEPANNAGE_IDENTITY.md)
 
 ---
 
