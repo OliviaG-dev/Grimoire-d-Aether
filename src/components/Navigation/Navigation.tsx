@@ -1,16 +1,16 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import "./Navigation.css";
 
-interface NavigationProps {
-  currentPath?: string;
-}
+const Navigation: React.FC = () => {
+  const location = useLocation();
+  const currentPath = location.pathname;
 
-const Navigation: React.FC<NavigationProps> = ({ currentPath = "/" }) => {
   const navItems = [
     { path: "/", label: "Accueil" },
     { path: "/games", label: "Jeux" },
     { path: "/cards", label: "Cartes" },
-    { path: "/admin", label: "Admin" },
+    { path: "/login", label: "Admin" },
   ];
 
   return (
@@ -19,15 +19,15 @@ const Navigation: React.FC<NavigationProps> = ({ currentPath = "/" }) => {
         {navItems.map((item) => {
           const isActive = currentPath === item.path;
           return (
-            <a
+            <Link
               key={item.path}
-              href={item.path}
+              to={item.path}
               className={`nav-link-v4 ${isActive ? "active" : ""}`}
             >
               <span className="nav-dot"></span>
               <span className="nav-text-v4">{item.label}</span>
               {isActive && <span className="nav-glow"></span>}
-            </a>
+            </Link>
           );
         })}
       </div>

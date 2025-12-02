@@ -284,12 +284,19 @@ Les fichiers de base pour l'authentification sont déjà en place :
 
 📖 **Guides disponibles :**
 
+**⚡ Configuration et déploiement :**
 - **[SETUP_NETLIFY.md](./SETUP_NETLIFY.md)** - Guide complet de configuration Netlify
 - **[GUIDE_RAPIDE_GIT_GATEWAY.md](./GUIDE_RAPIDE_GIT_GATEWAY.md)** ⚡ - Guide rapide : Activer Git Gateway (2 minutes)
 - **[DEPANNAGE_GIT_GATEWAY.md](./DEPANNAGE_GIT_GATEWAY.md)** - Dépannage complet : Erreurs Git Gateway
+- **[RESUME_COMPARAISON.md](./RESUME_COMPARAISON.md)** ⚡ - Comparaison rapide : Netlify vs Vercel + Supabase
+- **[COMPARAISON_PLATEFORMES.md](./COMPARAISON_PLATEFORMES.md)** - Analyse détaillée : Hébergement et authentification
+
+**🔐 Authentification et connexion :**
 - **[GUIDE_CONNEXION.md](./GUIDE_CONNEXION.md)** - Guide complet : Vérifier l'inscription et se connecter
 - **[CHECKLIST_CONNEXION.md](./CHECKLIST_CONNEXION.md)** - Checklist rapide pour la connexion
 - **[DEPANNAGE_IDENTITY.md](./DEPANNAGE_IDENTITY.md)** - Dépannage : Problèmes avec Netlify Identity (invitations, connexion)
+
+**📚 Documentation :**
 - **[DOCUMENTATION_DECAP_CMS.md](./DOCUMENTATION_DECAP_CMS.md)** - Documentation complète sur Decap CMS (ce que c'est, avantages, inconvénients)
 - **[QUICK_START.md](./QUICK_START.md)** - Guide de démarrage rapide
 

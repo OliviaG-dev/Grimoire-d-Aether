@@ -1,0 +1,195 @@
+/* ============================================
+   GRIMOIRE D'ÁETHER - Thème mystique pour Decap CMS
+   ============================================ */
+
+/* Variables CSS pour le thème */
+:root {
+  --color-bg-primary: #0a0a1a;
+  --color-bg-secondary: #1a1526;
+  --color-bg-tertiary: #1f1b2e;
+  --color-bg-card: rgba(26, 21, 38, 0.6);
+  
+  --color-purple: #8b5cf6;
+  --color-purple-light: #a78bfa;
+  --color-purple-lighter: #c4b5fd;
+  --color-gold: #d97706;
+  --color-text-primary: #e0f2fe;
+  --color-text-secondary: #ddd6fe;
+  --color-text-muted: #94a3b8;
+  
+  --shadow-glow: 0 0 20px rgba(139, 92, 246, 0.4);
+  --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(139, 92, 246, 0.1);
+}
+
+/* ============================================
+   OVERRIDES GLOBAUX
+   ============================================ */
+
+body {
+  background: linear-gradient(
+    180deg,
+    var(--color-bg-primary) 0%,
+    var(--color-bg-secondary) 25%,
+    var(--color-bg-tertiary) 50%,
+    #2a1f3a 75%,
+    var(--color-bg-secondary) 100%
+  ) !important;
+  color: var(--color-text-primary) !important;
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+
+/* Sidebar principale */
+.css-1qq679y,
+.css-1d3bbye,
+[class*="css-"][class*="sidebar"],
+aside[class*="sidebar"],
+div[class*="sidebar"] {
+  background: linear-gradient(180deg, var(--color-bg-secondary) 0%, var(--color-bg-tertiary) 100%) !important;
+  border-right: 2px solid rgba(139, 92, 246, 0.3) !important;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5), 0 0 30px rgba(139, 92, 246, 0.1) !important;
+}
+
+/* Liens de la sidebar */
+.css-1qq679y a,
+.css-1d3bbye a,
+[class*="sidebar"] a,
+aside a {
+  color: var(--color-text-secondary) !important;
+  transition: all 0.3s ease !important;
+}
+
+.css-1qq679y a:hover,
+.css-1d3bbye a:hover,
+[class*="sidebar"] a:hover {
+  background: rgba(139, 92, 246, 0.2) !important;
+  color: var(--color-purple-lighter) !important;
+  transform: translateX(5px) !important;
+}
+
+/* ============================================
+   BOUTONS
+   ============================================ */
+
+button,
+.css-button,
+[class*="button"],
+[type="button"] {
+  background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-purple-light) 100%) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 0.75rem 1.5rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3) !important;
+}
+
+button:hover,
+.css-button:hover,
+[class*="button"]:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 25px rgba(139, 92, 246, 0.5) !important;
+}
+
+/* ============================================
+   INPUTS ET FORMULAIRES
+   ============================================ */
+
+input,
+textarea,
+select {
+  background: var(--color-bg-card) !important;
+  border: 2px solid rgba(139, 92, 246, 0.3) !important;
+  border-radius: 8px !important;
+  color: var(--color-text-primary) !important;
+  padding: 0.75rem 1rem !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+  border-color: rgba(139, 92, 246, 0.8) !important;
+  box-shadow: var(--shadow-glow) !important;
+}
+
+/* ============================================
+   CARTES ET PANELS
+   ============================================ */
+
+.css-card,
+[class*="card"],
+[class*="panel"],
+.css-panel {
+  background: var(--color-bg-card) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(139, 92, 246, 0.3) !important;
+  border-radius: 10px !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+/* ============================================
+   TITRES ET TEXTES
+   ============================================ */
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-purple-lighter) !important;
+  font-family: "Georgia", serif !important;
+  text-shadow: 0 0 10px rgba(196, 181, 253, 0.5) !important;
+}
+
+p, span, div {
+  color: var(--color-text-secondary) !important;
+}
+
+/* ============================================
+   SCROLLBARS
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(26, 21, 38, 0.5);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--color-purple) 0%, var(--color-purple-light) 100%);
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--color-purple-light) 0%, var(--color-purple-lighter) 100%);
+}
+
+/* ============================================
+   AMÉLIORATIONS SPÉCIFIQUES
+   ============================================ */
+
+/* Hover effects sur les éléments interactifs */
+.css-interactive:hover,
+[class*="interactive"]:hover,
+[role="button"]:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3) !important;
+}
+
+/* Animations douces */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease !important;
+}
+
+/* Supprimer les transitions sur les animations */
+[class*="animate"],
+[class*="animation"] {
+  transition: none !important;
+}
+

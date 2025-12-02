@@ -2,6 +2,7 @@ import React from "react";
 import "./Home.css";
 import logo from "../../assets/logo.png";
 import Navigation from "../../components/Navigation/Navigation";
+import AdminStatus from "../../components/AdminStatus/AdminStatus";
 
 const Home: React.FC = () => {
   return (
@@ -12,9 +13,10 @@ const Home: React.FC = () => {
             <img src={logo} alt="Grimoire d'Áether" className="home-logo" />
             <h1 className="home-title">Le Grimoire d'Áether</h1>
           </div>
+          <AdminStatus />
         </header>
 
-        <Navigation currentPath="/" />
+        <Navigation />
 
         <div className="home-poetic-section">
           <p className="home-poetic-header">
