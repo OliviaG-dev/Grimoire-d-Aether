@@ -13,7 +13,7 @@ media_folder: "public/images/uploads" # Dossier où les images seront stockées
 public_folder: "/images/uploads" # Chemin public pour accéder aux images
 
 # Site URL (sera mis à jour après le déploiement sur Netlify)
-site_url: https://grimoire-d-aether.netlify.app/
+site_url: https://grimoire-d-aether.netlify.app
 
 # Afficher les URLs dans le CMS
 display_url: "http://localhost:5173" # Pour le développement local
