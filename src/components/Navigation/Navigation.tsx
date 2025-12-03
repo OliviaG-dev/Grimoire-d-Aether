@@ -1,16 +1,49 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Navigation.css";
 
 const Navigation: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const currentPath = location.pathname;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const navItems = [
+  useEffect(() => {
+    // Vérifier le statut de connexion pour le lien Admin
+    const checkAuth = () => {
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.init();
+        const currentUser = window.netlifyIdentity.currentUser();
+        setIsLoggedIn(!!currentUser);
+      }
+    };
+
+    checkAuth();
+
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("login", () => setIsLoggedIn(true));
+      window.netlifyIdentity.on("logout", () => setIsLoggedIn(false));
+    }
+  }, []);
+
+  const handleAdminClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (isLoggedIn) {
+      navigate("/admin");
+    } else {
+      navigate("/login");
+    }
+  };
+
+  const navItems: Array<{
+    path: string;
+    label: string;
+    onClick?: (e: React.MouseEvent) => void;
+  }> = [
     { path: "/", label: "Accueil" },
     { path: "/games", label: "Jeux" },
     { path: "/cards", label: "Cartes" },
-    { path: "/admin", label: "Admin" },
+    { path: "/admin", label: "Admin", onClick: handleAdminClick },
   ];
 
   return (
@@ -22,6 +55,7 @@ const Navigation: React.FC = () => {
             <Link
               key={item.path}
               to={item.path}
+              onClick={item.onClick}
               className={`nav-link-v4 ${isActive ? "active" : ""}`}
             >
               <span className="nav-dot"></span>

@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import logo from "../../assets/logo.png";
 
-declare global {
-  interface Window {
-    netlifyIdentity?: any;
-  }
-}
-
 const Login: React.FC = () => {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
@@ -19,35 +15,56 @@ const Login: React.FC = () => {
     // Attendre qu'il soit disponible et l'initialiser
     const initIdentity = () => {
       if (window.netlifyIdentity) {
+        // Initialiser Netlify Identity
         window.netlifyIdentity.init();
 
         // Vérifier si l'utilisateur est déjà connecté
-        window.netlifyIdentity.on("init", (user: any) => {
+        window.netlifyIdentity.on("init", (user) => {
           setIsLoading(false);
-          if (user) {
+          if (user && "email" in user) {
             setIsLoggedIn(true);
             setUserEmail(user.email);
-            // Rediriger vers /admin après 1 seconde
-            setTimeout(() => {
-              window.location.href = "/admin";
-            }, 1000);
+            // Ne pas rediriger automatiquement - laisser l'utilisateur choisir
           }
         });
 
         // Gérer la connexion réussie
-        window.netlifyIdentity.on("login", (user: any) => {
-          setIsLoggedIn(true);
-          setUserEmail(user.email);
-          setError(null);
-          // Rediriger vers /admin
-          setTimeout(() => {
-            window.location.href = "/admin";
-          }, 1000);
+        window.netlifyIdentity.on("login", (user) => {
+          if (user && "email" in user) {
+            // Fermer le widget Netlify Identity immédiatement
+            if (window.netlifyIdentity && window.netlifyIdentity.close) {
+              window.netlifyIdentity.close();
+            }
+
+            setIsLoggedIn(true);
+            setUserEmail(user.email);
+            setError(null);
+
+            // Nettoyer le hash de l'URL immédiatement
+            setTimeout(() => {
+              if (window.location.hash) {
+                window.history.replaceState(
+                  null,
+                  "",
+                  window.location.pathname + window.location.search
+                );
+              }
+            }, 50);
+
+            // Rediriger vers /admin avec React Router (reste sur localhost en dev)
+            setTimeout(() => {
+              navigate("/admin", { replace: true });
+            }, 100);
+          }
         });
 
         // Gérer les erreurs
-        window.netlifyIdentity.on("error", (err: any) => {
-          setError(err.message || "Une erreur est survenue");
+        window.netlifyIdentity.on("error", (err) => {
+          if (err && "message" in err) {
+            setError(err.message || "Une erreur est survenue");
+          } else {
+            setError("Une erreur est survenue");
+          }
           setIsLoading(false);
         });
 
@@ -82,7 +99,9 @@ const Login: React.FC = () => {
         clearInterval(checkInterval);
         if (!window.netlifyIdentity) {
           setIsLoading(false);
-          setError("Netlify Identity n'a pas pu être chargé. Veuillez recharger la page.");
+          setError(
+            "Netlify Identity n'a pas pu être chargé. Veuillez recharger la page."
+          );
         }
       }, 5000);
 
@@ -90,13 +109,15 @@ const Login: React.FC = () => {
         clearInterval(checkInterval);
       };
     }
-  }, []);
+  }, [navigate]);
 
   const handleLogin = () => {
     if (window.netlifyIdentity) {
       window.netlifyIdentity.open("login");
     } else {
-      setError("Netlify Identity n'est pas chargé. Veuillez recharger la page.");
+      setError(
+        "Netlify Identity n'est pas chargé. Veuillez recharger la page."
+      );
     }
   };
 
@@ -104,7 +125,9 @@ const Login: React.FC = () => {
     if (window.netlifyIdentity) {
       window.netlifyIdentity.open("signup");
     } else {
-      setError("Netlify Identity n'est pas chargé. Veuillez recharger la page.");
+      setError(
+        "Netlify Identity n'est pas chargé. Veuillez recharger la page."
+      );
     }
   };
 
@@ -125,11 +148,37 @@ const Login: React.FC = () => {
     return (
       <div className="login-page">
         <div className="login-container">
-          <div className="login-success">
-            <div className="login-success-icon">✓</div>
-            <h2>Connecté avec succès !</h2>
-            <p>Bienvenue, <strong>{userEmail}</strong></p>
-            <p className="login-redirect">Redirection vers l'administration...</p>
+          <div className="login-header">
+            <img src={logo} alt="Grimoire d'Áether" className="login-logo" />
+            <h1 className="login-title">Accès Administration</h1>
+            <p className="login-subtitle">Vous êtes déjà connecté</p>
+          </div>
+          <div className="login-content">
+            <div className="login-success" style={{ marginBottom: "2rem" }}>
+              <div className="login-success-icon">✓</div>
+              <h2>Connecté</h2>
+              <p>
+                Bienvenue, <strong>{userEmail}</strong>
+              </p>
+            </div>
+            <div className="login-buttons">
+              <button
+                className="login-button login-button-primary"
+                onClick={() => navigate("/admin")}
+              >
+                <span className="login-button-icon">⚙️</span>
+                <span>Accéder au panneau d'administration</span>
+              </button>
+            </div>
+            <div className="login-footer">
+              <button
+                className="login-button login-button-home"
+                onClick={() => navigate("/")}
+              >
+                <span className="login-button-icon">🏠</span>
+                <span>Retour à l'accueil</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -156,12 +205,18 @@ const Login: React.FC = () => {
           )}
 
           <div className="login-buttons">
-            <button className="login-button login-button-primary" onClick={handleLogin}>
+            <button
+              className="login-button login-button-primary"
+              onClick={handleLogin}
+            >
               <span className="login-button-icon">🔐</span>
               <span>Se connecter</span>
             </button>
 
-            <button className="login-button login-button-secondary" onClick={handleSignup}>
+            <button
+              className="login-button login-button-secondary"
+              onClick={handleSignup}
+            >
               <span className="login-button-icon">✨</span>
               <span>Créer un compte</span>
             </button>
@@ -170,10 +225,20 @@ const Login: React.FC = () => {
           <div className="login-info">
             <p>
               <small>
-                L'accès à l'administration nécessite une invitation.
-                Contactez l'administrateur si vous n'avez pas de compte.
+                L'accès à l'administration nécessite une invitation. Contactez
+                l'administrateur si vous n'avez pas de compte.
               </small>
             </p>
+          </div>
+
+          <div className="login-footer">
+            <button
+              className="login-button login-button-home"
+              onClick={() => navigate("/")}
+            >
+              <span className="login-button-icon">🏠</span>
+              <span>Retour à l'accueil</span>
+            </button>
           </div>
         </div>
       </div>
@@ -182,4 +247,3 @@ const Login: React.FC = () => {
 };
 
 export default Login;
-

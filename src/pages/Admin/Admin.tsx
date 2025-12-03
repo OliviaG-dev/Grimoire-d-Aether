@@ -3,12 +3,6 @@ import { useNavigate } from "react-router-dom";
 import "./Admin.css";
 import logo from "../../assets/logo.png";
 
-declare global {
-  interface Window {
-    netlifyIdentity?: any;
-  }
-}
-
 interface Game {
   id: string;
   name: string;
@@ -47,7 +41,36 @@ const Admin: React.FC = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [cards, setCards] = useState<Card[]>([]);
 
+  const loadData = async () => {
+    // Charger les jeux
+    try {
+      // Pour l'instant, on utilisera une liste vide
+      // Plus tard, on chargera depuis les fichiers JSON
+      await fetch("/src/data/games");
+      setGames([]);
+    } catch (error) {
+      console.error("Erreur lors du chargement des jeux:", error);
+    }
+
+    // Charger les cartes
+    try {
+      await fetch("/src/data/cards");
+      setCards([]);
+    } catch (error) {
+      console.error("Erreur lors du chargement des cartes:", error);
+    }
+  };
+
   useEffect(() => {
+    // Nettoyer le hash de l'URL au chargement
+    if (window.location.hash && !window.location.hash.includes("token")) {
+      window.history.replaceState(
+        null,
+        "",
+        window.location.pathname + window.location.search
+      );
+    }
+
     // Vérifier l'authentification
     const checkAuth = () => {
       if (window.netlifyIdentity) {
@@ -59,22 +82,43 @@ const Admin: React.FC = () => {
           setUserEmail(currentUser.email);
           setIsLoading(false);
           loadData();
+          // Nettoyer le hash après vérification
+          if (window.location.hash && !window.location.hash.includes("token")) {
+            window.history.replaceState(
+              null,
+              "",
+              window.location.pathname + window.location.search
+            );
+          }
         } else {
           setIsAuthenticated(false);
           setIsLoading(false);
-          navigate("/login");
+          navigate("/login", { replace: true });
         }
 
         // Écouter les changements
-        window.netlifyIdentity.on("login", (user: any) => {
-          setIsAuthenticated(true);
-          setUserEmail(user.email);
-          loadData();
+        window.netlifyIdentity.on("login", (user) => {
+          if (user && "email" in user) {
+            setIsAuthenticated(true);
+            setUserEmail(user.email);
+            loadData();
+            // Nettoyer le hash de l'URL
+            if (
+              window.location.hash &&
+              !window.location.hash.includes("token")
+            ) {
+              window.history.replaceState(
+                null,
+                "",
+                window.location.pathname + window.location.search
+              );
+            }
+          }
         });
 
         window.netlifyIdentity.on("logout", () => {
           setIsAuthenticated(false);
-          navigate("/login");
+          navigate("/");
         });
       } else {
         // Attendre que le script se charge
@@ -97,26 +141,6 @@ const Admin: React.FC = () => {
     checkAuth();
   }, [navigate]);
 
-  const loadData = async () => {
-    // Charger les jeux
-    try {
-      // Pour l'instant, on utilisera une liste vide
-      // Plus tard, on chargera depuis les fichiers JSON
-      await fetch("/src/data/games");
-      setGames([]);
-    } catch (error) {
-      console.error("Erreur lors du chargement des jeux:", error);
-    }
-
-    // Charger les cartes
-    try {
-      await fetch("/src/data/cards");
-      setCards([]);
-    } catch (error) {
-      console.error("Erreur lors du chargement des cartes:", error);
-    }
-  };
-
   const handleLogout = () => {
     if (window.netlifyIdentity) {
       window.netlifyIdentity.logout();
@@ -135,7 +159,15 @@ const Admin: React.FC = () => {
   }
 
   if (!isAuthenticated) {
-    return null; // La redirection est gérée par useEffect
+    // Afficher un message de redirection pendant la vérification
+    return (
+      <div className="admin-page">
+        <div className="admin-loading">
+          <div className="admin-spinner"></div>
+          <p>Redirection vers la page de connexion...</p>
+        </div>
+      </div>
+    );
   }
 
   return (

@@ -2,11 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AdminStatus.css";
 
-declare global {
-  interface Window {
-    netlifyIdentity?: any;
-  }
-}
 
 const AdminStatus: React.FC = () => {
   const navigate = useNavigate();
@@ -32,9 +27,11 @@ const AdminStatus: React.FC = () => {
         setIsLoading(false);
 
         // Écouter les changements de statut
-        window.netlifyIdentity.on("login", (user: any) => {
-          setIsLoggedIn(true);
-          setUserEmail(user.email);
+        window.netlifyIdentity.on("login", (user) => {
+          if (user && "email" in user) {
+            setIsLoggedIn(true);
+            setUserEmail(user.email);
+          }
         });
 
         window.netlifyIdentity.on("logout", () => {

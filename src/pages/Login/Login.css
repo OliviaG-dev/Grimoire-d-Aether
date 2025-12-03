@@ -230,6 +230,28 @@
   color: #94a3b8;
   font-size: 0.875rem;
   line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+/* Footer avec bouton Accueil */
+.login-footer {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.login-button-home {
+  background: transparent;
+  color: #ddd6fe;
+  border: 1px solid rgba(217, 119, 6, 0.4);
+  width: 100%;
+}
+
+.login-button-home:hover {
+  background: rgba(217, 119, 6, 0.1);
+  border-color: rgba(217, 119, 6, 0.6);
+  color: #fde047;
+  transform: translateY(-2px);
 }
 
 /* État de chargement */
