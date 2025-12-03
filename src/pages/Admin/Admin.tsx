@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
+import { useAuth, useUser, SignOutButton } from "@clerk/clerk-react";
 import "./Admin.css";
 import logo from "../../assets/logo.png";
 
@@ -33,121 +34,14 @@ interface Card {
 type AdminView = "dashboard" | "games" | "cards";
 
 const Admin: React.FC = () => {
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const { isSignedIn, isLoaded } = useAuth();
+  const { user } = useUser();
   const [currentView, setCurrentView] = useState<AdminView>("dashboard");
-  const [games, setGames] = useState<Game[]>([]);
-  const [cards, setCards] = useState<Card[]>([]);
+  const [games] = useState<Game[]>([]);
+  const [cards] = useState<Card[]>([]);
 
-  const loadData = async () => {
-    // Charger les jeux
-    try {
-      // Pour l'instant, on utilisera une liste vide
-      // Plus tard, on chargera depuis les fichiers JSON
-      await fetch("/src/data/games");
-      setGames([]);
-    } catch (error) {
-      console.error("Erreur lors du chargement des jeux:", error);
-    }
-
-    // Charger les cartes
-    try {
-      await fetch("/src/data/cards");
-      setCards([]);
-    } catch (error) {
-      console.error("Erreur lors du chargement des cartes:", error);
-    }
-  };
-
-  useEffect(() => {
-    // Nettoyer le hash de l'URL au chargement
-    if (window.location.hash && !window.location.hash.includes("token")) {
-      window.history.replaceState(
-        null,
-        "",
-        window.location.pathname + window.location.search
-      );
-    }
-
-    // Vérifier l'authentification
-    const checkAuth = () => {
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.init();
-
-        const currentUser = window.netlifyIdentity.currentUser();
-        if (currentUser) {
-          setIsAuthenticated(true);
-          setUserEmail(currentUser.email);
-          setIsLoading(false);
-          loadData();
-          // Nettoyer le hash après vérification
-          if (window.location.hash && !window.location.hash.includes("token")) {
-            window.history.replaceState(
-              null,
-              "",
-              window.location.pathname + window.location.search
-            );
-          }
-        } else {
-          setIsAuthenticated(false);
-          setIsLoading(false);
-          navigate("/login", { replace: true });
-        }
-
-        // Écouter les changements
-        window.netlifyIdentity.on("login", (user) => {
-          if (user && "email" in user) {
-            setIsAuthenticated(true);
-            setUserEmail(user.email);
-            loadData();
-            // Nettoyer le hash de l'URL
-            if (
-              window.location.hash &&
-              !window.location.hash.includes("token")
-            ) {
-              window.history.replaceState(
-                null,
-                "",
-                window.location.pathname + window.location.search
-              );
-            }
-          }
-        });
-
-        window.netlifyIdentity.on("logout", () => {
-          setIsAuthenticated(false);
-          navigate("/");
-        });
-      } else {
-        // Attendre que le script se charge
-        const checkInterval = setInterval(() => {
-          if (window.netlifyIdentity) {
-            clearInterval(checkInterval);
-            checkAuth();
-          }
-        }, 100);
-
-        setTimeout(() => {
-          clearInterval(checkInterval);
-          if (!window.netlifyIdentity) {
-            setIsLoading(false);
-          }
-        }, 5000);
-      }
-    };
-
-    checkAuth();
-  }, [navigate]);
-
-  const handleLogout = () => {
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.logout();
-    }
-  };
-
-  if (isLoading) {
+  // Afficher un loader pendant le chargement
+  if (!isLoaded) {
     return (
       <div className="admin-page">
         <div className="admin-loading">
@@ -158,16 +52,9 @@ const Admin: React.FC = () => {
     );
   }
 
-  if (!isAuthenticated) {
-    // Afficher un message de redirection pendant la vérification
-    return (
-      <div className="admin-page">
-        <div className="admin-loading">
-          <div className="admin-spinner"></div>
-          <p>Redirection vers la page de connexion...</p>
-        </div>
-      </div>
-    );
+  // Rediriger vers login si pas connecté
+  if (!isSignedIn) {
+    return <Navigate to="/login" replace />;
   }
 
   return (
@@ -182,10 +69,12 @@ const Admin: React.FC = () => {
             </div>
           </div>
           <div className="admin-header-right">
-            <span className="admin-user">{userEmail}</span>
-            <button className="admin-logout-btn" onClick={handleLogout}>
-              Déconnexion
-            </button>
+            <span className="admin-user">
+              {user?.primaryEmailAddress?.emailAddress || "Admin"}
+            </span>
+            <SignOutButton>
+              <button className="admin-logout-btn">Déconnexion</button>
+            </SignOutButton>
           </div>
         </header>
 

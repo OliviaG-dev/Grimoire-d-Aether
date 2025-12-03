@@ -1,34 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "@clerk/clerk-react";
 import "./Navigation.css";
 
 const Navigation: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { isSignedIn } = useAuth();
   const currentPath = location.pathname;
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    // Vérifier le statut de connexion pour le lien Admin
-    const checkAuth = () => {
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.init();
-        const currentUser = window.netlifyIdentity.currentUser();
-        setIsLoggedIn(!!currentUser);
-      }
-    };
-
-    checkAuth();
-
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("login", () => setIsLoggedIn(true));
-      window.netlifyIdentity.on("logout", () => setIsLoggedIn(false));
-    }
-  }, []);
 
   const handleAdminClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (isLoggedIn) {
+    if (isSignedIn) {
       navigate("/admin");
     } else {
       navigate("/login");

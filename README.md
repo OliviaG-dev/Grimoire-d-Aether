@@ -9,6 +9,7 @@ _Un sanctuaire pour explorer, comprendre et approfondir les mystères des oracle
 [![React](https://img.shields.io/badge/React-19.2.0-61DAFB?logo=react)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-7.2.4-646CFF?logo=vite)](https://vitejs.dev/)
+[![Clerk](https://img.shields.io/badge/Clerk-Auth-6C47FF?logo=clerk)](https://clerk.com)
 
 </div>
 
@@ -18,14 +19,15 @@ _Un sanctuaire pour explorer, comprendre et approfondir les mystères des oracle
 
 **Grimoire d'Áether** est une encyclopédie personnelle élégante et mystique dédiée aux cartes divinatoires (Tarots, Oracles, jeux mystiques).
 
-Le site présente chaque jeu et carte avec une fiche complète incluant mots-clés, symboles, énergies, significations et images. Accessible en lecture pour tous, il dispose d'un système d'administration intégré permettant d'ajouter et modifier le contenu sans backend.
+Le site présente chaque jeu et carte avec une fiche complète incluant mots-clés, symboles, énergies, significations et images. Accessible en lecture pour tous, il dispose d'un système d'administration intégré permettant d'ajouter et modifier le contenu.
 
 ### ✨ Objectifs
 
 - 📚 Créer une encyclopédie personnelle élégante et mystique
-- ✏️ Facile à mettre à jour grâce au panneau admin
-- 🚀 Ultra simple à déployer (Netlify, GitHub Pages, Vercel)
+- ✏️ Facile à mettre à jour grâce au panneau admin personnalisé
+- 🚀 Ultra simple à déployer (Vercel, Netlify, GitHub Pages)
 - 🎨 Interface moderne avec design harmonieux
+- 🔐 Authentification sécurisée avec Clerk
 
 ---
 
@@ -54,24 +56,25 @@ Chaque carte contient :
 - **Énergies** (chakras, éléments…)
 - **Symboles**
 
-### 🔍 Navigation et Recherche
+### 🔍 Navigation
 
 - Liste de tous les jeux
 - Liste filtrée des cartes par jeu
 - Fiche détaillée de chaque carte
-- Recherche textuelle (à venir)
-- Navigation façon "wiki"
+- Navigation intuitive avec React Router
+- Design mystique et élégant
 
 ### 🛠️ Administration intégrée
 
-Depuis `/admin` (via Decap CMS) :
+Panneau d'administration personnalisé accessible depuis `/admin` :
 
-- Créer/modifier des jeux
-- Créer/modifier des cartes
-- Uploader des images
-- Génération automatique des fichiers JSON
+- **Authentification sécurisée** via Clerk
+- **Dashboard** avec statistiques
+- **Gestion des jeux** (création, édition, suppression)
+- **Gestion des cartes** (création, édition, suppression)
+- Interface intuitive et moderne
 
-**Aucun backend requis** - Toute modification est directement envoyée dans le dépôt GitHub.
+**En cours de développement** : Sauvegarde via API GitHub
 
 ---
 
@@ -80,8 +83,8 @@ Depuis `/admin` (via Decap CMS) :
 ### ⚛️ Front-end : React + TypeScript
 
 - Framework moderne et performant
-- Pages organisées avec React Router (à implémenter)
-- JSON chargés statiquement
+- Pages organisées avec **React Router**
+- JSON chargés statiquement depuis `src/data/`
 - Interface personnalisée avec design mystique
 
 ### 📚 Données : JSON statiques
@@ -106,24 +109,22 @@ public/images/uploads/
 
 Les URLs sont directes : `/images/uploads/nom.jpg`
 
-### 🔐 Admin : Decap CMS (ex-Netlify CMS)
+### 🔐 Authentification : Clerk
 
-Permet :
+**Clerk** est utilisé pour l'authentification :
 
-- Login sécurisé (via GitHub + Netlify Identity)
-- Interface admin prête à l'emploi
-- Édition en ligne des JSON
-- Upload d'images
-- Preview instantané
+- ✅ Authentification sécurisée par email
+- ✅ Gestion des sessions utilisateur
+- ✅ Composants React prêts à l'emploi
+- ✅ Fonctionne parfaitement en localhost
+- ✅ Gratuit jusqu'à 10 000 utilisateurs
+- ✅ Compatible avec Vercel, Netlify, etc.
 
-**Aucun backend requis** - Toute modification est directement envoyée dans le dépôt GitHub.
-
-### ☁️ Hébergement : Netlify (recommandé)
+### ☁️ Hébergement : Vercel (recommandé) ou Netlify
 
 - Déploiement instantané du site statique
-- Login admin via Netlify Identity
-- Git Gateway pour l'édition depuis le CMS
-- Idéal pour Decap CMS
+- Compatible avec tous les hébergeurs de sites statiques
+- Variable d'environnement à configurer pour Clerk
 
 ---
 
@@ -138,6 +139,9 @@ grimoire-daether/
 │   ├── assets/
 │   │   └── logo.png          # Logo du projet
 │   ├── components/
+│   │   ├── AdminStatus/      # Badge admin avec menu
+│   │   │   ├── AdminStatus.tsx
+│   │   │   └── AdminStatus.css
 │   │   ├── CardItem/         # Composant d'affichage d'une carte
 │   │   │   ├── CardItem.tsx
 │   │   │   └── CardItem.css
@@ -148,18 +152,27 @@ grimoire-daether/
 │   │   ├── games/            # JSON des jeux
 │   │   └── cards/            # JSON des cartes
 │   ├── pages/
+│   │   ├── Admin/            # Panneau d'administration
+│   │   │   ├── Admin.tsx
+│   │   │   └── Admin.css
 │   │   ├── Home/             # Page d'accueil
 │   │   │   ├── Home.tsx
 │   │   │   └── Home.css
+│   │   ├── Login/            # Page de connexion
+│   │   │   ├── Login.tsx
+│   │   │   └── Login.css
+│   │   ├── Signup/           # Page d'inscription
+│   │   │   ├── Signup.tsx
+│   │   │   └── Signup.css
 │   │   ├── CardPage/         # Page d'une carte
 │   │   │   ├── CardPage.tsx
 │   │   │   └── CardPage.css
 │   │   └── GamePage/         # Page d'un jeu
 │   │       ├── GamePage.tsx
 │   │       └── GamePage.css
-│   ├── App.tsx               # Composant principal
+│   ├── App.tsx               # Composant principal avec routes
 │   ├── App.css
-│   ├── main.tsx              # Point d'entrée
+│   ├── main.tsx              # Point d'entrée avec ClerkProvider
 │   └── index.css             # Styles globaux
 ├── index.html
 ├── package.json
@@ -175,11 +188,23 @@ grimoire-daether/
 
 - **Node.js** 18+ et **npm**
 - **Git** pour cloner le projet
+- **Compte Clerk** (gratuit) : https://clerk.com
 
 ### Installation des dépendances
 
 ```bash
 npm install
+```
+
+### Configuration de Clerk
+
+1. Créez un compte sur [Clerk](https://clerk.com)
+2. Créez une nouvelle application (choisissez React)
+3. Récupérez votre **Publishable Key** (commence par `pk_test_...`)
+4. Créez un fichier `.env.local` à la racine du projet :
+
+```env
+VITE_CLERK_PUBLISHABLE_KEY=pk_test_votre_cle_ici
 ```
 
 ### Démarrage du serveur de développement
@@ -200,25 +225,58 @@ Les fichiers optimisés seront générés dans le dossier `dist/`
 
 ---
 
+## 🔧 Configuration
+
+### Variables d'environnement
+
+Créez un fichier `.env.local` à la racine du projet :
+
+```env
+VITE_CLERK_PUBLISHABLE_KEY=pk_test_votre_cle_ici
+```
+
+**⚠️ Important :** Remplacez `pk_test_votre_cle_ici` par votre vraie clé Clerk.
+
+### Configuration Clerk
+
+Dans le dashboard Clerk, configurez :
+
+1. **URLs autorisées** :
+
+   - Développement : `http://localhost:5173`
+   - Production : Votre URL de déploiement (ex: `https://votre-site.vercel.app`)
+
+2. **Méthodes d'authentification** :
+   - Email (activé par défaut)
+   - Optionnel : Google, GitHub, etc.
+
+📖 **Guides disponibles :**
+
+- **[GUIDE_CONFIGURATION_CLERK.md](./GUIDE_CONFIGURATION_CLERK.md)** - Guide de configuration des URLs Clerk
+- **[GUIDE_CONFIGURATION_EMAIL_CLERK.md](./GUIDE_CONFIGURATION_EMAIL_CLERK.md)** - Configuration de l'authentification par email
+- **[TEST_CLERK.md](./TEST_CLERK.md)** - Guide de test de l'authentification
+
+---
+
 ## 🎨 Design
 
 ### Palette de couleurs
 
-Le projet utilise une palette de couleurs bleue mystique :
+Le projet utilise une palette de couleurs mystique :
 
-- **Fond principal** : `#0a0f1a` à `#1a1f2e`
-- **Accents bleus** : `rgba(59, 130, 246, ...)` et `rgba(96, 165, 250, ...)`
-- **Texte** : Tons de bleu clair (`#e0f2fe`, `#dbeafe`, `#bfdbfe`)
-- **Effets lumineux** : Ombres et lueurs bleues pour l'ambiance mystique
+- **Fond principal** : Dégradés de bleu-violet (`#0a0a1a` à `#2a1f3a`)
+- **Accents** : Violets et dorés (`rgba(139, 92, 246, ...)`, `rgba(217, 119, 6, ...)`)
+- **Texte** : Tons clairs (`#c4b5fd`, `#ddd6fe`, `#bfdbfe`)
+- **Effets lumineux** : Ombres et lueurs pour l'ambiance mystique
 
 ### Caractéristiques visuelles
 
 - Design épuré et élégant
 - Animations subtiles et fluides
 - Effets de lumière animés en arrière-plan
-- Navigation fixe avec points lumineux et effets de pulsation
+- Navigation avec points lumineux et effets de pulsation
 - Typographie soignée avec polices serif pour les titres
-- Layout vertical centré optimisé pour une hauteur de 100vh
+- Layout vertical centré optimisé
 - Effets de lueur et d'ombre pour créer une atmosphère mystique
 
 ---
@@ -262,78 +320,38 @@ Le projet utilise une palette de couleurs bleue mystique :
 
 ---
 
-## 🔧 Configuration
-
-### Variables d'environnement
-
-Pour le système d'administration avec Decap CMS, vous devrez configurer :
-
-```env
-# .env.local
-GATSBY_API_URL=https://api.github.com
-GATSBY_REPO_OWNER=votre-username
-GATSBY_REPO_NAME=grimoire-daether
-```
-
-### Configuration Decap CMS
-
-Les fichiers de base pour l'authentification sont déjà en place :
-
-- `public/admin/index.html` - Interface d'administration
-- `public/admin/config.yml` - Configuration du CMS
-
-📖 **Guides disponibles :**
-
-**⚡ Configuration et déploiement :**
-- **[SETUP_NETLIFY.md](./SETUP_NETLIFY.md)** - Guide complet de configuration Netlify
-- **[GUIDE_RAPIDE_GIT_GATEWAY.md](./GUIDE_RAPIDE_GIT_GATEWAY.md)** ⚡ - Guide rapide : Activer Git Gateway (2 minutes)
-- **[DEPANNAGE_GIT_GATEWAY.md](./DEPANNAGE_GIT_GATEWAY.md)** - Dépannage complet : Erreurs Git Gateway
-- **[RESUME_COMPARAISON.md](./RESUME_COMPARAISON.md)** ⚡ - Comparaison rapide : Netlify vs Vercel + Supabase
-- **[COMPARAISON_PLATEFORMES.md](./COMPARAISON_PLATEFORMES.md)** - Analyse détaillée : Hébergement et authentification
-
-**🔐 Authentification et connexion :**
-- **[GUIDE_CONNEXION.md](./GUIDE_CONNEXION.md)** - Guide complet : Vérifier l'inscription et se connecter
-- **[CHECKLIST_CONNEXION.md](./CHECKLIST_CONNEXION.md)** - Checklist rapide pour la connexion
-- **[DEPANNAGE_IDENTITY.md](./DEPANNAGE_IDENTITY.md)** - Dépannage : Problèmes avec Netlify Identity (invitations, connexion)
-
-**📚 Documentation :**
-- **[DOCUMENTATION_DECAP_CMS.md](./DOCUMENTATION_DECAP_CMS.md)** - Documentation complète sur Decap CMS (ce que c'est, avantages, inconvénients)
-- **[QUICK_START.md](./QUICK_START.md)** - Guide de démarrage rapide
-
-**Instructions détaillées :**
-
-- Le déploiement sur Netlify
-- L'activation de Netlify Identity
-- La configuration de Git Gateway
-- La création de votre compte administrateur
-
----
-
 ## 📦 Technologies Utilisées
 
 - **React 19.2.0** - Bibliothèque UI
 - **TypeScript 5.9.3** - Typage statique
 - **Vite 7.2.4** - Build tool moderne
-- **Decap CMS** (à intégrer) - Système d'administration
+- **React Router DOM 7.10.0** - Routage côté client
+- **Clerk 5.57.1** - Authentification et gestion utilisateurs
 
 ---
 
 ## 🚀 Déploiement
 
-### Netlify (Recommandé)
+### Vercel (Recommandé)
 
-⚠️ **Pour une configuration complète et détaillée**, consultez le guide : **[SETUP_NETLIFY.md](./SETUP_NETLIFY.md)**
+1. Connectez votre dépôt GitHub à Vercel
+2. Configurez la variable d'environnement :
+   - **Variable** : `VITE_CLERK_PUBLISHABLE_KEY`
+   - **Valeur** : Votre clé Clerk
+3. Configurez les URLs dans Clerk :
+   - Ajoutez votre URL Vercel dans les URLs autorisées
+4. Déployez !
 
-**Résumé rapide :**
+### Netlify
 
 1. Connectez votre dépôt GitHub à Netlify
 2. Configurez le build :
    - **Build command** : `npm run build`
    - **Publish directory** : `dist`
-3. Activez **Netlify Identity** pour l'admin
-4. Activez **Git Gateway** dans Identity settings
-5. Créez votre compte administrateur via invitation
-6. Accédez à `/admin` pour gérer le contenu
+3. Ajoutez la variable d'environnement :
+   - **Variable** : `VITE_CLERK_PUBLISHABLE_KEY`
+   - **Valeur** : Votre clé Clerk
+4. Configurez les URLs dans Clerk
 
 ### GitHub Pages
 
@@ -342,12 +360,21 @@ npm run build
 # Copiez le contenu de dist/ dans la branche gh-pages
 ```
 
-### Vercel
+---
 
-```bash
-npm install -g vercel
-vercel
-```
+## 🔐 Authentification
+
+### Accès au panneau admin
+
+1. Allez sur `/login` ou `/signup`
+2. Créez un compte ou connectez-vous
+3. Vous serez redirigé vers `/admin` après authentification
+
+### Sécurité
+
+- Les pages `/admin` sont protégées et nécessitent une authentification
+- Seuls les utilisateurs connectés peuvent accéder à l'administration
+- La déconnexion redirige vers la page d'accueil
 
 ---
 
@@ -367,10 +394,12 @@ Projet créé pour construire un grimoire personnel dédié aux cartes divinatoi
 
 - ✨ **Design mystique et élégant** - Interface harmonieuse inspirée des grimoires
 - 📚 **Encyclopédie complète** - Fiches détaillées pour chaque jeu et carte
-- 🔐 **Admin intégré** - Édition du contenu sans backend
+- 🔐 **Admin intégré** - Panneau d'administration personnalisé avec authentification Clerk
 - 🚀 **Déploiement simple** - Site statique facile à héberger
 - 📱 **Responsive** - Adapté à tous les écrans
 - 🎨 **Animations subtiles** - Effets visuels pour une expérience immersive
+- ⚡ **Performant** - Build optimisé avec Vite
+- 🔒 **Sécurisé** - Authentification professionnelle avec Clerk
 
 ---
 

@@ -1,0 +1,6 @@
+/* Réutiliser directement tous les styles de Login pour cohérence totale */
+@import "../Login/Login.css";
+
+/* Signup utilise les mêmes classes CSS que Login (.login-page, .login-container, etc.)
+   donc aucun style supplémentaire n'est nécessaire */
+
