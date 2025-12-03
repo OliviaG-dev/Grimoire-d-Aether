@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./AdminStatus.css";
 
 declare global {
@@ -8,6 +9,7 @@ declare global {
 }
 
 const AdminStatus: React.FC = () => {
+  const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -107,7 +109,7 @@ const AdminStatus: React.FC = () => {
             <button
               className="admin-status-menu-item"
               onClick={() => {
-                window.location.href = "/admin/";
+                navigate("/admin");
                 setShowMenu(false);
               }}
             >
@@ -129,4 +131,5 @@ const AdminStatus: React.FC = () => {
 };
 
 export default AdminStatus;
+
 

@@ -29,7 +29,7 @@ const Login: React.FC = () => {
             setUserEmail(user.email);
             // Rediriger vers /admin après 1 seconde
             setTimeout(() => {
-              window.location.href = "/admin/";
+              window.location.href = "/admin";
             }, 1000);
           }
         });
@@ -41,7 +41,7 @@ const Login: React.FC = () => {
           setError(null);
           // Rediriger vers /admin
           setTimeout(() => {
-            window.location.href = "/admin/";
+            window.location.href = "/admin";
           }, 1000);
         });
 

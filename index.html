@@ -21,15 +21,15 @@
         const hash = window.location.hash;
         
         if (hash) {
-          // Token d'invitation : rediriger vers /admin avec le widget Netlify Identity
+          // Token d'invitation : rediriger vers /login avec le token
           if (hash.includes('invite_token=')) {
-            window.location.replace('/admin' + hash);
+            window.location.replace('/login' + hash);
             return;
           }
           
-          // Autres tokens (recovery, confirmation) : rediriger vers /admin
+          // Autres tokens (recovery, confirmation) : rediriger vers /login
           if (hash.includes('recovery_token=') || hash.includes('confirmation_token=')) {
-            window.location.replace('/admin' + hash);
+            window.location.replace('/login' + hash);
             return;
           }
         }

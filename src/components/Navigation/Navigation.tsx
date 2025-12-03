@@ -10,7 +10,7 @@ const Navigation: React.FC = () => {
     { path: "/", label: "Accueil" },
     { path: "/games", label: "Jeux" },
     { path: "/cards", label: "Cartes" },
-    { path: "/login", label: "Admin" },
+    { path: "/admin", label: "Admin" },
   ];
 
   return (
