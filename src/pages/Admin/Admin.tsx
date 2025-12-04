@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth, useUser, SignOutButton } from "@clerk/clerk-react";
+import {
+  DashboardIcon,
+  GamesIcon,
+  CardsIcon,
+  AddIcon,
+  EditIcon,
+  LogoutIcon,
+} from "../../components/Icons";
 import "./Admin.css";
 import logo from "../../assets/logo.png";
 
@@ -73,7 +81,10 @@ const Admin: React.FC = () => {
               {user?.primaryEmailAddress?.emailAddress || "Admin"}
             </span>
             <SignOutButton>
-              <button className="admin-logout-btn">Déconnexion</button>
+              <button className="admin-logout-btn">
+                <LogoutIcon size={18} className="admin-icon" />
+                <span>Déconnexion</span>
+              </button>
             </SignOutButton>
           </div>
         </header>
@@ -85,7 +96,8 @@ const Admin: React.FC = () => {
             }`}
             onClick={() => setCurrentView("dashboard")}
           >
-            📊 Tableau de bord
+            <DashboardIcon size={20} className="admin-nav-icon" />
+            <span>Tableau de bord</span>
           </button>
           <button
             className={`admin-nav-btn ${
@@ -93,7 +105,8 @@ const Admin: React.FC = () => {
             }`}
             onClick={() => setCurrentView("games")}
           >
-            🎴 Jeux
+            <GamesIcon size={20} className="admin-nav-icon" />
+            <span>Jeux</span>
           </button>
           <button
             className={`admin-nav-btn ${
@@ -101,7 +114,8 @@ const Admin: React.FC = () => {
             }`}
             onClick={() => setCurrentView("cards")}
           >
-            🃏 Cartes
+            <CardsIcon size={20} className="admin-nav-icon" />
+            <span>Cartes</span>
           </button>
         </nav>
 
@@ -126,7 +140,10 @@ const Admin: React.FC = () => {
             <div className="admin-view">
               <div className="admin-view-header">
                 <h2>Gestion des Jeux</h2>
-                <button className="admin-add-btn">+ Ajouter un jeu</button>
+                <button className="admin-add-btn">
+                  <AddIcon size={20} className="admin-icon" />
+                  <span>Ajouter un jeu</span>
+                </button>
               </div>
               <div className="admin-list">
                 {games.length === 0 ? (
@@ -136,7 +153,10 @@ const Admin: React.FC = () => {
                     <div key={game.id} className="admin-item">
                       <h3>{game.name}</h3>
                       <p>{game.type}</p>
-                      <button>Éditer</button>
+                      <button className="admin-edit-btn">
+                        <EditIcon size={16} className="admin-icon" />
+                        <span>Éditer</span>
+                      </button>
                     </div>
                   ))
                 )}
@@ -148,7 +168,10 @@ const Admin: React.FC = () => {
             <div className="admin-view">
               <div className="admin-view-header">
                 <h2>Gestion des Cartes</h2>
-                <button className="admin-add-btn">+ Ajouter une carte</button>
+                <button className="admin-add-btn">
+                  <AddIcon size={20} className="admin-icon" />
+                  <span>Ajouter une carte</span>
+                </button>
               </div>
               <div className="admin-list">
                 {cards.length === 0 ? (
@@ -158,7 +181,10 @@ const Admin: React.FC = () => {
                     <div key={card.id} className="admin-item">
                       <h3>{card.name}</h3>
                       <p>Jeu: {card.gameId}</p>
-                      <button>Éditer</button>
+                      <button className="admin-edit-btn">
+                        <EditIcon size={16} className="admin-icon" />
+                        <span>Éditer</span>
+                      </button>
                     </div>
                   ))
                 )}
