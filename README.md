@@ -54,7 +54,7 @@ Chaque carte contient :
 - **Nom** et **image**
 - **Mots-clés** (keywords)
 - **Signification** générale
-- **Interprétation** amour / travail
+- **Interprétation** amour / travail / santé / argent
 - **Énergies** (chakras, éléments…)
 - **Symboles**
 
@@ -365,6 +365,8 @@ Une carte contient les informations suivantes :
   meaning: string | null;        // Signification générale
   love: string | null;           // Interprétation amour
   work: string | null;           // Interprétation travail
+  health: string | null;         // Interprétation santé
+  money: string | null;          // Interprétation argent
   elements: string[] | null;     // Éléments associés
   chakras: string[] | null;      // Chakras associés
   symbols: string[] | null;      // Symboles

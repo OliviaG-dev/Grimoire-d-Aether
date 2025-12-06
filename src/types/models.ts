@@ -24,6 +24,8 @@ export interface Card {
   meaning?: string;
   love?: string;
   work?: string;
+  health?: string;
+  money?: string;
   energies?: {
     elements?: string[];
     chakras?: string[];

@@ -15,6 +15,8 @@ function rowToCard(row: CardRow): Card {
     meaning: row.meaning || undefined,
     love: row.love || undefined,
     work: row.work || undefined,
+    health: row.health || undefined,
+    money: row.money || undefined,
     energies: {
       elements: row.elements || undefined,
       chakras: row.chakras || undefined,
@@ -37,6 +39,8 @@ function cardToInsert(card: Omit<Card, 'id' | 'createdAt' | 'updatedAt'>): CardI
     meaning: card.meaning || null,
     love: card.love || null,
     work: card.work || null,
+    health: card.health || null,
+    money: card.money || null,
     elements: card.energies?.elements || null,
     chakras: card.energies?.chakras || null,
     symbols: card.symbols || null,
@@ -137,6 +141,8 @@ export const cardsService = {
     if (updates.meaning !== undefined) updateData.meaning = updates.meaning || null;
     if (updates.love !== undefined) updateData.love = updates.love || null;
     if (updates.work !== undefined) updateData.work = updates.work || null;
+    if (updates.health !== undefined) updateData.health = updates.health || null;
+    if (updates.money !== undefined) updateData.money = updates.money || null;
     if (updates.energies?.elements !== undefined) updateData.elements = updates.energies.elements || null;
     if (updates.energies?.chakras !== undefined) updateData.chakras = updates.energies.chakras || null;
     if (updates.symbols !== undefined) updateData.symbols = updates.symbols || null;

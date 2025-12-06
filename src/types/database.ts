@@ -24,6 +24,8 @@ export interface CardRow {
   meaning: string | null;
   love: string | null;
   work: string | null;
+  health: string | null;
+  money: string | null;
   elements: string[] | null;
   chakras: string[] | null;
   symbols: string[] | null;
@@ -62,6 +64,8 @@ export interface CardInsert {
   meaning?: string | null;
   love?: string | null;
   work?: string | null;
+  health?: string | null;
+  money?: string | null;
   elements?: string[] | null;
   chakras?: string[] | null;
   symbols?: string[] | null;
@@ -75,6 +79,8 @@ export interface CardUpdate {
   meaning?: string | null;
   love?: string | null;
   work?: string | null;
+  health?: string | null;
+  money?: string | null;
   elements?: string[] | null;
   chakras?: string[] | null;
   symbols?: string[] | null;

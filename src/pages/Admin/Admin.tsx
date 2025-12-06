@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth, useUser, SignOutButton } from "@clerk/clerk-react";
 import {
@@ -9,35 +9,13 @@ import {
   EditIcon,
   LogoutIcon,
 } from "../../components/Icons";
+import { gamesService } from "../../services/gamesService";
+import { cardsService } from "../../services/cardsService";
+import type { Game, Card } from "../../types/models";
+import AddGameForm from "../../components/AddGameForm/AddGameForm";
+import AddCardForm from "../../components/AddCardForm/AddCardForm";
 import "./Admin.css";
 import logo from "../../assets/logo.png";
-
-interface Game {
-  id: string;
-  name: string;
-  type: string;
-  author: string;
-  year: string;
-  theme: string;
-  coverImage?: string;
-  description: string;
-}
-
-interface Card {
-  id: string;
-  gameId: string;
-  name: string;
-  image?: string;
-  keywords?: string[];
-  meaning?: string;
-  love?: string;
-  work?: string;
-  energies?: {
-    elements?: string[];
-    chakras?: string[];
-  };
-  symbols?: string[];
-}
 
 type AdminView = "dashboard" | "games" | "cards";
 
@@ -45,11 +23,54 @@ const Admin: React.FC = () => {
   const { isSignedIn, isLoaded } = useAuth();
   const { user } = useUser();
   const [currentView, setCurrentView] = useState<AdminView>("dashboard");
-  const [games] = useState<Game[]>([]);
-  const [cards] = useState<Card[]>([]);
+  const [games, setGames] = useState<Game[]>([]);
+  const [cards, setCards] = useState<Card[]>([]);
+  const [showAddGameForm, setShowAddGameForm] = useState(false);
+  const [showAddCardForm, setShowAddCardForm] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  // Charger les données
+  useEffect(() => {
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        const [gamesData, cardsData] = await Promise.all([
+          gamesService.getAll(),
+          cardsService.getAll(),
+        ]);
+        setGames(gamesData);
+        setCards(cardsData);
+      } catch (error) {
+        console.error("Erreur lors du chargement des données:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadData();
+  }, []);
+
+  const handleGameAdded = async () => {
+    setShowAddGameForm(false);
+    try {
+      const gamesData = await gamesService.getAll();
+      setGames(gamesData);
+    } catch (error) {
+      console.error("Erreur lors du rechargement des jeux:", error);
+    }
+  };
+
+  const handleCardAdded = async () => {
+    setShowAddCardForm(false);
+    try {
+      const cardsData = await cardsService.getAll();
+      setCards(cardsData);
+    } catch (error) {
+      console.error("Erreur lors du rechargement des cartes:", error);
+    }
+  };
 
   // Afficher un loader pendant le chargement
-  if (!isLoaded) {
+  if (!isLoaded || loading) {
     return (
       <div className="admin-page">
         <div className="admin-loading">
@@ -140,7 +161,10 @@ const Admin: React.FC = () => {
             <div className="admin-view">
               <div className="admin-view-header">
                 <h2>Gestion des Jeux</h2>
-                <button className="admin-add-btn">
+                <button
+                  className="admin-add-btn"
+                  onClick={() => setShowAddGameForm(true)}
+                >
                   <AddIcon size={20} className="admin-icon" />
                   <span>Ajouter un jeu</span>
                 </button>
@@ -168,7 +192,10 @@ const Admin: React.FC = () => {
             <div className="admin-view">
               <div className="admin-view-header">
                 <h2>Gestion des Cartes</h2>
-                <button className="admin-add-btn">
+                <button
+                  className="admin-add-btn"
+                  onClick={() => setShowAddCardForm(true)}
+                >
                   <AddIcon size={20} className="admin-icon" />
                   <span>Ajouter une carte</span>
                 </button>
@@ -193,6 +220,20 @@ const Admin: React.FC = () => {
           )}
         </main>
       </div>
+
+      {showAddGameForm && (
+        <AddGameForm
+          onSuccess={handleGameAdded}
+          onCancel={() => setShowAddGameForm(false)}
+        />
+      )}
+
+      {showAddCardForm && (
+        <AddCardForm
+          onSuccess={handleCardAdded}
+          onCancel={() => setShowAddCardForm(false)}
+        />
+      )}
     </div>
   );
 };

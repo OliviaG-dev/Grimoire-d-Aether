@@ -1,0 +1,221 @@
+.add-game-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.add-game-form-container {
+  background: rgba(26, 21, 38, 0.98);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  position: relative;
+}
+
+.add-game-form-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.add-game-form-container::-webkit-scrollbar-track {
+  background: rgba(26, 21, 38, 0.5);
+  border-radius: 4px;
+}
+
+.add-game-form-container::-webkit-scrollbar-thumb {
+  background: #8b5cf6;
+  border-radius: 4px;
+}
+
+.add-game-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+}
+
+.add-game-form-header h2 {
+  color: #c4b5fd;
+  font-family: "Georgia", serif;
+  font-size: 1.75rem;
+  margin: 0;
+}
+
+.add-game-form-close {
+  background: transparent;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: #c4b5fd;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  flex-shrink: 0;
+  font-weight: 300;
+  font-family: Arial, sans-serif;
+}
+
+.add-game-form-close::before {
+  content: "×";
+  display: block;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+}
+
+.add-game-form-close:hover {
+  background: rgba(139, 92, 246, 0.15);
+  border-color: rgba(139, 92, 246, 0.5);
+}
+
+.add-game-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.add-game-form-error {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  color: #fca5a5;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.add-game-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.add-game-form-group label {
+  color: #c4b5fd;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.add-game-form-group input,
+.add-game-form-group select,
+.add-game-form-group textarea {
+  background: rgba(26, 21, 38, 0.8);
+  border: 2px solid rgba(139, 92, 246, 0.3);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  color: #ddd6fe;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.add-game-form-group input:focus,
+.add-game-form-group select:focus,
+.add-game-form-group textarea:focus {
+  outline: none;
+  border-color: rgba(139, 92, 246, 0.6);
+  background: rgba(26, 21, 38, 0.95);
+}
+
+.add-game-form-group input::placeholder,
+.add-game-form-group textarea::placeholder {
+  color: rgba(221, 214, 254, 0.5);
+}
+
+.add-game-form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.add-game-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.add-game-form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid rgba(139, 92, 246, 0.3);
+}
+
+.add-game-form-cancel,
+.add-game-form-submit {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.add-game-form-cancel {
+  background: transparent;
+  color: #ddd6fe;
+  border: 2px solid rgba(139, 92, 246, 0.3);
+}
+
+.add-game-form-cancel:hover:not(:disabled) {
+  background: rgba(139, 92, 246, 0.2);
+  border-color: rgba(139, 92, 246, 0.6);
+  color: #c4b5fd;
+}
+
+.add-game-form-submit {
+  background: #8b5cf6;
+  color: white;
+}
+
+.add-game-form-submit:hover:not(:disabled) {
+  background: #a78bfa;
+}
+
+.add-game-form-cancel:disabled,
+.add-game-form-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .add-game-form-container {
+    width: 95%;
+    padding: 1.5rem;
+  }
+
+  .add-game-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .add-game-form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .add-game-form-cancel,
+  .add-game-form-submit {
+    width: 100%;
+  }
+}
+
