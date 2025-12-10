@@ -6,18 +6,20 @@ import "./AddGameForm.css";
 interface AddGameFormProps {
   onSuccess: () => void;
   onCancel: () => void;
+  game?: Game; // Si fourni, on est en mode édition
 }
 
-const AddGameForm: React.FC<AddGameFormProps> = ({ onSuccess, onCancel }) => {
+const AddGameForm: React.FC<AddGameFormProps> = ({ onSuccess, onCancel, game }) => {
+  const isEditMode = !!game;
   const [formData, setFormData] = useState<Omit<Game, "id" | "createdAt" | "updatedAt">>({
-    name: "",
-    type: "",
-    author: "",
-    year: "",
-    theme: "",
-    coverImage: "",
-    description: "",
-    cardCount: undefined,
+    name: game?.name || "",
+    type: game?.type || "",
+    author: game?.author || "",
+    year: game?.year || "",
+    theme: game?.theme || "",
+    coverImage: game?.coverImage || "",
+    description: game?.description || "",
+    cardCount: game?.cardCount || undefined,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -59,11 +61,19 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onSuccess, onCancel }) => {
         throw new Error("La description est requise");
       }
 
-      await gamesService.create({
-        ...formData,
-        coverImage: formData.coverImage || undefined,
-        cardCount: formData.cardCount || undefined,
-      });
+      if (isEditMode && game) {
+        await gamesService.update(game.id, {
+          ...formData,
+          coverImage: formData.coverImage || undefined,
+          cardCount: formData.cardCount || undefined,
+        });
+      } else {
+        await gamesService.create({
+          ...formData,
+          coverImage: formData.coverImage || undefined,
+          cardCount: formData.cardCount || undefined,
+        });
+      }
 
       onSuccess();
     } catch (err) {
@@ -77,7 +87,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onSuccess, onCancel }) => {
     <div className="add-game-form-overlay">
       <div className="add-game-form-container">
         <div className="add-game-form-header">
-          <h2>Ajouter un jeu</h2>
+          <h2>{isEditMode ? "Modifier le jeu" : "Ajouter un jeu"}</h2>
           <button
             type="button"
             className="add-game-form-close"
@@ -221,7 +231,13 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onSuccess, onCancel }) => {
               className="add-game-form-submit"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Création..." : "Créer le jeu"}
+              {isSubmitting
+                ? isEditMode
+                  ? "Modification..."
+                  : "Création..."
+                : isEditMode
+                  ? "Modifier le jeu"
+                  : "Créer le jeu"}
             </button>
           </div>
         </form>

@@ -1,8 +1,8 @@
 /* ============================================
-   GAME PAGE - Design mystique et élégant
+   GAMES PAGE - Liste de tous les jeux
    ============================================ */
 
-.game-page {
+.games-page {
   min-height: 100vh;
   height: 100vh;
   background: linear-gradient(
@@ -23,27 +23,27 @@
 }
 
 /* Barre de défilement pour la page */
-.game-page::-webkit-scrollbar {
+.games-page::-webkit-scrollbar {
   width: 12px;
 }
 
-.game-page::-webkit-scrollbar-track {
+.games-page::-webkit-scrollbar-track {
   background: rgba(26, 21, 38, 0.5);
   border-radius: 6px;
 }
 
-.game-page::-webkit-scrollbar-thumb {
+.games-page::-webkit-scrollbar-thumb {
   background: #8b5cf6;
   border-radius: 6px;
   border: 2px solid rgba(26, 21, 38, 0.5);
 }
 
-.game-page::-webkit-scrollbar-thumb:hover {
+.games-page::-webkit-scrollbar-thumb:hover {
   background: #a78bfa;
 }
 
 /* Effets mystiques animés */
-.game-page::before {
+.games-page::before {
   content: "";
   position: fixed;
   top: 0;
@@ -80,7 +80,7 @@
   }
 }
 
-.game-container {
+.games-container {
   max-width: 1400px;
   width: 100%;
   margin: 0 auto;
@@ -94,7 +94,7 @@
 }
 
 /* Header */
-.game-header {
+.games-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -105,20 +105,20 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-.game-header-left {
+.games-header-left {
   display: flex;
   align-items: center;
   gap: 1.5rem;
 }
 
-.game-logo {
+.games-logo {
   max-width: 60px;
   height: auto;
   filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.5))
     drop-shadow(0 0 10px rgba(217, 119, 6, 0.3));
 }
 
-.game-title {
+.games-title {
   font-size: 1.75rem;
   font-weight: 400;
   color: #c4b5fd;
@@ -127,8 +127,8 @@
 }
 
 /* Loading & Error */
-.game-loading,
-.game-error {
+.games-loading,
+.games-error {
   text-align: center;
   padding: 4rem 2rem;
   color: #ddd6fe;
@@ -139,23 +139,23 @@
   justify-content: center;
 }
 
-.game-loading h2 {
+.games-loading h2 {
   color: #c4b5fd;
   margin-bottom: 1rem;
   font-size: 2rem;
 }
 
-.game-loading p {
+.games-loading p {
   color: #a78bfa;
   font-size: 1.1rem;
 }
 
-.game-error h2 {
+.games-error h2 {
   color: #fca5a5;
   margin-bottom: 1rem;
 }
 
-.game-back-link {
+.games-back-link {
   display: inline-block;
   margin-top: 1.5rem;
   padding: 0.75rem 1.5rem;
@@ -167,220 +167,121 @@
   transition: all 0.3s ease;
 }
 
-.game-back-link:hover {
+.games-back-link:hover {
   background: rgba(139, 92, 246, 0.3);
   border-color: rgba(139, 92, 246, 0.5);
 }
 
 /* Content */
-.game-content {
+.games-content {
   display: flex;
   flex-direction: column;
-  gap: 3rem;
-}
-
-/* Game Info */
-.game-info {
-  background: rgba(26, 21, 38, 0.95);
-  border: 1px solid rgba(139, 92, 246, 0.2);
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.game-info-header {
-  display: flex;
   gap: 2rem;
-  margin-bottom: 2rem;
 }
 
-.game-cover {
-  flex-shrink: 0;
-  width: 200px;
-  height: 300px;
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid rgba(139, 92, 246, 0.3);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.game-cover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.game-info-text {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.game-name {
+.games-page-title {
   font-size: 2.5rem;
   font-weight: 400;
   color: #c4b5fd;
   margin: 0;
   font-family: "Georgia", serif;
-}
-
-.game-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-items: center;
-}
-
-.game-type {
-  padding: 0.5rem 1rem;
-  background: rgba(139, 92, 246, 0.2);
-  color: #c4b5fd;
-  border-radius: 6px;
-  border: 1px solid rgba(139, 92, 246, 0.3);
-  font-size: 0.9rem;
-}
-
-.game-author,
-.game-year {
-  color: #ddd6fe;
-  font-size: 0.95rem;
-}
-
-.game-theme,
-.game-card-count {
-  color: #ddd6fe;
-  margin: 0.5rem 0;
-}
-
-.game-theme strong,
-.game-card-count strong {
-  color: #c4b5fd;
-}
-
-.game-description {
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(139, 92, 246, 0.2);
-}
-
-.game-description h3 {
-  font-size: 1.5rem;
-  color: #c4b5fd;
-  margin: 0 0 1rem 0;
-  font-weight: 400;
-  font-family: "Georgia", serif;
-}
-
-.game-description p {
-  color: #ddd6fe;
-  line-height: 1.8;
-  font-size: 1.05rem;
-}
-
-/* Cards Section */
-.game-cards-section {
-  background: rgba(26, 21, 38, 0.95);
-  border: 1px solid rgba(139, 92, 246, 0.2);
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.game-cards-title {
-  font-size: 1.75rem;
-  color: #c4b5fd;
-  margin: 0 0 1.5rem 0;
-  font-weight: 400;
-  font-family: "Georgia", serif;
-}
-
-.game-no-cards {
-  color: #ddd6fe;
   text-align: center;
-  padding: 2rem;
+}
+
+.games-empty {
+  text-align: center;
+  color: #ddd6fe;
+  padding: 3rem;
+  font-size: 1.2rem;
   font-style: italic;
 }
 
-.game-cards-grid {
+/* Games Grid */
+.games-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
 }
 
-.game-card-item {
+.games-item {
   display: flex;
   flex-direction: column;
-  background: rgba(30, 25, 45, 0.8);
+  background: rgba(26, 21, 38, 0.95);
   border: 1px solid rgba(139, 92, 246, 0.2);
-  border-radius: 8px;
-  padding: 1rem;
+  border-radius: 12px;
+  padding: 1.5rem;
   text-decoration: none;
   color: inherit;
   transition: all 0.3s ease;
-  cursor: pointer;
+  overflow: hidden;
 }
 
-.game-card-item:hover {
+.games-item:hover {
   background: rgba(30, 25, 45, 1);
   border-color: rgba(139, 92, 246, 0.5);
   transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
 }
 
-.game-card-image {
+.games-item-image {
   width: 100%;
   aspect-ratio: 2/3;
-  border-radius: 6px;
+  border-radius: 8px;
   overflow: hidden;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
   background: rgba(20, 15, 30, 0.5);
   border: 1px solid rgba(139, 92, 246, 0.2);
 }
 
-.game-card-image img {
+.games-item-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.game-card-name {
-  font-size: 1.1rem;
+.games-item-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.games-item-name {
+  font-size: 1.5rem;
   color: #c4b5fd;
-  margin: 0 0 0.5rem 0;
+  margin: 0;
+  font-weight: 500;
+  font-family: "Georgia", serif;
+}
+
+.games-item-type {
+  color: #a78bfa;
+  margin: 0;
+  font-size: 0.95rem;
   font-weight: 500;
 }
 
-.game-card-keywords {
-  font-size: 0.85rem;
-  color: #a78bfa;
+.games-item-author,
+.games-item-year {
+  color: #ddd6fe;
   margin: 0;
+  font-size: 0.9rem;
+}
+
+.games-item-count {
+  color: #c4b5fd;
+  margin: 0.5rem 0 0 0;
+  font-size: 0.85rem;
   font-style: italic;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .game-info-header {
-    flex-direction: column;
+  .games-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
   }
 
-  .game-cover {
-    width: 100%;
-    max-width: 200px;
-    margin: 0 auto;
-  }
-
-  .game-name {
+  .games-page-title {
     font-size: 2rem;
-    text-align: center;
-  }
-
-  .game-meta {
-    justify-content: center;
-  }
-
-  .game-cards-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 1rem;
   }
 }

@@ -7,25 +7,33 @@ import "./AddCardForm.css";
 interface AddCardFormProps {
   onSuccess: () => void;
   onCancel: () => void;
+  card?: Card; // Si fourni, on est en mode édition
 }
 
-const AddCardForm: React.FC<AddCardFormProps> = ({ onSuccess, onCancel }) => {
+const AddCardForm: React.FC<AddCardFormProps> = ({
+  onSuccess,
+  onCancel,
+  card,
+}) => {
+  const isEditMode = !!card;
   const [games, setGames] = useState<Game[]>([]);
-  const [formData, setFormData] = useState<Omit<Card, "id" | "createdAt" | "updatedAt">>({
-    gameId: "",
-    name: "",
-    image: "",
-    keywords: [],
-    meaning: "",
-    love: "",
-    work: "",
-    health: "",
-    money: "",
+  const [formData, setFormData] = useState<
+    Omit<Card, "id" | "createdAt" | "updatedAt">
+  >({
+    gameId: card?.gameId || "",
+    name: card?.name || "",
+    image: card?.image || "",
+    keywords: card?.keywords || [],
+    meaning: card?.meaning || "",
+    love: card?.love || "",
+    work: card?.work || "",
+    health: card?.health || "",
+    money: card?.money || "",
     energies: {
-      elements: [],
-      chakras: [],
+      elements: card?.energies?.elements || [],
+      chakras: card?.energies?.chakras || [],
     },
-    symbols: [],
+    symbols: card?.symbols || [],
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -37,7 +45,7 @@ const AddCardForm: React.FC<AddCardFormProps> = ({ onSuccess, onCancel }) => {
       try {
         const loadedGames = await gamesService.getAll();
         setGames(loadedGames);
-      } catch (err) {
+      } catch {
         setError("Impossible de charger les jeux");
       } finally {
         setLoadingGames(false);
@@ -47,7 +55,9 @@ const AddCardForm: React.FC<AddCardFormProps> = ({ onSuccess, onCancel }) => {
   }, []);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -57,8 +67,14 @@ const AddCardForm: React.FC<AddCardFormProps> = ({ onSuccess, onCancel }) => {
     setError(null);
   };
 
-  const handleArrayChange = (field: "keywords" | "symbols" | "elements" | "chakras", value: string) => {
-    const array = value.split(",").map((item) => item.trim()).filter((item) => item);
+  const handleArrayChange = (
+    field: "keywords" | "symbols" | "elements" | "chakras",
+    value: string
+  ) => {
+    const array = value
+      .split(",")
+      .map((item) => item.trim())
+      .filter((item) => item);
     setFormData((prev) => {
       if (field === "elements" || field === "chakras") {
         return {
@@ -77,7 +93,9 @@ const AddCardForm: React.FC<AddCardFormProps> = ({ onSuccess, onCancel }) => {
     setError(null);
   };
 
-  const getArrayValue = (field: "keywords" | "symbols" | "elements" | "chakras"): string => {
+  const getArrayValue = (
+    field: "keywords" | "symbols" | "elements" | "chakras"
+  ): string => {
     if (field === "elements" || field === "chakras") {
       return formData.energies?.[field]?.join(", ") || "";
     }
@@ -98,25 +116,65 @@ const AddCardForm: React.FC<AddCardFormProps> = ({ onSuccess, onCancel }) => {
         throw new Error("Le nom est requis");
       }
 
-      await cardsService.create({
-        ...formData,
-        image: formData.image || undefined,
-        keywords: formData.keywords && formData.keywords.length > 0 ? formData.keywords : undefined,
-        meaning: formData.meaning || undefined,
-        love: formData.love || undefined,
-        work: formData.work || undefined,
-        health: formData.health || undefined,
-        money: formData.money || undefined,
-        energies: {
-          elements: formData.energies?.elements && formData.energies.elements.length > 0 
-            ? formData.energies.elements 
-            : undefined,
-          chakras: formData.energies?.chakras && formData.energies.chakras.length > 0 
-            ? formData.energies.chakras 
-            : undefined,
-        },
-        symbols: formData.symbols && formData.symbols.length > 0 ? formData.symbols : undefined,
-      });
+      if (isEditMode && card) {
+        await cardsService.update(card.id, {
+          ...formData,
+          image: formData.image || undefined,
+          keywords:
+            formData.keywords && formData.keywords.length > 0
+              ? formData.keywords
+              : undefined,
+          meaning: formData.meaning || undefined,
+          love: formData.love || undefined,
+          work: formData.work || undefined,
+          health: formData.health || undefined,
+          money: formData.money || undefined,
+          energies: {
+            elements:
+              formData.energies?.elements &&
+              formData.energies.elements.length > 0
+                ? formData.energies.elements
+                : undefined,
+            chakras:
+              formData.energies?.chakras && formData.energies.chakras.length > 0
+                ? formData.energies.chakras
+                : undefined,
+          },
+          symbols:
+            formData.symbols && formData.symbols.length > 0
+              ? formData.symbols
+              : undefined,
+        });
+      } else {
+        await cardsService.create({
+          ...formData,
+          image: formData.image || undefined,
+          keywords:
+            formData.keywords && formData.keywords.length > 0
+              ? formData.keywords
+              : undefined,
+          meaning: formData.meaning || undefined,
+          love: formData.love || undefined,
+          work: formData.work || undefined,
+          health: formData.health || undefined,
+          money: formData.money || undefined,
+          energies: {
+            elements:
+              formData.energies?.elements &&
+              formData.energies.elements.length > 0
+                ? formData.energies.elements
+                : undefined,
+            chakras:
+              formData.energies?.chakras && formData.energies.chakras.length > 0
+                ? formData.energies.chakras
+                : undefined,
+          },
+          symbols:
+            formData.symbols && formData.symbols.length > 0
+              ? formData.symbols
+              : undefined,
+        });
+      }
 
       onSuccess();
     } catch (err) {
@@ -130,7 +188,7 @@ const AddCardForm: React.FC<AddCardFormProps> = ({ onSuccess, onCancel }) => {
     <div className="add-card-form-overlay">
       <div className="add-card-form-container">
         <div className="add-card-form-header">
-          <h2>Ajouter une carte</h2>
+          <h2>{isEditMode ? "Modifier la carte" : "Ajouter une carte"}</h2>
           <button
             type="button"
             className="add-card-form-close"
@@ -145,7 +203,9 @@ const AddCardForm: React.FC<AddCardFormProps> = ({ onSuccess, onCancel }) => {
           <div className="add-card-form-group">
             <label htmlFor="gameId">Jeu *</label>
             {loadingGames ? (
-              <div className="add-card-form-loading">Chargement des jeux...</div>
+              <div className="add-card-form-loading">
+                Chargement des jeux...
+              </div>
             ) : (
               <select
                 id="gameId"
@@ -190,7 +250,9 @@ const AddCardForm: React.FC<AddCardFormProps> = ({ onSuccess, onCancel }) => {
           </div>
 
           <div className="add-card-form-group">
-            <label htmlFor="keywords">Mots-clés (séparés par des virgules)</label>
+            <label htmlFor="keywords">
+              Mots-clés (séparés par des virgules)
+            </label>
             <input
               type="text"
               id="keywords"
@@ -265,7 +327,9 @@ const AddCardForm: React.FC<AddCardFormProps> = ({ onSuccess, onCancel }) => {
           </div>
 
           <div className="add-card-form-group">
-            <label htmlFor="elements">Éléments (séparés par des virgules)</label>
+            <label htmlFor="elements">
+              Éléments (séparés par des virgules)
+            </label>
             <input
               type="text"
               id="elements"
@@ -311,7 +375,13 @@ const AddCardForm: React.FC<AddCardFormProps> = ({ onSuccess, onCancel }) => {
               className="add-card-form-submit"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Création..." : "Créer la carte"}
+              {isSubmitting
+                ? isEditMode
+                  ? "Modification..."
+                  : "Création..."
+                : isEditMode
+                ? "Modifier la carte"
+                : "Créer la carte"}
             </button>
           </div>
         </form>
@@ -321,4 +391,3 @@ const AddCardForm: React.FC<AddCardFormProps> = ({ onSuccess, onCancel }) => {
 };
 
 export default AddCardForm;
-

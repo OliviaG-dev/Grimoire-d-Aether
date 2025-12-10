@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth, useUser, SignOutButton } from "@clerk/clerk-react";
 import {
   DashboardIcon,
@@ -7,6 +7,7 @@ import {
   CardsIcon,
   AddIcon,
   EditIcon,
+  DeleteIcon,
   LogoutIcon,
 } from "../../components/Icons";
 import { gamesService } from "../../services/gamesService";
@@ -22,11 +23,14 @@ type AdminView = "dashboard" | "games" | "cards";
 const Admin: React.FC = () => {
   const { isSignedIn, isLoaded } = useAuth();
   const { user } = useUser();
+  const navigate = useNavigate();
   const [currentView, setCurrentView] = useState<AdminView>("dashboard");
   const [games, setGames] = useState<Game[]>([]);
   const [cards, setCards] = useState<Card[]>([]);
   const [showAddGameForm, setShowAddGameForm] = useState(false);
   const [showAddCardForm, setShowAddCardForm] = useState(false);
+  const [editingGame, setEditingGame] = useState<Game | null>(null);
+  const [editingCard, setEditingCard] = useState<Card | null>(null);
   const [loading, setLoading] = useState(true);
 
   // Charger les données
@@ -51,6 +55,7 @@ const Admin: React.FC = () => {
 
   const handleGameAdded = async () => {
     setShowAddGameForm(false);
+    setEditingGame(null);
     try {
       const gamesData = await gamesService.getAll();
       setGames(gamesData);
@@ -61,11 +66,56 @@ const Admin: React.FC = () => {
 
   const handleCardAdded = async () => {
     setShowAddCardForm(false);
+    setEditingCard(null);
     try {
       const cardsData = await cardsService.getAll();
       setCards(cardsData);
     } catch (error) {
       console.error("Erreur lors du rechargement des cartes:", error);
+    }
+  };
+
+  const handleEditGame = (game: Game) => {
+    setEditingGame(game);
+    setShowAddGameForm(true);
+  };
+
+  const handleEditCard = (card: Card) => {
+    setEditingCard(card);
+    setShowAddCardForm(true);
+  };
+
+  const handleDeleteGame = async (game: Game) => {
+    if (
+      window.confirm(
+        `Êtes-vous sûr de vouloir supprimer le jeu "${game.name}" ? Cette action est irréversible.`
+      )
+    ) {
+      try {
+        await gamesService.delete(game.id);
+        const gamesData = await gamesService.getAll();
+        setGames(gamesData);
+      } catch (error) {
+        console.error("Erreur lors de la suppression du jeu:", error);
+        alert("Erreur lors de la suppression du jeu");
+      }
+    }
+  };
+
+  const handleDeleteCard = async (card: Card) => {
+    if (
+      window.confirm(
+        `Êtes-vous sûr de vouloir supprimer la carte "${card.name}" ? Cette action est irréversible.`
+      )
+    ) {
+      try {
+        await cardsService.delete(card.id);
+        const cardsData = await cardsService.getAll();
+        setCards(cardsData);
+      } catch (error) {
+        console.error("Erreur lors de la suppression de la carte:", error);
+        alert("Erreur lors de la suppression de la carte");
+      }
     }
   };
 
@@ -98,6 +148,13 @@ const Admin: React.FC = () => {
             </div>
           </div>
           <div className="admin-header-right">
+            <button
+              className="admin-home-btn"
+              onClick={() => navigate("/")}
+              title="Retour à l'accueil"
+            >
+              <span>Accueil</span>
+            </button>
             <span className="admin-user">
               {user?.primaryEmailAddress?.emailAddress || "Admin"}
             </span>
@@ -175,12 +232,36 @@ const Admin: React.FC = () => {
                 ) : (
                   games.map((game) => (
                     <div key={game.id} className="admin-item">
+                      {game.coverImage && (
+                        <div className="admin-item-image">
+                          <img
+                            src={game.coverImage}
+                            alt={game.name}
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display =
+                                "none";
+                            }}
+                          />
+                        </div>
+                      )}
                       <h3>{game.name}</h3>
                       <p>{game.type}</p>
-                      <button className="admin-edit-btn">
-                        <EditIcon size={16} className="admin-icon" />
-                        <span>Éditer</span>
-                      </button>
+                      <div className="admin-item-actions">
+                        <button
+                          className="admin-edit-btn"
+                          onClick={() => handleEditGame(game)}
+                        >
+                          <EditIcon size={16} className="admin-icon" />
+                          <span>Éditer</span>
+                        </button>
+                        <button
+                          className="admin-delete-btn"
+                          onClick={() => handleDeleteGame(game)}
+                        >
+                          <DeleteIcon size={16} className="admin-icon" />
+                          <span>Supprimer</span>
+                        </button>
+                      </div>
                     </div>
                   ))
                 )}
@@ -208,10 +289,22 @@ const Admin: React.FC = () => {
                     <div key={card.id} className="admin-item">
                       <h3>{card.name}</h3>
                       <p>Jeu: {card.gameId}</p>
-                      <button className="admin-edit-btn">
-                        <EditIcon size={16} className="admin-icon" />
-                        <span>Éditer</span>
-                      </button>
+                      <div className="admin-item-actions">
+                        <button
+                          className="admin-edit-btn"
+                          onClick={() => handleEditCard(card)}
+                        >
+                          <EditIcon size={16} className="admin-icon" />
+                          <span>Éditer</span>
+                        </button>
+                        <button
+                          className="admin-delete-btn"
+                          onClick={() => handleDeleteCard(card)}
+                        >
+                          <DeleteIcon size={16} className="admin-icon" />
+                          <span>Supprimer</span>
+                        </button>
+                      </div>
                     </div>
                   ))
                 )}
@@ -224,14 +317,22 @@ const Admin: React.FC = () => {
       {showAddGameForm && (
         <AddGameForm
           onSuccess={handleGameAdded}
-          onCancel={() => setShowAddGameForm(false)}
+          onCancel={() => {
+            setShowAddGameForm(false);
+            setEditingGame(null);
+          }}
+          game={editingGame || undefined}
         />
       )}
 
       {showAddCardForm && (
         <AddCardForm
           onSuccess={handleCardAdded}
-          onCancel={() => setShowAddCardForm(false)}
+          onCancel={() => {
+            setShowAddCardForm(false);
+            setEditingCard(null);
+          }}
+          card={editingCard || undefined}
         />
       )}
     </div>
