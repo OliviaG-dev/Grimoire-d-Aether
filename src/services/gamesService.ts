@@ -1,6 +1,6 @@
-import { supabase } from '../config/supabase';
-import type { GameRow, GameInsert, GameUpdate } from '../types/database';
-import type { Game } from '../types/models';
+import { supabase } from "../config/supabase";
+import type { GameRow, GameInsert, GameUpdate } from "../types/database";
+import type { Game } from "../types/models";
 
 /**
  * Convertir une ligne de base de données (snake_case) en modèle d'application (camelCase)
@@ -15,6 +15,7 @@ function rowToGame(row: GameRow): Game {
     theme: row.theme,
     coverImage: row.cover_image || undefined,
     description: row.description,
+    cardCount: row.card_count || undefined,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -23,7 +24,9 @@ function rowToGame(row: GameRow): Game {
 /**
  * Convertir un modèle d'application (camelCase) en format d'insertion (snake_case)
  */
-function gameToInsert(game: Omit<Game, 'id' | 'createdAt' | 'updatedAt'>): GameInsert {
+function gameToInsert(
+  game: Omit<Game, "id" | "createdAt" | "updatedAt">
+): GameInsert {
   return {
     name: game.name,
     type: game.type,
@@ -32,6 +35,7 @@ function gameToInsert(game: Omit<Game, 'id' | 'createdAt' | 'updatedAt'>): GameI
     theme: game.theme,
     cover_image: game.coverImage || null,
     description: game.description,
+    card_count: game.cardCount || null,
   };
 }
 
@@ -44,12 +48,12 @@ export const gamesService = {
    */
   async getAll(): Promise<Game[]> {
     const { data, error } = await supabase
-      .from('games')
-      .select('*')
-      .order('name', { ascending: true });
+      .from("games")
+      .select("*")
+      .order("name", { ascending: true });
 
     if (error) {
-      console.error('Erreur lors de la récupération des jeux:', error);
+      console.error("Erreur lors de la récupération des jeux:", error);
       throw new Error(`Impossible de récupérer les jeux: ${error.message}`);
     }
 
@@ -61,17 +65,17 @@ export const gamesService = {
    */
   async getById(id: string): Promise<Game | null> {
     const { data, error } = await supabase
-      .from('games')
-      .select('*')
-      .eq('id', id)
+      .from("games")
+      .select("*")
+      .eq("id", id)
       .single();
 
     if (error) {
-      if (error.code === 'PGRST116') {
+      if (error.code === "PGRST116") {
         // Aucun résultat trouvé
         return null;
       }
-      console.error('Erreur lors de la récupération du jeu:', error);
+      console.error("Erreur lors de la récupération du jeu:", error);
       throw new Error(`Impossible de récupérer le jeu: ${error.message}`);
     }
 
@@ -81,17 +85,19 @@ export const gamesService = {
   /**
    * Créer un nouveau jeu
    */
-  async create(game: Omit<Game, 'id' | 'createdAt' | 'updatedAt'>): Promise<Game> {
+  async create(
+    game: Omit<Game, "id" | "createdAt" | "updatedAt">
+  ): Promise<Game> {
     const insertData = gameToInsert(game);
 
     const { data, error } = await supabase
-      .from('games')
+      .from("games")
       .insert([insertData])
       .select()
       .single();
 
     if (error) {
-      console.error('Erreur lors de la création du jeu:', error);
+      console.error("Erreur lors de la création du jeu:", error);
       throw new Error(`Impossible de créer le jeu: ${error.message}`);
     }
 
@@ -109,21 +115,25 @@ export const gamesService = {
     if (updates.author !== undefined) updateData.author = updates.author;
     if (updates.year !== undefined) updateData.year = updates.year;
     if (updates.theme !== undefined) updateData.theme = updates.theme;
-    if (updates.coverImage !== undefined) updateData.cover_image = updates.coverImage || null;
-    if (updates.description !== undefined) updateData.description = updates.description;
+    if (updates.coverImage !== undefined)
+      updateData.cover_image = updates.coverImage || null;
+    if (updates.description !== undefined)
+      updateData.description = updates.description;
+    if (updates.cardCount !== undefined)
+      updateData.card_count = updates.cardCount || null;
 
     // Mettre à jour updated_at
     updateData.updated_at = new Date().toISOString();
 
     const { data, error } = await supabase
-      .from('games')
+      .from("games")
       .update(updateData)
-      .eq('id', id)
+      .eq("id", id)
       .select()
       .single();
 
     if (error) {
-      console.error('Erreur lors de la mise à jour du jeu:', error);
+      console.error("Erreur lors de la mise à jour du jeu:", error);
       throw new Error(`Impossible de mettre à jour le jeu: ${error.message}`);
     }
 
@@ -134,15 +144,11 @@ export const gamesService = {
    * Supprimer un jeu
    */
   async delete(id: string): Promise<void> {
-    const { error } = await supabase
-      .from('games')
-      .delete()
-      .eq('id', id);
+    const { error } = await supabase.from("games").delete().eq("id", id);
 
     if (error) {
-      console.error('Erreur lors de la suppression du jeu:', error);
+      console.error("Erreur lors de la suppression du jeu:", error);
       throw new Error(`Impossible de supprimer le jeu: ${error.message}`);
     }
   },
 };
-

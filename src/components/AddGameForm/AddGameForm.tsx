@@ -17,6 +17,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onSuccess, onCancel }) => {
     theme: "",
     coverImage: "",
     description: "",
+    cardCount: undefined,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -61,6 +62,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onSuccess, onCancel }) => {
       await gamesService.create({
         ...formData,
         coverImage: formData.coverImage || undefined,
+        cardCount: formData.cardCount || undefined,
       });
 
       onSuccess();
@@ -145,17 +147,39 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onSuccess, onCancel }) => {
             </div>
           </div>
 
-          <div className="add-game-form-group">
-            <label htmlFor="theme">Thème *</label>
-            <input
-              type="text"
-              id="theme"
-              name="theme"
-              value={formData.theme}
-              onChange={handleChange}
-              required
-              placeholder="Thème du jeu"
-            />
+          <div className="add-game-form-row">
+            <div className="add-game-form-group">
+              <label htmlFor="theme">Thème *</label>
+              <input
+                type="text"
+                id="theme"
+                name="theme"
+                value={formData.theme}
+                onChange={handleChange}
+                required
+                placeholder="Thème du jeu"
+              />
+            </div>
+
+            <div className="add-game-form-group">
+              <label htmlFor="cardCount">Nombre de cartes</label>
+              <input
+                type="number"
+                id="cardCount"
+                name="cardCount"
+                value={formData.cardCount || ""}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setFormData((prev) => ({
+                    ...prev,
+                    cardCount: value === "" ? undefined : parseInt(value, 10),
+                  }));
+                  setError(null);
+                }}
+                min="0"
+                placeholder="Ex: 78"
+              />
+            </div>
           </div>
 
           <div className="add-game-form-group">

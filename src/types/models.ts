@@ -11,6 +11,7 @@ export interface Game {
   theme: string;
   coverImage?: string;
   description: string;
+  cardCount?: number;
   createdAt?: string;
   updatedAt?: string;
 }

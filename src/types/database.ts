@@ -11,6 +11,7 @@ export interface GameRow {
   theme: string;
   cover_image: string | null;
   description: string;
+  card_count: number | null;
   created_at: string;
   updated_at: string;
 }
@@ -44,6 +45,7 @@ export interface GameInsert {
   theme: string;
   cover_image?: string | null;
   description: string;
+  card_count?: number | null;
 }
 
 export interface GameUpdate {
@@ -54,6 +56,8 @@ export interface GameUpdate {
   theme?: string;
   cover_image?: string | null;
   description?: string;
+  card_count?: number | null;
+  updated_at?: string;
 }
 
 export interface CardInsert {
@@ -84,5 +88,6 @@ export interface CardUpdate {
   elements?: string[] | null;
   chakras?: string[] | null;
   symbols?: string[] | null;
+  updated_at?: string;
 }
 
