@@ -78,7 +78,7 @@ const AddCardForm: React.FC<AddCardFormProps> = ({
     value: string
   ) => {
     const array = value
-      .split(",")
+      .split(";")
       .map((item) => item.trim())
       .filter((item) => item);
     setFormData((prev) => {
@@ -103,9 +103,9 @@ const AddCardForm: React.FC<AddCardFormProps> = ({
     field: "keywords" | "symbols" | "elements" | "chakras"
   ): string => {
     if (field === "elements" || field === "chakras") {
-      return formData.energies?.[field]?.join(", ") || "";
+      return formData.energies?.[field]?.join("; ") || "";
     }
-    return formData[field]?.join(", ") || "";
+    return formData[field]?.join("; ") || "";
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -269,14 +269,14 @@ const AddCardForm: React.FC<AddCardFormProps> = ({
 
           <div className="add-card-form-group">
             <label htmlFor="keywords">
-              Mots-clés (séparés par des virgules)
+              Mots-clés (séparés par des points-virgules)
             </label>
             <input
               type="text"
               id="keywords"
               value={getArrayValue("keywords")}
               onChange={(e) => handleArrayChange("keywords", e.target.value)}
-              placeholder="mot1, mot2, mot3"
+              placeholder="mot1; mot2; mot3"
             />
           </div>
 
@@ -346,36 +346,40 @@ const AddCardForm: React.FC<AddCardFormProps> = ({
 
           <div className="add-card-form-group">
             <label htmlFor="elements">
-              Éléments (séparés par des virgules)
+              Éléments (séparés par des points-virgules)
             </label>
             <input
               type="text"
               id="elements"
               value={getArrayValue("elements")}
               onChange={(e) => handleArrayChange("elements", e.target.value)}
-              placeholder="Terre, Feu, Eau, Air"
+              placeholder="Terre; Feu; Eau; Air"
             />
           </div>
 
           <div className="add-card-form-group">
-            <label htmlFor="chakras">Chakras (séparés par des virgules)</label>
+            <label htmlFor="chakras">
+              Chakras (séparés par des points-virgules)
+            </label>
             <input
               type="text"
               id="chakras"
               value={getArrayValue("chakras")}
               onChange={(e) => handleArrayChange("chakras", e.target.value)}
-              placeholder="Racine, Coeur, Couronne"
+              placeholder="Racine; Coeur; Couronne"
             />
           </div>
 
           <div className="add-card-form-group">
-            <label htmlFor="symbols">Symboles (séparés par des virgules)</label>
+            <label htmlFor="symbols">
+              Symboles (séparés par des points-virgules)
+            </label>
             <input
               type="text"
               id="symbols"
               value={getArrayValue("symbols")}
               onChange={(e) => handleArrayChange("symbols", e.target.value)}
-              placeholder="symbole1, symbole2, symbole3"
+              placeholder="symbole1; symbole2; symbole3"
             />
           </div>
 

@@ -27,6 +27,8 @@ const Admin: React.FC = () => {
   const [currentView, setCurrentView] = useState<AdminView>("dashboard");
   const [games, setGames] = useState<Game[]>([]);
   const [cards, setCards] = useState<Card[]>([]);
+  const [filterGameId, setFilterGameId] = useState<string>("");
+  const [filterIndex, setFilterIndex] = useState<string>("");
   const [showAddGameForm, setShowAddGameForm] = useState(false);
   const [showAddCardForm, setShowAddCardForm] = useState(false);
   const [editingGame, setEditingGame] = useState<Game | null>(null);
@@ -75,6 +77,9 @@ const Admin: React.FC = () => {
     }
   };
 
+  const getGameName = (gameId: string) =>
+    games.find((g) => g.id === gameId)?.name || gameId;
+
   const handleEditGame = (game: Game) => {
     setEditingGame(game);
     setShowAddGameForm(true);
@@ -118,6 +123,15 @@ const Admin: React.FC = () => {
       }
     }
   };
+
+  const filteredCards = cards.filter((card) => {
+    const matchGame = filterGameId ? card.gameId === filterGameId : true;
+    const matchIndex =
+      filterIndex.trim() === ""
+        ? true
+        : String(card.index ?? "").toLowerCase() === filterIndex.trim().toLowerCase();
+    return matchGame && matchIndex;
+  });
 
   // Afficher un loader pendant le chargement
   if (!isLoaded || loading) {
@@ -281,14 +295,50 @@ const Admin: React.FC = () => {
                   <span>Ajouter une carte</span>
                 </button>
               </div>
+              <div className="admin-filters">
+                <div className="admin-filter">
+                  <label htmlFor="filter-game">Filtrer par jeu</label>
+                  <select
+                    id="filter-game"
+                    value={filterGameId}
+                    onChange={(e) => setFilterGameId(e.target.value)}
+                  >
+                    <option value="">Tous les jeux</option>
+                    {games.map((game) => (
+                      <option key={game.id} value={game.id}>
+                        {game.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="admin-filter">
+                  <label htmlFor="filter-index">Filtrer par index</label>
+                  <input
+                    id="filter-index"
+                    type="number"
+                    inputMode="numeric"
+                    value={filterIndex}
+                    onChange={(e) => setFilterIndex(e.target.value)}
+                    placeholder="ex: 12"
+                  />
+                </div>
+              </div>
               <div className="admin-list">
-                {cards.length === 0 ? (
+                {filteredCards.length === 0 ? (
                   <p className="admin-empty">Aucune carte pour le moment.</p>
                 ) : (
-                  cards.map((card) => (
+                  filteredCards.map((card) => (
                     <div key={card.id} className="admin-item">
+                      {card.index !== undefined && card.index !== null ? (
+                        <div className="admin-item-index">{card.index}</div>
+                      ) : null}
+                      {card.image ? (
+                        <div className="admin-item-image">
+                          <img src={card.image} alt={card.name} />
+                        </div>
+                      ) : null}
                       <h3>{card.name}</h3>
-                      <p>Jeu: {card.gameId}</p>
+                      <p>Jeu: {getGameName(card.gameId)}</p>
                       <div className="admin-item-actions">
                         <button
                           className="admin-edit-btn"

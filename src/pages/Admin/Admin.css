@@ -316,6 +316,24 @@
   position: relative;
 }
 
+.admin-item-index {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.85), rgba(59, 130, 246, 0.85));
+  color: #f8fafc;
+  padding: 0.25rem 0.75rem;
+  min-width: 48px;
+  text-align: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-family: "Georgia", serif;
+}
+
 .admin-item:hover {
   border-color: rgba(139, 92, 246, 0.4);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -323,7 +341,8 @@
 
 .admin-item-image {
   width: 100%;
-  height: 200px;
+  aspect-ratio: 2 / 3;
+  max-height: 320px;
   overflow: hidden;
   border-radius: 8px;
   background: rgba(26, 21, 38, 0.5);
@@ -358,6 +377,42 @@
   align-items: center;
   justify-content: space-between;
   margin-top: auto;
+}
+
+.admin-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.admin-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.admin-filter label {
+  color: #ddd6fe;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.admin-filter select,
+.admin-filter input {
+  background: rgba(26, 21, 38, 0.75);
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  border-radius: 8px;
+  color: #f8fafc;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.95rem;
+}
+
+.admin-filter select:focus,
+.admin-filter input:focus {
+  outline: none;
+  border-color: rgba(139, 92, 246, 0.7);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
 }
 
 .admin-edit-btn {
