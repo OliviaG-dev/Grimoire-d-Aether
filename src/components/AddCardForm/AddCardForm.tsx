@@ -34,6 +34,12 @@ const AddCardForm: React.FC<AddCardFormProps> = ({
       chakras: card?.energies?.chakras || [],
     },
     symbols: card?.symbols || [],
+    index: card?.index || undefined,
+    shadowMeaning: card?.shadowMeaning || "",
+    advice: card?.advice || "",
+    affirmation: card?.affirmation || "",
+    reversedMeaning: card?.reversedMeaning || "",
+    isFavorite: card?.isFavorite || false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -144,6 +150,12 @@ const AddCardForm: React.FC<AddCardFormProps> = ({
             formData.symbols && formData.symbols.length > 0
               ? formData.symbols
               : undefined,
+          index: formData.index || undefined,
+          shadowMeaning: formData.shadowMeaning || undefined,
+          advice: formData.advice || undefined,
+          affirmation: formData.affirmation || undefined,
+          reversedMeaning: formData.reversedMeaning || undefined,
+          isFavorite: formData.isFavorite || undefined,
         });
       } else {
         await cardsService.create({
@@ -173,6 +185,12 @@ const AddCardForm: React.FC<AddCardFormProps> = ({
             formData.symbols && formData.symbols.length > 0
               ? formData.symbols
               : undefined,
+          index: formData.index || undefined,
+          shadowMeaning: formData.shadowMeaning || undefined,
+          advice: formData.advice || undefined,
+          affirmation: formData.affirmation || undefined,
+          reversedMeaning: formData.reversedMeaning || undefined,
+          isFavorite: formData.isFavorite || undefined,
         });
       }
 
@@ -359,6 +377,94 @@ const AddCardForm: React.FC<AddCardFormProps> = ({
               onChange={(e) => handleArrayChange("symbols", e.target.value)}
               placeholder="symbole1, symbole2, symbole3"
             />
+          </div>
+
+          <div className="add-card-form-group">
+            <label htmlFor="index">Index</label>
+            <input
+              type="number"
+              id="index"
+              name="index"
+              value={formData.index || ""}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  index: e.target.value
+                    ? parseInt(e.target.value, 10)
+                    : undefined,
+                }))
+              }
+              placeholder="Numéro d'index de la carte"
+            />
+          </div>
+
+          <div className="add-card-form-group">
+            <label htmlFor="shadowMeaning">Signification de l'ombre</label>
+            <textarea
+              id="shadowMeaning"
+              name="shadowMeaning"
+              value={formData.shadowMeaning}
+              onChange={handleChange}
+              rows={3}
+              placeholder="Signification de l'ombre de la carte"
+            />
+          </div>
+
+          <div className="add-card-form-group">
+            <label htmlFor="advice">Conseil</label>
+            <textarea
+              id="advice"
+              name="advice"
+              value={formData.advice}
+              onChange={handleChange}
+              rows={3}
+              placeholder="Conseil associé à la carte"
+            />
+          </div>
+
+          <div className="add-card-form-group">
+            <label htmlFor="affirmation">Affirmation</label>
+            <textarea
+              id="affirmation"
+              name="affirmation"
+              value={formData.affirmation}
+              onChange={handleChange}
+              rows={3}
+              placeholder="Affirmation positive de la carte"
+            />
+          </div>
+
+          <div className="add-card-form-group">
+            <label htmlFor="reversedMeaning">Signification inversée</label>
+            <textarea
+              id="reversedMeaning"
+              name="reversedMeaning"
+              value={formData.reversedMeaning}
+              onChange={handleChange}
+              rows={3}
+              placeholder="Signification lorsque la carte est inversée"
+            />
+          </div>
+
+          <div className="add-card-form-group">
+            <label
+              htmlFor="isFavorite"
+              className="add-card-form-checkbox-label"
+            >
+              <input
+                type="checkbox"
+                id="isFavorite"
+                name="isFavorite"
+                checked={formData.isFavorite || false}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    isFavorite: e.target.checked,
+                  }))
+                }
+              />
+              <span>Marquer comme favori</span>
+            </label>
           </div>
 
           <div className="add-card-form-actions">

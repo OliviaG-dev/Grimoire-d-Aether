@@ -148,6 +148,26 @@
   color: rgba(221, 214, 254, 0.5);
 }
 
+.add-card-form-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.add-card-form-checkbox-label input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #8b5cf6;
+}
+
+.add-card-form-checkbox-label span {
+  color: #c4b5fd;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
 .add-card-form-group textarea {
   resize: vertical;
   min-height: 80px;

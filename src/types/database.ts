@@ -30,6 +30,12 @@ export interface CardRow {
   elements: string[] | null;
   chakras: string[] | null;
   symbols: string[] | null;
+  index: number | null;
+  shadow_meaning: string | null;
+  advice: string | null;
+  affirmation: string | null;
+  reversed_meaning: string | null;
+  is_favorite: boolean | null;
   created_at: string;
   updated_at: string;
 }
@@ -73,6 +79,12 @@ export interface CardInsert {
   elements?: string[] | null;
   chakras?: string[] | null;
   symbols?: string[] | null;
+  index?: number | null;
+  shadow_meaning?: string | null;
+  advice?: string | null;
+  affirmation?: string | null;
+  reversed_meaning?: string | null;
+  is_favorite?: boolean | null;
 }
 
 export interface CardUpdate {
@@ -88,6 +100,11 @@ export interface CardUpdate {
   elements?: string[] | null;
   chakras?: string[] | null;
   symbols?: string[] | null;
+  index?: number | null;
+  shadow_meaning?: string | null;
+  advice?: string | null;
+  affirmation?: string | null;
+  reversed_meaning?: string | null;
+  is_favorite?: boolean | null;
   updated_at?: string;
 }
-

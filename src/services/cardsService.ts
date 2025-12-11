@@ -22,6 +22,12 @@ function rowToCard(row: CardRow): Card {
       chakras: row.chakras || undefined,
     },
     symbols: row.symbols || undefined,
+    index: row.index || undefined,
+    shadowMeaning: row.shadow_meaning || undefined,
+    advice: row.advice || undefined,
+    affirmation: row.affirmation || undefined,
+    reversedMeaning: row.reversed_meaning || undefined,
+    isFavorite: row.is_favorite || undefined,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -44,6 +50,12 @@ function cardToInsert(card: Omit<Card, 'id' | 'createdAt' | 'updatedAt'>): CardI
     elements: card.energies?.elements || null,
     chakras: card.energies?.chakras || null,
     symbols: card.symbols || null,
+    index: card.index || null,
+    shadow_meaning: card.shadowMeaning || null,
+    advice: card.advice || null,
+    affirmation: card.affirmation || null,
+    reversed_meaning: card.reversedMeaning || null,
+    is_favorite: card.isFavorite || null,
   };
 }
 
@@ -146,6 +158,12 @@ export const cardsService = {
     if (updates.energies?.elements !== undefined) updateData.elements = updates.energies.elements || null;
     if (updates.energies?.chakras !== undefined) updateData.chakras = updates.energies.chakras || null;
     if (updates.symbols !== undefined) updateData.symbols = updates.symbols || null;
+    if (updates.index !== undefined) updateData.index = updates.index || null;
+    if (updates.shadowMeaning !== undefined) updateData.shadow_meaning = updates.shadowMeaning || null;
+    if (updates.advice !== undefined) updateData.advice = updates.advice || null;
+    if (updates.affirmation !== undefined) updateData.affirmation = updates.affirmation || null;
+    if (updates.reversedMeaning !== undefined) updateData.reversed_meaning = updates.reversedMeaning || null;
+    if (updates.isFavorite !== undefined) updateData.is_favorite = updates.isFavorite || null;
 
     // Mettre à jour updated_at
     updateData.updated_at = new Date().toISOString();

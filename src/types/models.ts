@@ -32,6 +32,12 @@ export interface Card {
     chakras?: string[];
   };
   symbols?: string[];
+  index?: number;
+  shadowMeaning?: string;
+  advice?: string;
+  affirmation?: string;
+  reversedMeaning?: string;
+  isFavorite?: boolean;
   createdAt?: string;
   updatedAt?: string;
 }
