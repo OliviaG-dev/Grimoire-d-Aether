@@ -7,6 +7,7 @@ import Admin from "./pages/Admin/Admin";
 import Games from "./pages/Games/Games";
 import GamePage from "./pages/GamePage/GamePage";
 import CardPage from "./pages/CardPage/CardPage";
+import Cards from "./pages/Cards/Cards";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/games" element={<Games />} />
           <Route path="/game/:id" element={<GamePage />} />
+          <Route path="/cards" element={<Cards />} />
           <Route path="/card/:id" element={<CardPage />} />
         </Routes>
       </div>
