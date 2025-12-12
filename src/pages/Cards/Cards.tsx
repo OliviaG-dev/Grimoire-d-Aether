@@ -159,6 +159,9 @@ const Cards: React.FC = () => {
                   to={`/card/${card.id}`}
                   className="cards-item"
                 >
+                  {card.index !== undefined && card.index !== null && (
+                    <div className="cards-item-index">{card.index}</div>
+                  )}
                   {card.image && (
                     <div className="cards-item-image">
                       <img

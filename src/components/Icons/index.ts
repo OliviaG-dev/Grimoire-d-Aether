@@ -9,5 +9,8 @@ export { default as LoveIcon } from "./LoveIcon";
 export { default as WorkIcon } from "./WorkIcon";
 export { default as HealthIcon } from "./HealthIcon";
 export { default as MoneyIcon } from "./MoneyIcon";
+export { default as CrystalIcon } from "./CrystalIcon";
+export { default as UserIcon } from "./UserIcon";
+export { default as SettingsIcon } from "./SettingsIcon";
 
 

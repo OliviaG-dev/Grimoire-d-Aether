@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth, useUser, SignOutButton } from "@clerk/clerk-react";
+import { CrystalIcon, UserIcon, LogoutIcon } from "../Icons";
 import "./AdminStatus.css";
 
 const AdminStatus: React.FC = () => {
-  const navigate = useNavigate();
   const { isSignedIn } = useAuth();
   const { user } = useUser();
   const [showMenu, setShowMenu] = useState(false);
@@ -20,7 +19,7 @@ const AdminStatus: React.FC = () => {
         onClick={() => setShowMenu(!showMenu)}
         aria-label="Menu administrateur"
       >
-        <span className="admin-status-icon">🔮</span>
+        <CrystalIcon className="admin-status-icon" size={18} />
         <span className="admin-status-text">Admin</span>
       </button>
 
@@ -32,36 +31,24 @@ const AdminStatus: React.FC = () => {
           />
           <div className="admin-status-menu">
             <div className="admin-status-menu-header">
-              <span className="admin-status-menu-icon">👤</span>
+              <UserIcon className="admin-status-menu-icon" size={24} />
               <div className="admin-status-menu-user">
-                <span className="admin-status-menu-label">
-                  Connecté en tant que
-                </span>
-                <span className="admin-status-menu-email">
-                  {user?.primaryEmailAddress?.emailAddress}
-                </span>
+                <div className="admin-status-menu-email-row">
+                  <span className="admin-status-menu-email">
+                    {user?.primaryEmailAddress?.emailAddress}
+                  </span>
+                  <SignOutButton>
+                    <button
+                      className="admin-status-logout-btn"
+                      onClick={() => setShowMenu(false)}
+                      aria-label="Se déconnecter"
+                    >
+                      <LogoutIcon size={18} />
+                    </button>
+                  </SignOutButton>
+                </div>
               </div>
             </div>
-            <div className="admin-status-menu-divider"></div>
-            <button
-              className="admin-status-menu-item"
-              onClick={() => {
-                navigate("/admin");
-                setShowMenu(false);
-              }}
-            >
-              <span className="admin-status-menu-item-icon">⚙️</span>
-              <span>Panneau d'administration</span>
-            </button>
-            <SignOutButton>
-              <button
-                className="admin-status-menu-item admin-status-menu-item-danger"
-                onClick={() => setShowMenu(false)}
-              >
-                <span className="admin-status-menu-item-icon">🚪</span>
-                <span>Se déconnecter</span>
-              </button>
-            </SignOutButton>
           </div>
         </>
       )}
