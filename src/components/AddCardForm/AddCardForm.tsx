@@ -155,7 +155,7 @@ const AddCardForm: React.FC<AddCardFormProps> = ({
           advice: formData.advice || undefined,
           affirmation: formData.affirmation || undefined,
           reversedMeaning: formData.reversedMeaning || undefined,
-          isFavorite: formData.isFavorite || undefined,
+          isFavorite: formData.isFavorite,
         });
       } else {
         await cardsService.create({
@@ -190,7 +190,7 @@ const AddCardForm: React.FC<AddCardFormProps> = ({
           advice: formData.advice || undefined,
           affirmation: formData.affirmation || undefined,
           reversedMeaning: formData.reversedMeaning || undefined,
-          isFavorite: formData.isFavorite || undefined,
+          isFavorite: formData.isFavorite,
         });
       }
 

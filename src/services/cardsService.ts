@@ -27,7 +27,7 @@ function rowToCard(row: CardRow): Card {
     advice: row.advice || undefined,
     affirmation: row.affirmation || undefined,
     reversedMeaning: row.reversed_meaning || undefined,
-    isFavorite: row.is_favorite || undefined,
+    isFavorite: row.is_favorite ?? false,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -163,7 +163,7 @@ export const cardsService = {
     if (updates.advice !== undefined) updateData.advice = updates.advice || null;
     if (updates.affirmation !== undefined) updateData.affirmation = updates.affirmation || null;
     if (updates.reversedMeaning !== undefined) updateData.reversed_meaning = updates.reversedMeaning || null;
-    if (updates.isFavorite !== undefined) updateData.is_favorite = updates.isFavorite || null;
+    if (updates.isFavorite !== undefined) updateData.is_favorite = updates.isFavorite;
 
     // Mettre à jour updated_at
     updateData.updated_at = new Date().toISOString();

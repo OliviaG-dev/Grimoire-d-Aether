@@ -266,10 +266,24 @@
 
 .game-description h3 {
   font-size: 1.5rem;
-  color: #c4b5fd;
+  color: #a78bfa;
   margin: 0 0 1rem 0;
-  font-weight: 400;
+  font-weight: 500;
   font-family: "Georgia", serif;
+  padding: 0.5rem 0;
+  border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+  position: relative;
+  letter-spacing: 0.5px;
+}
+
+.game-description h3::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(139, 92, 246, 0.8), transparent);
 }
 
 .game-description p {
@@ -289,10 +303,24 @@
 
 .game-cards-title {
   font-size: 1.75rem;
-  color: #c4b5fd;
+  color: #a78bfa;
   margin: 0 0 1.5rem 0;
-  font-weight: 400;
+  font-weight: 500;
   font-family: "Georgia", serif;
+  padding: 0.5rem 0;
+  border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+  position: relative;
+  letter-spacing: 0.5px;
+}
+
+.game-cards-title::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(139, 92, 246, 0.8), transparent);
 }
 
 .game-no-cards {

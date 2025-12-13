@@ -15,6 +15,8 @@ const Cards: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGameId, setSelectedGameId] = useState<string>("");
+  const [filterIndex, setFilterIndex] = useState<string>("");
+  const [filterFavorite, setFilterFavorite] = useState<boolean>(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -42,7 +44,7 @@ const Cards: React.FC = () => {
     loadData();
   }, []);
 
-  // Filtrer les cartes selon la recherche et le jeu sélectionné
+  // Filtrer les cartes selon la recherche, le jeu et l'index sélectionnés
   const filteredCards = useMemo(() => {
     return cards.filter((card) => {
       const matchesSearch =
@@ -51,10 +53,16 @@ const Cards: React.FC = () => {
         card.keywords?.some((keyword) =>
           keyword.toLowerCase().includes(searchQuery.toLowerCase())
         );
-      const matchesGame = selectedGameId === "" || card.gameId === selectedGameId;
-      return matchesSearch && matchesGame;
+      const matchesGame =
+        selectedGameId === "" || card.gameId === selectedGameId;
+      const matchesIndex =
+        filterIndex.trim() === "" ||
+        String(card.index ?? "").toLowerCase() ===
+          filterIndex.trim().toLowerCase();
+      const matchesFavorite = !filterFavorite || card.isFavorite === true;
+      return matchesSearch && matchesGame && matchesIndex && matchesFavorite;
     });
-  }, [cards, searchQuery, selectedGameId]);
+  }, [cards, searchQuery, selectedGameId, filterIndex, filterFavorite]);
 
   // Créer un map pour accéder rapidement au nom du jeu
   const gameMap = useMemo(() => {
@@ -134,19 +142,44 @@ const Cards: React.FC = () => {
                 ))}
               </select>
             </div>
+            <div className="cards-index-filter">
+              <input
+                type="number"
+                inputMode="numeric"
+                value={filterIndex}
+                onChange={(e) => setFilterIndex(e.target.value)}
+                placeholder="Index (ex: 12)"
+                className="cards-index-input"
+              />
+            </div>
+            <div className="cards-favorite-filter">
+              <label className="cards-favorite-checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={filterFavorite}
+                  onChange={(e) => setFilterFavorite(e.target.checked)}
+                  className="cards-favorite-checkbox"
+                />
+                <span className="cards-favorite-toggle"></span>
+                <span className="cards-favorite-text">⭐ Favoris</span>
+              </label>
+            </div>
           </div>
 
           <div className="cards-count">
             {filteredCards.length === 0 ? (
               <p className="cards-empty">
-                {searchQuery || selectedGameId
+                {searchQuery || selectedGameId || filterIndex || filterFavorite
                   ? "Aucune carte ne correspond à votre recherche."
                   : "Aucune carte disponible pour le moment."}
               </p>
             ) : (
               <p className="cards-count-text">
-                {filteredCards.length} carte{filteredCards.length > 1 ? "s" : ""}{" "}
-                {searchQuery || selectedGameId ? "trouvée(s)" : "disponible(s)"}
+                {filteredCards.length} carte
+                {filteredCards.length > 1 ? "s" : ""}{" "}
+                {searchQuery || selectedGameId || filterIndex || filterFavorite
+                  ? "trouvée(s)"
+                  : "disponible(s)"}
               </p>
             )}
           </div>
@@ -201,4 +234,3 @@ const Cards: React.FC = () => {
 };
 
 export default Cards;
-

@@ -339,6 +339,9 @@ const Admin: React.FC = () => {
                       ) : null}
                       <h3>{card.name}</h3>
                       <p>Jeu: {getGameName(card.gameId)}</p>
+                      {card.isFavorite && (
+                        <span className="admin-item-favorite">⭐ Favori</span>
+                      )}
                       <div className="admin-item-actions">
                         <button
                           className="admin-edit-btn"
