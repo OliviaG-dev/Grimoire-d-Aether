@@ -52,16 +52,26 @@ Chaque carte contient :
 
 - **ID** et **jeu associé**
 - **Nom** et **image**
-- **Mots-clés** (keywords)
+- **Index** (numéro de la carte dans le jeu)
+- **Mots-clés** (keywords) avec design amélioré
 - **Signification** générale
 - **Interprétation** amour / travail / santé / argent
+- **Signification inversée** (reversed meaning)
+- **Signification de l'ombre** (shadow meaning)
+- **Conseil** et **Affirmation**
 - **Énergies** (chakras, éléments…)
 - **Symboles**
+- **Favoris** ⭐ - Système de marquage des cartes favorites
 
-### 🔍 Navigation
+### 🔍 Navigation et Recherche
 
 - Liste de tous les jeux
 - Liste filtrée des cartes par jeu
+- **Filtres avancés** sur la page des cartes :
+  - Recherche par nom ou mots-clés
+  - Filtre par jeu
+  - Filtre par index
+  - Filtre par favoris ⭐
 - Fiche détaillée de chaque carte
 - Navigation intuitive avec React Router
 - Design mystique et élégant
@@ -74,6 +84,8 @@ Panneau d'administration personnalisé accessible depuis `/admin` :
 - **Dashboard** avec statistiques
 - **Gestion des jeux** (création, édition, suppression)
 - **Gestion des cartes** (création, édition, suppression)
+  - Tous les champs disponibles (index, significations, favoris, etc.)
+  - Affichage du statut favori dans la liste
 - Interface intuitive et moderne
 - **Base de données Supabase** pour stocker et gérer les données
 
@@ -325,6 +337,10 @@ Le projet utilise une palette de couleurs mystique :
 - Typographie soignée avec polices serif pour les titres
 - Layout vertical centré optimisé
 - Effets de lueur et d'ombre pour créer une atmosphère mystique
+- **Tags de mots-clés** avec gradients et effets de survol
+- **Titres de sections** avec bordures dégradées
+- **Toggle switch** élégant pour les filtres favoris
+- **Design harmonieux** sur toutes les pages
 
 ---
 
@@ -361,15 +377,21 @@ Une carte contient les informations suivantes :
   game_id: string;               // ID du jeu associé (référence)
   name: string;                  // Nom de la carte
   image: string | null;          // URL de l'image
+  index: number | null;          // Numéro d'index de la carte dans le jeu
   keywords: string[] | null;     // Mots-clés
   meaning: string | null;        // Signification générale
   love: string | null;           // Interprétation amour
   work: string | null;           // Interprétation travail
   health: string | null;         // Interprétation santé
   money: string | null;          // Interprétation argent
+  reversed_meaning: string | null; // Signification inversée
+  shadow_meaning: string | null;   // Signification de l'ombre
+  advice: string | null;         // Conseil
+  affirmation: string | null;    // Affirmation positive
   elements: string[] | null;     // Éléments associés
   chakras: string[] | null;      // Chakras associés
   symbols: string[] | null;      // Symboles
+  is_favorite: boolean | null;   // Statut favori ⭐
   created_at: string;            // Date de création
   updated_at: string;            // Date de dernière modification
 }
@@ -539,6 +561,9 @@ Projet créé pour construire un grimoire personnel dédié aux cartes divinatoi
 
 - ✨ **Design mystique et élégant** - Interface harmonieuse inspirée des grimoires
 - 📚 **Encyclopédie complète** - Fiches détaillées pour chaque jeu et carte
+- ⭐ **Système de favoris** - Marquez vos cartes préférées
+- 🔍 **Filtres avancés** - Recherche par nom, jeu, index et favoris
+- 🎨 **Design amélioré** - Tags de mots-clés, titres stylisés, effets visuels
 - 🔐 **Admin intégré** - Panneau d'administration personnalisé avec authentification Clerk
 - 🗄️ **Base de données cloud** - Stockage sécurisé avec Supabase PostgreSQL
 - 🚀 **Déploiement simple** - Site statique facile à héberger
