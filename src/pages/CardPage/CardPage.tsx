@@ -7,7 +7,7 @@ import type { Card, Game } from "../../types/models";
 import Navigation from "../../components/Navigation/Navigation";
 import logo from "../../assets/logo.png";
 import AdminStatus from "../../components/AdminStatus/AdminStatus";
-import { LoveIcon, WorkIcon, HealthIcon, MoneyIcon } from "../../components/Icons";
+import { LoveIcon, WorkIcon, HealthIcon, MoneyIcon, CardsIcon } from "../../components/Icons";
 
 const CardPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -279,6 +279,13 @@ const CardPage: React.FC = () => {
                 </div>
               )}
             </div>
+          </div>
+
+          <div className="card-back-section">
+            <Link to="/cards" className="card-back-to-cards-btn">
+              <CardsIcon size={20} className="card-back-icon" />
+              <span>Retour aux cartes</span>
+            </Link>
           </div>
         </div>
       </div>
