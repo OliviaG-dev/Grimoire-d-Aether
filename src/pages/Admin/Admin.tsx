@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth, useUser, SignOutButton } from "@clerk/clerk-react";
 import {
@@ -15,6 +15,7 @@ import { cardsService } from "../../services/cardsService";
 import type { Game, Card } from "../../types/models";
 import AddGameForm from "../../components/AddGameForm/AddGameForm";
 import AddCardForm from "../../components/AddCardForm/AddCardForm";
+import Pagination from "../../components/Pagination/Pagination";
 import "./Admin.css";
 import logo from "../../assets/logo.png";
 
@@ -34,6 +35,10 @@ const Admin: React.FC = () => {
   const [editingGame, setEditingGame] = useState<Game | null>(null);
   const [editingCard, setEditingCard] = useState<Card | null>(null);
   const [loading, setLoading] = useState(true);
+  const [currentPageGames, setCurrentPageGames] = useState(1);
+  const [currentPageCards, setCurrentPageCards] = useState(1);
+  const gamesPerPage = 8;
+  const cardsPerPage = 8;
 
   // Charger les données
   useEffect(() => {
@@ -124,14 +129,39 @@ const Admin: React.FC = () => {
     }
   };
 
-  const filteredCards = cards.filter((card) => {
-    const matchGame = filterGameId ? card.gameId === filterGameId : true;
-    const matchIndex =
-      filterIndex.trim() === ""
-        ? true
-        : String(card.index ?? "").toLowerCase() === filterIndex.trim().toLowerCase();
-    return matchGame && matchIndex;
-  });
+  const filteredCards = useMemo(() => {
+    return cards.filter((card) => {
+      const matchGame = filterGameId ? card.gameId === filterGameId : true;
+      const matchIndex =
+        filterIndex.trim() === ""
+          ? true
+          : String(card.index ?? "").toLowerCase() === filterIndex.trim().toLowerCase();
+      return matchGame && matchIndex;
+    });
+  }, [cards, filterGameId, filterIndex]);
+
+  // Pagination pour les jeux
+  const totalPagesGames = Math.ceil(games.length / gamesPerPage);
+  const startIndexGames = (currentPageGames - 1) * gamesPerPage;
+  const endIndexGames = startIndexGames + gamesPerPage;
+  const paginatedGames = useMemo(
+    () => games.slice(startIndexGames, endIndexGames),
+    [games, startIndexGames, endIndexGames]
+  );
+
+  // Pagination pour les cartes
+  const totalPagesCards = Math.ceil(filteredCards.length / cardsPerPage);
+  const startIndexCards = (currentPageCards - 1) * cardsPerPage;
+  const endIndexCards = startIndexCards + cardsPerPage;
+  const paginatedCards = useMemo(
+    () => filteredCards.slice(startIndexCards, endIndexCards),
+    [filteredCards, startIndexCards, endIndexCards]
+  );
+
+  // Réinitialiser la page des cartes quand les filtres changent
+  useEffect(() => {
+    setCurrentPageCards(1);
+  }, [filterGameId, filterIndex]);
 
   // Afficher un loader pendant le chargement
   if (!isLoaded || loading) {
@@ -244,7 +274,8 @@ const Admin: React.FC = () => {
                 {games.length === 0 ? (
                   <p className="admin-empty">Aucun jeu pour le moment.</p>
                 ) : (
-                  games.map((game) => (
+                  <>
+                    {paginatedGames.map((game) => (
                     <div key={game.id} className="admin-item">
                       {game.coverImage && (
                         <div className="admin-item-image">
@@ -277,7 +308,15 @@ const Admin: React.FC = () => {
                         </button>
                       </div>
                     </div>
-                  ))
+                    ))}
+                    {games.length > gamesPerPage && (
+                      <Pagination
+                        currentPage={currentPageGames}
+                        totalPages={totalPagesGames}
+                        onPageChange={setCurrentPageGames}
+                      />
+                    )}
+                  </>
                 )}
               </div>
             </div>
@@ -327,7 +366,8 @@ const Admin: React.FC = () => {
                 {filteredCards.length === 0 ? (
                   <p className="admin-empty">Aucune carte pour le moment.</p>
                 ) : (
-                  filteredCards.map((card) => (
+                  <>
+                    {paginatedCards.map((card) => (
                     <div key={card.id} className="admin-item">
                       {card.index !== undefined && card.index !== null ? (
                         <div className="admin-item-index">{card.index}</div>
@@ -359,7 +399,15 @@ const Admin: React.FC = () => {
                         </button>
                       </div>
                     </div>
-                  ))
+                    ))}
+                    {filteredCards.length > cardsPerPage && (
+                      <Pagination
+                        currentPage={currentPageCards}
+                        totalPages={totalPagesCards}
+                        onPageChange={setCurrentPageCards}
+                      />
+                    )}
+                  </>
                 )}
               </div>
             </div>

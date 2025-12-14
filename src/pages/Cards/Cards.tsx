@@ -7,6 +7,7 @@ import type { Card, Game } from "../../types/models";
 import Navigation from "../../components/Navigation/Navigation";
 import logo from "../../assets/logo.png";
 import AdminStatus from "../../components/AdminStatus/AdminStatus";
+import Pagination from "../../components/Pagination/Pagination";
 
 const Cards: React.FC = () => {
   const [cards, setCards] = useState<Card[]>([]);
@@ -17,6 +18,8 @@ const Cards: React.FC = () => {
   const [selectedGameId, setSelectedGameId] = useState<string>("");
   const [filterIndex, setFilterIndex] = useState<string>("");
   const [filterFavorite, setFilterFavorite] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const loadData = async () => {
@@ -63,6 +66,17 @@ const Cards: React.FC = () => {
       return matchesSearch && matchesGame && matchesIndex && matchesFavorite;
     });
   }, [cards, searchQuery, selectedGameId, filterIndex, filterFavorite]);
+
+  // Pagination
+  const totalPages = Math.ceil(filteredCards.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedCards = filteredCards.slice(startIndex, endIndex);
+
+  // Réinitialiser la page quand les filtres changent
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedGameId, filterIndex, filterFavorite]);
 
   // Créer un map pour accéder rapidement au nom du jeu
   const gameMap = useMemo(() => {
@@ -185,8 +199,9 @@ const Cards: React.FC = () => {
           </div>
 
           {filteredCards.length > 0 && (
-            <div className="cards-grid">
-              {filteredCards.map((card) => (
+            <>
+              <div className="cards-grid">
+                {paginatedCards.map((card) => (
                 <Link
                   key={card.id}
                   to={`/card/${card.id}`}
@@ -225,7 +240,13 @@ const Cards: React.FC = () => {
                   </div>
                 </Link>
               ))}
-            </div>
+              </div>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+              />
+            </>
           )}
         </div>
       </div>

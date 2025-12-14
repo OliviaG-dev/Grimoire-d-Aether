@@ -304,6 +304,11 @@
   gap: 1.5rem;
 }
 
+.admin-list > .pagination {
+  grid-column: 1 / -1;
+  margin-top: 2rem;
+}
+
 .admin-item {
   background: rgba(26, 21, 38, 0.95);
   border: 1px solid rgba(139, 92, 246, 0.2);

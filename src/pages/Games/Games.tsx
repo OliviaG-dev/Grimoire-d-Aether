@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import "./Games.css";
 import { gamesService } from "../../services/gamesService";
@@ -6,11 +6,14 @@ import type { Game } from "../../types/models";
 import Navigation from "../../components/Navigation/Navigation";
 import logo from "../../assets/logo.png";
 import AdminStatus from "../../components/AdminStatus/AdminStatus";
+import Pagination from "../../components/Pagination/Pagination";
 
 const Games: React.FC = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
 
   useEffect(() => {
     const loadGames = async () => {
@@ -33,6 +36,20 @@ const Games: React.FC = () => {
 
     loadGames();
   }, []);
+
+  // Pagination
+  const totalPages = Math.ceil(games.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedGames = useMemo(
+    () => games.slice(startIndex, endIndex),
+    [games, startIndex, endIndex]
+  );
+
+  // Réinitialiser la page quand les jeux changent
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [games.length]);
 
   if (loading) {
     return (
@@ -81,8 +98,9 @@ const Games: React.FC = () => {
           {games.length === 0 ? (
             <p className="games-empty">Aucun jeu disponible pour le moment.</p>
           ) : (
-            <div className="games-grid">
-              {games.map((game) => (
+            <>
+              <div className="games-grid">
+                {paginatedGames.map((game) => (
                 <Link
                   key={game.id}
                   to={`/game/${game.id}`}
@@ -116,7 +134,13 @@ const Games: React.FC = () => {
                   </div>
                 </Link>
               ))}
-            </div>
+              </div>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+              />
+            </>
           )}
         </div>
       </div>

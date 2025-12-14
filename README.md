@@ -65,8 +65,8 @@ Chaque carte contient :
 
 ### 🔍 Navigation et Recherche
 
-- Liste de tous les jeux
-- Liste filtrée des cartes par jeu
+- Liste de tous les jeux avec **pagination** (8 jeux par page)
+- Liste filtrée des cartes par jeu avec **pagination** (10 cartes par page)
 - **Filtres avancés** sur la page des cartes :
   - Recherche par nom ou mots-clés
   - Filtre par jeu
@@ -74,6 +74,7 @@ Chaque carte contient :
   - Filtre par favoris ⭐
 - Fiche détaillée de chaque carte
 - Navigation intuitive avec React Router
+- **Composant de pagination** réutilisable avec design harmonieux
 - Design mystique et élégant
 
 ### 🛠️ Administration intégrée
@@ -83,9 +84,12 @@ Panneau d'administration personnalisé accessible depuis `/admin` :
 - **Authentification sécurisée** via Clerk
 - **Dashboard** avec statistiques
 - **Gestion des jeux** (création, édition, suppression)
+  - Pagination avec 8 jeux par page
 - **Gestion des cartes** (création, édition, suppression)
   - Tous les champs disponibles (index, significations, favoris, etc.)
   - Affichage du statut favori dans la liste
+  - Pagination avec 8 cartes par page
+  - Filtres par jeu et par index
 - Interface intuitive et moderne
 - **Base de données Supabase** pour stocker et gérer les données
 
@@ -173,6 +177,9 @@ grimoire-daether/
 │   │   └── Navigation/       # Composant de navigation
 │   │       ├── Navigation.tsx
 │   │       └── Navigation.css
+│   │   └── Pagination/       # Composant de pagination
+│   │       ├── Pagination.tsx
+│   │       └── Pagination.css
 │   ├── config/
 │   │   └── supabase.ts       # Configuration Supabase
 │   ├── services/
@@ -340,6 +347,7 @@ Le projet utilise une palette de couleurs mystique :
 - **Tags de mots-clés** avec gradients et effets de survol
 - **Titres de sections** avec bordures dégradées
 - **Toggle switch** élégant pour les filtres favoris
+- **Composant de pagination** avec navigation intuitive et design harmonieux
 - **Design harmonieux** sur toutes les pages
 
 ---
@@ -563,6 +571,7 @@ Projet créé pour construire un grimoire personnel dédié aux cartes divinatoi
 - 📚 **Encyclopédie complète** - Fiches détaillées pour chaque jeu et carte
 - ⭐ **Système de favoris** - Marquez vos cartes préférées
 - 🔍 **Filtres avancés** - Recherche par nom, jeu, index et favoris
+- 📄 **Pagination intelligente** - Navigation fluide avec 8-10 items par page selon le contexte
 - 🎨 **Design amélioré** - Tags de mots-clés, titres stylisés, effets visuels
 - 🔐 **Admin intégré** - Panneau d'administration personnalisé avec authentification Clerk
 - 🗄️ **Base de données cloud** - Stockage sécurisé avec Supabase PostgreSQL
