@@ -8,7 +8,6 @@ import type { Card } from "../../types/models";
 import Navigation from "../../components/Navigation/Navigation";
 import logo from "../../assets/logo.png";
 import AdminStatus from "../../components/AdminStatus/AdminStatus";
-import { GamesIcon } from "../../components/Icons";
 
 const GamePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -184,13 +183,6 @@ const GamePage: React.FC = () => {
                 ))}
               </div>
             )}
-          </div>
-
-          <div className="game-back-section">
-            <Link to="/games" className="game-back-to-games-btn">
-              <GamesIcon size={20} className="game-back-icon" />
-              <span>Retour aux jeux</span>
-            </Link>
           </div>
         </div>
       </div>
