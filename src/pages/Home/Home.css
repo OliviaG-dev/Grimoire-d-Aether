@@ -410,6 +410,9 @@
 @media (max-width: 768px) {
   .home-page {
     padding: 1rem;
+    height: auto;
+    max-height: none;
+    overflow: visible;
   }
 
   .home-container {
@@ -426,7 +429,7 @@
 
   .home-header-left {
     width: 100%;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .home-poetic-section {
