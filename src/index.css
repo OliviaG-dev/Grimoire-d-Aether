@@ -22,17 +22,21 @@ a:hover {
   color: #535bf2;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   min-width: 320px;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  height: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 #root {
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  height: auto;
+  overflow: visible;
 }
 
 h1 {

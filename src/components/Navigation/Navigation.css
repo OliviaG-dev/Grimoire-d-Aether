@@ -224,28 +224,46 @@
   }
 }
 
-/* Responsive */
+/* Responsive - Tablettes */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .nav-container-v4 {
+    gap: 2rem;
+    padding: 0.6rem 0;
+  }
+
+  .nav-link-v4 {
+    font-size: 0.9rem;
+    gap: 0.6rem;
+    padding: 0.6rem 1.25rem;
+    letter-spacing: 2.5px;
+  }
+}
+
+/* Responsive - Téléphones et petites tablettes */
 @media (max-width: 768px) {
   .navigation-v4 {
-    padding: 1rem 0;
-    margin: 1rem 0 0.5rem 0;
+    padding: 0.75rem 0;
+    margin: 0.75rem 0 0.5rem 0;
   }
 
   .navigation-v4::before,
   .navigation-v4::after {
-    width: 100px;
+    width: 80px;
   }
 
   .nav-container-v4 {
-    gap: 1.5rem;
-    padding: 0.5rem 0;
+    gap: 1rem;
+    padding: 0.5rem 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .nav-link-v4 {
-    font-size: 0.8rem;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    letter-spacing: 2px;
+    font-size: 0.75rem;
+    gap: 0.4rem;
+    padding: 0.5rem 0.75rem;
+    letter-spacing: 1.5px;
+    flex: 0 0 auto;
   }
 
   .nav-link-v4::before {
@@ -255,5 +273,68 @@
   .nav-dot {
     width: 6px;
     height: 6px;
+  }
+}
+
+/* Responsive - Petits téléphones */
+@media (max-width: 480px) {
+  .navigation-v4 {
+    padding: 0.6rem 0;
+    margin: 0.5rem 0;
+  }
+
+  .navigation-v4::before,
+  .navigation-v4::after {
+    width: 60px;
+  }
+
+  .nav-container-v4 {
+    gap: 0.5rem;
+    padding: 0.4rem 0.25rem;
+  }
+
+  .nav-link-v4 {
+    font-size: 0.7rem;
+    gap: 0.3rem;
+    padding: 0.4rem 0.5rem;
+    letter-spacing: 1px;
+  }
+
+  .nav-dot {
+    width: 5px;
+    height: 5px;
+  }
+
+  .nav-link-v4.active::after {
+    width: 50%;
+    bottom: -0.3rem;
+  }
+
+  .nav-glow {
+    width: 70%;
+    height: 2px;
+  }
+}
+
+/* Responsive - Très petits téléphones */
+@media (max-width: 360px) {
+  .navigation-v4 {
+    padding: 0.5rem 0;
+    margin: 0.4rem 0;
+  }
+
+  .nav-container-v4 {
+    gap: 0.25rem;
+    padding: 0.3rem 0.15rem;
+  }
+
+  .nav-link-v4 {
+    font-size: 0.65rem;
+    padding: 0.35rem 0.4rem;
+    letter-spacing: 0.5px;
+  }
+
+  .nav-text-v4 {
+    white-space: nowrap;
   }
 }
