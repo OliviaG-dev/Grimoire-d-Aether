@@ -8,6 +8,9 @@ import type { Card } from "../../types/models";
 import Navigation from "../../components/Navigation/Navigation";
 import logo from "../../assets/logo.png";
 import AdminStatus from "../../components/AdminStatus/AdminStatus";
+import Pagination from "../../components/Pagination/Pagination";
+
+const ITEMS_PER_PAGE = 6;
 
 const GamePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -15,6 +18,7 @@ const GamePage: React.FC = () => {
   const [cards, setCards] = useState<Card[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const loadGameData = async () => {
@@ -27,7 +31,7 @@ const GamePage: React.FC = () => {
       try {
         setLoading(true);
         setError(null);
-        
+
         const [gameData, cardsData] = await Promise.all([
           gamesService.getById(id),
           cardsService.getByGameId(id),
@@ -41,12 +45,11 @@ const GamePage: React.FC = () => {
 
         setGame(gameData);
         setCards(cardsData);
-        setError(null);
       } catch (err) {
         console.error("Erreur lors du chargement du jeu:", err);
         setError(
-          err instanceof Error 
-            ? `Erreur: ${err.message}` 
+          err instanceof Error
+            ? `Erreur: ${err.message}`
             : "Erreur lors du chargement des données. Vérifiez votre connexion et la configuration Supabase."
         );
       } finally {
@@ -56,6 +59,15 @@ const GamePage: React.FC = () => {
 
     loadGameData();
   }, [id]);
+
+  const totalPages = Math.max(1, Math.ceil(cards.length / ITEMS_PER_PAGE));
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedCards = cards.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  const handlePageChange = (page: number) => {
+    const safePage = Math.min(Math.max(page, 1), totalPages);
+    setCurrentPage(safePage);
+  };
 
   if (loading) {
     return (
@@ -120,9 +132,7 @@ const GamePage: React.FC = () => {
                   {game.author && (
                     <span className="game-author">par {game.author}</span>
                   )}
-                  {game.year && (
-                    <span className="game-year">{game.year}</span>
-                  )}
+                  {game.year && <span className="game-year">{game.year}</span>}
                 </div>
                 {game.theme && (
                   <p className="game-theme">
@@ -146,43 +156,58 @@ const GamePage: React.FC = () => {
           </div>
 
           <div className="game-cards-section">
-            <h3 className="game-cards-title">
-              Cartes du jeu ({cards.length})
-            </h3>
+            <h3 className="game-cards-title">Cartes du jeu ({cards.length})</h3>
             {cards.length === 0 ? (
               <p className="game-no-cards">
                 Aucune carte disponible pour ce jeu.
               </p>
             ) : (
-              <div className="game-cards-grid">
-                {cards.map((card) => (
-                  <Link
-                    key={card.id}
-                    to={`/card/${card.id}`}
-                    className="game-card-item"
-                  >
-                    {card.image && (
-                      <div className="game-card-image">
-                        <img
-                          src={card.image}
-                          alt={card.name}
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).style.display =
-                              "none";
-                          }}
-                        />
-                      </div>
-                    )}
-                    <h4 className="game-card-name">{card.name}</h4>
-                    {card.keywords && card.keywords.length > 0 && (
-                      <p className="game-card-keywords">
-                        {card.keywords.join(", ")}
-                      </p>
-                    )}
-                  </Link>
-                ))}
-              </div>
+              <>
+                <div className="game-cards-grid">
+                  {paginatedCards.map((card) => (
+                    <Link
+                      key={card.id}
+                      to={`/card/${card.id}`}
+                      className="game-card-item"
+                    >
+                      {card.index !== undefined && card.index !== null && (
+                        <div className="game-card-index">{card.index}</div>
+                      )}
+                      {card.image && (
+                        <div className="game-card-image">
+                          <img
+                            src={card.image}
+                            alt={card.name}
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display =
+                                "none";
+                            }}
+                          />
+                        </div>
+                      )}
+                      <h4 className="game-card-name">{card.name}</h4>
+                      {card.keywords && card.keywords.length > 0 && (
+                        <p className="game-card-keywords">
+                          {card.keywords.join(", ")}
+                        </p>
+                      )}
+                    </Link>
+                  ))}
+                </div>
+
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
+              </>
             )}
+          </div>
+
+          <div className="game-actions">
+            <Link to="/games" className="game-back-games">
+              ← Retour aux jeux
+            </Link>
           </div>
         </div>
       </div>

@@ -280,6 +280,12 @@ const CardPage: React.FC = () => {
               )}
             </div>
           </div>
+
+          <div className="card-actions">
+            <Link to="/cards" className="card-back-cards">
+              ← Retour aux cartes
+            </Link>
+          </div>
         </div>
       </div>
     </div>
