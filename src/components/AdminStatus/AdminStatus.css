@@ -237,6 +237,10 @@
 
 /* Responsive - Tablettes */
 @media (max-width: 1024px) and (min-width: 769px) {
+  .admin-status {
+    margin-top: 2rem;
+  }
+
   .admin-status-badge {
     font-size: 0.8rem;
     padding: 0.55rem 1rem;

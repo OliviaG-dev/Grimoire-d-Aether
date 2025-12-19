@@ -60,6 +60,13 @@ const GamePage: React.FC = () => {
     loadGameData();
   }, [id]);
 
+  useEffect(() => {
+    setCurrentPage((prevPage) => {
+      const totalPages = Math.max(1, Math.ceil(cards.length / ITEMS_PER_PAGE));
+      return Math.min(prevPage, totalPages);
+    });
+  }, [cards.length]);
+
   const totalPages = Math.max(1, Math.ceil(cards.length / ITEMS_PER_PAGE));
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const paginatedCards = cards.slice(startIndex, startIndex + ITEMS_PER_PAGE);
