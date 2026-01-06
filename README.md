@@ -87,6 +87,7 @@ Panneau d'administration personnalisé accessible depuis `/admin` :
   - Pagination avec 8 jeux par page
 - **Gestion des cartes** (création, édition, suppression)
   - Tous les champs disponibles (index, significations, favoris, etc.)
+  - **Upload d'images** : Par fichier ou URL
   - Affichage du statut favori dans la liste
   - Pagination avec 8 cartes par page
   - Filtres par jeu et par index
@@ -110,6 +111,7 @@ Panneau d'administration personnalisé accessible depuis `/admin` :
 
 - ✅ Base de données PostgreSQL hébergée
 - ✅ API REST automatique
+- ✅ **Storage pour les images** : Upload et stockage de fichiers
 - ✅ Sécurité avec Row Level Security (RLS)
 - ✅ Gratuit jusqu'à 500 Mo de données
 - ✅ Interface SQL intégrée pour la gestion
@@ -120,15 +122,22 @@ Les données sont stockées dans deux tables :
 - **`games`** : Informations sur les jeux (tarots, oracles, etc.)
 - **`cards`** : Fiches détaillées de chaque carte
 
-### 🖼️ Images : dossier statique
+### 🖼️ Images : Supabase Storage
 
-Les images sont stockées dans :
+Les images sont stockées dans **Supabase Storage** :
 
-```
-public/images/uploads/
-```
+- ✅ **Bucket "images"** : Stockage cloud sécurisé
+- ✅ **Upload par fichier ou URL** : Choix entre upload direct ou lien externe
+- ✅ **URLs publiques** : Accès direct aux images via URLs permanentes
+- ✅ **Organisation par dossiers** : Images des cartes dans le dossier `cards/`
 
-Les URLs sont directes : `/images/uploads/nom.jpg`
+**Configuration requise :**
+
+1. Créez un bucket nommé `"images"` dans Supabase Storage
+2. Configurez-le comme **bucket public**
+3. Configurez les politiques RLS pour permettre la lecture publique
+
+Le service `imageService` gère automatiquement l'upload et la génération d'URLs.
 
 ### 🔐 Authentification : Clerk
 
@@ -185,6 +194,7 @@ grimoire-daether/
 │   ├── services/
 │   │   ├── gamesService.ts   # Service pour gérer les jeux
 │   │   ├── cardsService.ts   # Service pour gérer les cartes
+│   │   ├── imageService.ts   # Service pour uploader les images
 │   │   └── index.ts          # Export centralisé
 │   ├── types/
 │   │   ├── database.ts       # Types pour la base de données
@@ -246,7 +256,12 @@ npm install
 4. Dans **Settings → API**, copiez :
    - L'**URL** de votre projet
    - La clé **`anon` `public`**
-5. Consultez le guide d'installation : [INSTALLATION_SUPABASE.md](./INSTALLATION_SUPABASE.md)
+5. **Configurez le Storage pour les images** :
+   - Allez dans **Storage** dans le menu de gauche
+   - Créez un nouveau bucket nommé `"images"`
+   - Activez l'option **"Public bucket"**
+   - Configurez les politiques RLS pour permettre la lecture publique
+6. Consultez le guide d'installation : [INSTALLATION_SUPABASE.md](./INSTALLATION_SUPABASE.md)
 
 #### 2. Configuration de Clerk
 
@@ -305,7 +320,11 @@ VITE_CLERK_PUBLISHABLE_KEY=pk_test_votre_cle_ici
 ### Configuration Supabase
 
 1. **Créer les tables** : Exécutez les requêtes SQL dans le SQL Editor de Supabase
-2. **Politiques de sécurité** : Les politiques RLS sont configurées pour permettre :
+2. **Configurer le Storage** :
+   - Créez un bucket nommé `"images"` dans Storage
+   - Activez l'option "Public bucket"
+   - Configurez les politiques RLS pour permettre la lecture publique
+3. **Politiques de sécurité** : Les politiques RLS sont configurées pour permettre :
    - La lecture publique (tout le monde peut lire)
    - L'écriture réservée aux utilisateurs authentifiés
 
@@ -428,7 +447,8 @@ const newGame = await gamesService.create({
   year: "1760",
   theme: "Traditionnel",
   description: "Le tarot de Marseille...",
-  coverImage: "/images/uploads/tarot-marseille.jpg",
+  coverImage:
+    "https://votre-projet.supabase.co/storage/v1/object/public/images/tarot-marseille.jpg",
 });
 ```
 
@@ -546,6 +566,20 @@ const updated = await cardsService.update("uuid", { name: "Nouveau nom" });
 await cardsService.delete("uuid");
 ```
 
+### Service des Images
+
+```typescript
+import { imageService } from "./services";
+
+// Uploader une image
+const file = event.target.files[0]; // Fichier sélectionné
+const imageUrl = await imageService.uploadImage(file, "cards");
+// Retourne l'URL publique de l'image
+
+// Supprimer une image
+await imageService.deleteImage(imageUrl);
+```
+
 Pour plus de détails, consultez la documentation complète dans les fichiers :
 
 - Guide d'installation : Voir les instructions dans votre dashboard Supabase
@@ -569,12 +603,14 @@ Projet créé pour construire un grimoire personnel dédié aux cartes divinatoi
 
 - ✨ **Design mystique et élégant** - Interface harmonieuse inspirée des grimoires
 - 📚 **Encyclopédie complète** - Fiches détaillées pour chaque jeu et carte
+- 🖼️ **Upload d'images** - Upload par fichier ou URL via Supabase Storage
 - ⭐ **Système de favoris** - Marquez vos cartes préférées
 - 🔍 **Filtres avancés** - Recherche par nom, jeu, index et favoris
 - 📄 **Pagination intelligente** - Navigation fluide avec 8-10 items par page selon le contexte
 - 🎨 **Design amélioré** - Tags de mots-clés, titres stylisés, effets visuels
 - 🔐 **Admin intégré** - Panneau d'administration personnalisé avec authentification Clerk
 - 🗄️ **Base de données cloud** - Stockage sécurisé avec Supabase PostgreSQL
+- ☁️ **Storage cloud** - Images stockées dans Supabase Storage avec URLs publiques
 - 🚀 **Déploiement simple** - Site statique facile à héberger
 - 📱 **Responsive** - Adapté à tous les écrans
 - 🎨 **Animations subtiles** - Effets visuels pour une expérience immersive

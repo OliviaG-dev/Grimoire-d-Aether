@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { cardsService } from "../../services/cardsService";
 import { gamesService } from "../../services/gamesService";
+import { imageService } from "../../services/imageService";
 import type { Card, Game } from "../../types/models";
 import "./AddCardForm.css";
 
@@ -44,6 +45,10 @@ const AddCardForm: React.FC<AddCardFormProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loadingGames, setLoadingGames] = useState(true);
+  const [imageInputType, setImageInputType] = useState<"url" | "file">("url");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   // Charger les jeux au montage
   useEffect(() => {
@@ -70,6 +75,44 @@ const AddCardForm: React.FC<AddCardFormProps> = ({
       ...prev,
       [name]: value,
     }));
+    setError(null);
+  };
+
+  const handleImageFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Vérifier le type de fichier
+      if (!file.type.startsWith("image/")) {
+        setError("Veuillez sélectionner un fichier image valide");
+        return;
+      }
+      // Vérifier la taille (max 10MB)
+      if (file.size > 10 * 1024 * 1024) {
+        setError("L'image ne doit pas dépasser 10MB");
+        return;
+      }
+      setImageFile(file);
+      setError(null);
+      // Créer une preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleImageInputTypeChange = (type: "url" | "file") => {
+    setImageInputType(type);
+    if (type === "url") {
+      setImageFile(null);
+      setImagePreview(null);
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        image: "",
+      }));
+    }
     setError(null);
   };
 
@@ -112,6 +155,7 @@ const AddCardForm: React.FC<AddCardFormProps> = ({
     e.preventDefault();
     setError(null);
     setIsSubmitting(true);
+    setUploadingImage(false);
 
     try {
       // Validation
@@ -122,76 +166,61 @@ const AddCardForm: React.FC<AddCardFormProps> = ({
         throw new Error("Le nom est requis");
       }
 
+      // Upload de l'image si un fichier est sélectionné
+      let imageUrl = formData.image;
+      if (imageInputType === "file" && imageFile) {
+        setUploadingImage(true);
+        try {
+          imageUrl = await imageService.uploadImage(imageFile, "cards");
+        } catch (uploadError) {
+          throw new Error(
+            uploadError instanceof Error
+              ? uploadError.message
+              : "Erreur lors de l'upload de l'image"
+          );
+        } finally {
+          setUploadingImage(false);
+        }
+      }
+
+      const cardData = {
+        ...formData,
+        image: imageUrl || undefined,
+        keywords:
+          formData.keywords && formData.keywords.length > 0
+            ? formData.keywords
+            : undefined,
+        meaning: formData.meaning || undefined,
+        love: formData.love || undefined,
+        work: formData.work || undefined,
+        health: formData.health || undefined,
+        money: formData.money || undefined,
+        energies: {
+          elements:
+            formData.energies?.elements && formData.energies.elements.length > 0
+              ? formData.energies.elements
+              : undefined,
+          chakras:
+            formData.energies?.chakras && formData.energies.chakras.length > 0
+              ? formData.energies.chakras
+              : undefined,
+        },
+        symbols:
+          formData.symbols && formData.symbols.length > 0
+            ? formData.symbols
+            : undefined,
+        index: formData.index || undefined,
+        shadowMeaning: formData.shadowMeaning || undefined,
+        advice: formData.advice || undefined,
+        affirmation: formData.affirmation || undefined,
+        reversedMeaning: formData.reversedMeaning || undefined,
+        isFavorite: formData.isFavorite,
+      };
+
       if (isEditMode && card) {
-        await cardsService.update(card.id, {
-          ...formData,
-          image: formData.image || undefined,
-          keywords:
-            formData.keywords && formData.keywords.length > 0
-              ? formData.keywords
-              : undefined,
-          meaning: formData.meaning || undefined,
-          love: formData.love || undefined,
-          work: formData.work || undefined,
-          health: formData.health || undefined,
-          money: formData.money || undefined,
-          energies: {
-            elements:
-              formData.energies?.elements &&
-              formData.energies.elements.length > 0
-                ? formData.energies.elements
-                : undefined,
-            chakras:
-              formData.energies?.chakras && formData.energies.chakras.length > 0
-                ? formData.energies.chakras
-                : undefined,
-          },
-          symbols:
-            formData.symbols && formData.symbols.length > 0
-              ? formData.symbols
-              : undefined,
-          index: formData.index || undefined,
-          shadowMeaning: formData.shadowMeaning || undefined,
-          advice: formData.advice || undefined,
-          affirmation: formData.affirmation || undefined,
-          reversedMeaning: formData.reversedMeaning || undefined,
-          isFavorite: formData.isFavorite,
-        });
+        await cardsService.update(card.id, cardData);
       } else {
-        await cardsService.create({
-          ...formData,
-          image: formData.image || undefined,
-          keywords:
-            formData.keywords && formData.keywords.length > 0
-              ? formData.keywords
-              : undefined,
-          meaning: formData.meaning || undefined,
-          love: formData.love || undefined,
-          work: formData.work || undefined,
-          health: formData.health || undefined,
-          money: formData.money || undefined,
-          energies: {
-            elements:
-              formData.energies?.elements &&
-              formData.energies.elements.length > 0
-                ? formData.energies.elements
-                : undefined,
-            chakras:
-              formData.energies?.chakras && formData.energies.chakras.length > 0
-                ? formData.energies.chakras
-                : undefined,
-          },
-          symbols:
-            formData.symbols && formData.symbols.length > 0
-              ? formData.symbols
-              : undefined,
-          index: formData.index || undefined,
-          shadowMeaning: formData.shadowMeaning || undefined,
-          advice: formData.advice || undefined,
-          affirmation: formData.affirmation || undefined,
-          reversedMeaning: formData.reversedMeaning || undefined,
-          isFavorite: formData.isFavorite,
-        });
+        await cardsService.create(cardData);
       }
 
       onSuccess();
@@ -256,15 +285,62 @@ const AddCardForm: React.FC<AddCardFormProps> = ({
           </div>
 
           <div className="add-card-form-group">
-            <label htmlFor="image">Image (URL)</label>
-            <input
-              type="url"
-              id="image"
-              name="image"
-              value={formData.image}
-              onChange={handleChange}
-              placeholder="https://exemple.com/image.jpg"
-            />
+            <label>Image</label>
+            <div className="add-card-form-image-options">
+              <button
+                type="button"
+                className={`add-card-form-image-option ${
+                  imageInputType === "url" ? "active" : ""
+                }`}
+                onClick={() => handleImageInputTypeChange("url")}
+              >
+                URL
+              </button>
+              <button
+                type="button"
+                className={`add-card-form-image-option ${
+                  imageInputType === "file" ? "active" : ""
+                }`}
+                onClick={() => handleImageInputTypeChange("file")}
+              >
+                Fichier
+              </button>
+            </div>
+            {imageInputType === "url" ? (
+              <input
+                type="url"
+                id="image"
+                name="image"
+                value={formData.image}
+                onChange={handleChange}
+                placeholder="https://exemple.com/image.jpg"
+              />
+            ) : (
+              <div className="add-card-form-file-upload">
+                <input
+                  type="file"
+                  id="imageFile"
+                  name="imageFile"
+                  accept="image/*"
+                  onChange={handleImageFileChange}
+                  className="add-card-form-file-input"
+                />
+                <label htmlFor="imageFile" className="add-card-form-file-label">
+                  {imageFile
+                    ? imageFile.name
+                    : "Cliquez pour sélectionner une image"}
+                </label>
+                {imagePreview && (
+                  <div className="add-card-form-image-preview">
+                    <img
+                      src={imagePreview}
+                      alt="Aperçu"
+                      className="add-card-form-preview-img"
+                    />
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="add-card-form-group">
@@ -483,9 +559,11 @@ const AddCardForm: React.FC<AddCardFormProps> = ({
             <button
               type="submit"
               className="add-card-form-submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || uploadingImage}
             >
-              {isSubmitting
+              {uploadingImage
+                ? "Upload de l'image..."
+                : isSubmitting
                 ? isEditMode
                   ? "Modification..."
                   : "Création..."

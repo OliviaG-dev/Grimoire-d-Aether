@@ -114,8 +114,58 @@ const CardPage: React.FC = () => {
                     src={card.image}
                     alt={card.name}
                     className="card-image"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = "none";
+                    onError={async (e) => {
+                      const img = e.target as HTMLImageElement;
+                      const imageUrl = card.image || "";
+                      
+                      console.error("Erreur de chargement de l'image:", imageUrl);
+                      
+                      // Tester l'URL pour obtenir le code d'erreur exact
+                      try {
+                        const response = await fetch(imageUrl, { method: "HEAD" });
+                        console.error("Code HTTP:", response.status, response.statusText);
+                        
+                        let errorMessage = "Erreur de chargement de l'image";
+                        if (response.status === 403) {
+                          errorMessage = "Accès refusé (403). Vérifiez les politiques RLS dans Supabase Storage.";
+                        } else if (response.status === 404) {
+                          errorMessage = "Image non trouvée (404). Le fichier n'existe peut-être pas.";
+                        } else if (response.status === 401) {
+                          errorMessage = "Non autorisé (401). Le bucket doit être public.";
+                        }
+                        
+                        img.style.display = "none";
+                        const container = img.parentElement;
+                        if (container) {
+                          container.innerHTML = `
+                            <div style="padding: 2rem; text-align: center; color: #fca5a5; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px;">
+                              <p style="font-weight: 600; margin-bottom: 0.5rem;">${errorMessage}</p>
+                              <p style="font-size: 0.75rem; margin-top: 0.5rem; color: #fca5a5; word-break: break-all;">
+                                Code: ${response.status}<br/>
+                                URL: ${imageUrl}
+                              </p>
+                              <p style="font-size: 0.7rem; margin-top: 1rem; color: #c4b5fd;">
+                                💡 Vérifiez que le bucket "images" est public et que les politiques RLS sont configurées.
+                              </p>
+                            </div>
+                          `;
+                        }
+                      } catch (fetchError) {
+                        console.error("Erreur lors du test de l'URL:", fetchError);
+                        img.style.display = "none";
+                        const container = img.parentElement;
+                        if (container) {
+                          container.innerHTML = `
+                            <div style="padding: 2rem; text-align: center; color: #fca5a5;">
+                              <p>Erreur de chargement de l'image</p>
+                              <p style="font-size: 0.8rem; margin-top: 0.5rem; word-break: break-all;">URL: ${imageUrl}</p>
+                            </div>
+                          `;
+                        }
+                      }
+                    }}
+                    onLoad={() => {
+                      console.log("✅ Image chargée avec succès:", card.image);
                     }}
                   />
                 </div>
